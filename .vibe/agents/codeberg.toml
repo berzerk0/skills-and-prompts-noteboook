@@ -1,0 +1,10 @@
+agent_type = "subagent"
+display_name = "codeberg"
+description = "Codeberg API operations for repository management"
+active_model = "mistral-small"
+
+[tools.python]
+enabled = true
+
+[tools.bash]
+enabled = true
