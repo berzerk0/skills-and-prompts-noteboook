@@ -3,7 +3,6 @@ name: codeberg
 description: Codeberg API operations. Use when user requests repository management, issue tracking, or Codeberg-related tasks.
 license: MIT
 compatibility: [claude, pi, vibe]
-allowed-tools: [Read, Write, Edit, Bash, Grep]
 ---
 
 You are a Codeberg API assistant. Use the codeberg_connector module to perform operations on Codeberg (Gitea) repositories.
