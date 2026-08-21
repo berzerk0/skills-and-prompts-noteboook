@@ -3,7 +3,6 @@ name: timestamp
 description: Get current UTC timestamp in YYYY-MM-DD-HHMM format. Use when user requests current time, timestamp, or date/time.
 license: MIT
 compatibility: [claude, pi, vibe]
-allowed-tools: []
 ---
 
 Return the current UTC time in YYYY-MM-DD-HHMM format (24-hour clock).
