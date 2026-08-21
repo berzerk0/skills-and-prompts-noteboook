@@ -1,0 +1,7 @@
+agent_type = "subagent"
+display_name = "timestamp"
+description = "Get current UTC timestamp in YYYY-MM-DD-HHMM format"
+active_model = "mistral-small"
+
+[tools.python]
+enabled = true
