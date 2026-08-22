@@ -1,11 +1,11 @@
 ---
 name: writing-for-agents
-description: Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md, CLAUDE.md, or VIBE.md.
+description: Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md, VIBE.md, or VIBE.md.
 license: MIT
 compatibility: [claude, pi, vibe]
 ---
 
-Reference for writing any document an agent consumes: a skill, an `AGENTS.md` / `CLAUDE.md` / `VIBE.md`, a doc reached by a pointer. The packaging differs; the writing does not: the same levers make each one predictable, since the agent takes the same _process_ every run rather than producing the same output.
+Reference for writing any document an agent consumes: a skill, an `AGENTS.md` / `VIBE.md` / `VIBE.md`, a doc reached by a pointer. The packaging differs; the writing does not: the same levers make each one predictable, since the agent takes the same _process_ every run rather than producing the same output.
 
 When the document you're writing is a skill, read [`SKILL-MECHANICS.md`](SKILL-MECHANICS.md) for frontmatter, invocation choice, and router skills.
 
