@@ -1,0 +1,35 @@
+# Timestamp Skill - Canonical Definition
+# This is the single source of truth for the timestamp skill
+# Generation scripts will create per-agent wrappers from this file
+
+name: timestamp
+description: Get current UTC timestamp in YYYY-MM-DD-HHMM format. Use when user requests current time, timestamp, or date/time.
+license: MIT
+compatibility: [claude, pi, vibe]
+
+# Skill type classification
+skill_type: type_a  # type_a = pure function, type_b = api client, type_c = file operations
+
+# Implementation details
+implementation_module: timestamp_skill.py
+implementation_function: get_utc_timestamp
+
+# Usage patterns
+triggers:
+  - "What time is it?"
+  - "Give me a timestamp"
+  - "Current date and time"
+  - "/timestamp"
+
+# Output format
+output_format: "YYYY-MM-DD-HHMM"
+timezone: UTC
+
+# Requirements
+requires_authentication: false
+requires_network: false
+requires_file_access: false
+
+# Testing
+test_command: "python timestamp_skill.py"
+expected_output_pattern: "^\\d{4}-\\d{2}-\\d{2}-\\d{4}$"

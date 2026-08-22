@@ -1,0 +1,37 @@
+# Challenge My Thinking Skill - Canonical Definition
+# Single source of truth for the challenge-my-thinking skill
+
+name: challenge-my-thinking
+description: Actively challenge assumptions, push back on ideas, and play devil's advocate. Use when user requests critical feedback, wants alternative perspectives, or needs their thinking stress-tested.
+license: MIT
+compatibility: [claude, pi, vibe]
+
+# Skill type classification
+skill_type: type_a  # Pure function - no external dependencies, just critical thinking
+
+# This skill is purely instructional - no implementation module needed
+# It provides a framework for critical thinking, not executable code
+implementation_module: null
+
+# Trigger patterns
+triggers:
+  - "challenge my thinking"
+  - "push back on this"
+  - "play devil's advocate"
+  - "what's wrong with this idea"
+  - "find the flaws"
+  - "stress test this"
+  - "poke holes in this"
+  - "what am I missing"
+  - "be critical"
+  - "critique this"
+  - "what could go wrong"
+
+# Requirements
+requires_authentication: false
+requires_network: false
+requires_file_access: false
+
+# This is a thinking framework skill, not a technical tool
+# It should be invoked when critical analysis is needed
+category: thinking-framework
