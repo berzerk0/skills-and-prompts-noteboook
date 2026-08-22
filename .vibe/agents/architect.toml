@@ -1,24 +1,19 @@
 agent_type = "subagent"
 display_name = "architect"
 description = "Architecture and design tasks. Use for architecture, final review, design judgment, broad codebase understanding."
-active_model = "mistral-large"
+active_model = "mistral-medium"
 compaction_model = "mistral-medium"
 allowed_models = ["mistral-medium", "mistral-large"]
 
+[tools.skill]
+enabled = true
 [tools.read_file]
 enabled = true
-
 [tools.write_file]
 enabled = true
-
 [tools.edit]
 enabled = true
-
 [tools.grep]
 enabled = true
-
 [tools.bash]
-enabled = true
-
-[tools.skill]
 enabled = true

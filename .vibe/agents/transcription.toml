@@ -5,17 +5,15 @@ active_model = "mistral-small"
 compaction_model = "mistral-small"
 allowed_models = ["mistral-small", "mistral-medium"]
 
+[tools.skill]
+enabled = true
 [tools.read_file]
 enabled = true
-
 [tools.write_file]
 enabled = true
-
 [tools.edit]
 enabled = true
-
-[tools.bash]
+[tools.grep]
 enabled = true
-
-[tools.skill]
+[tools.bash]
 enabled = true

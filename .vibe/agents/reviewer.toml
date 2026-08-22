@@ -1,24 +1,19 @@
-agent_type = "subagent"
+agent_type = "agent"
 display_name = "reviewer"
 description = "Reviewer for prose-spec implementations. Use for mid-tier floor tasks, multi-file coordination, pattern matching, debugging."
 active_model = "mistral-medium"
 compaction_model = "mistral-small"
 allowed_models = ["mistral-medium", "mistral-large"]
 
+[tools.skill]
+enabled = true
 [tools.read_file]
 enabled = true
-
 [tools.write_file]
 enabled = true
-
 [tools.edit]
 enabled = true
-
 [tools.grep]
 enabled = true
-
 [tools.bash]
-enabled = true
-
-[tools.skill]
 enabled = true
