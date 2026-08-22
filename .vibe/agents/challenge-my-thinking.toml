@@ -3,11 +3,15 @@ display_name = "challenge-my-thinking"
 description = "Actively challenge assumptions, push back on ideas, and play devil's advocate. Use when user requests critical feedback, wants alternative perspectives, or needs their thinking stress-tested."
 active_model = "mistral-small"
 
-[python]
-enabled = true
-
-[bash]
-enabled = true
-
 [tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
 enabled = true

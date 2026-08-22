@@ -3,37 +3,28 @@ display_name = "router"
 description = "Primary entry point. Intelligently routes tasks to specialized subagents based on intent, domain, and complexity. Use for all requests - this agent will delegate appropriately."
 active_model = "mistral-medium"
 compaction_model = "mistral-small"
+system_prompt_id = "router"
 
 # Tool configuration - enable all necessary tools for routing
 [tools.task]
 enabled = true
-
 [tools.skill]
 enabled = true
-
 [tools.read_file]
 enabled = true
-
 [tools.write_file]
 enabled = true
-
 [tools.edit]
 enabled = true
-
 [tools.grep]
 enabled = true
-
 [tools.bash]
 enabled = true
-
 [tools.web_search]
 enabled = true
-
 [tools.web_fetch]
 enabled = true
-
 [tools.todo]
 enabled = true
-
 [tools.ask_user_question]
 enabled = true
