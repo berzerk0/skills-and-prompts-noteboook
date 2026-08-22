@@ -1,0 +1,21 @@
+agent_type = "subagent"
+display_name = "transcription"
+description = "Transcription and single-file mechanical tasks. Use for isolated functions, clear specs, 1-2 files."
+active_model = "mistral-small"
+compaction_model = "mistral-small"
+allowed_models = ["mistral-small", "mistral-medium"]
+
+[tools.read_file]
+enabled = true
+
+[tools.write_file]
+enabled = true
+
+[tools.edit]
+enabled = true
+
+[tools.bash]
+enabled = true
+
+[tools.skill]
+enabled = true
