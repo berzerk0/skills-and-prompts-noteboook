@@ -17,3 +17,6 @@ enabled = true
 
 [tools.bash]
 enabled = true
+
+[tools.skill]
+enabled = true
