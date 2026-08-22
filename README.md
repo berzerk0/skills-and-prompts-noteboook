@@ -24,7 +24,6 @@ This repository stores **portable skills** and **subagent configurations** that 
 |-------|-------------|------|---------------|
 | **[challenge-my-thinking](skills/challenge-my-thinking/SKILL.md)** | Actively challenges assumptions, plays devil's advocate | Thinking Framework | ✅ Claude, Pi, Vibe |
 | **[clarify](skills/clarify/SKILL.md)** | Ask clarifying questions when task is underspecified | Thinking Framework | ✅ Claude, Pi, Vibe |
-| **[codeberg](skills/codeberg/SKILL.md)** | Codeberg (Gitea) API operations for repository management | API Client | ✅ Claude, Pi, Vibe |
 | **[escalate](skills/escalate/SKILL.md)** | Create escalation brief when stuck | Workflow | ✅ Claude, Pi, Vibe |
 | **[modern-python](skills/modern-python/SKILL.md)** | Configures Python projects with modern tooling (uv, ruff, ty) | Configuration | ✅ Claude, Pi, Vibe |
 | **[napkin](skills/napkin/SKILL.md)** | Maintain a per-repo napkin as a continuously curated runbook | Documentation | ✅ Claude, Pi, Vibe |
@@ -32,7 +31,6 @@ This repository stores **portable skills** and **subagent configurations** that 
 | **[repo-auditor](skills/repo-auditor/SKILL.md)** | Audit repository structure, skills, and cross-agent compatibility | Repository Management | ✅ Claude, Pi, Vibe |
 | **[skill-extractor](skills/skill-extractor/SKILL.md)** | Extracts reusable skills from work sessions | Quality Assurance | ✅ Claude, Pi, Vibe |
 | **[skill-validator](skills/skill-validator/SKILL.md)** | Validate SKILL.md files against Agent Skills specification | Quality Assurance | ✅ Claude, Pi, Vibe |
-| **[timestamp](skills/timestamp/SKILL.md)** | Get current UTC timestamp in YYYY-MM-DD-HHMM format | Pure Function | ✅ Claude, Pi, Vibe |
 | **[vibe-reference](skills/vibe-reference/SKILL.md)** | Access verified Mistral Vibe Code reference documentation | Reference | ✅ Claude, Pi, Vibe |
 | **[writing-for-agents](skills/writing-for-agents/SKILL.md)** | Writing documents for agents | Documentation | ✅ Claude, Pi, Vibe |
 
