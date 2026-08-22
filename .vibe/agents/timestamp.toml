@@ -1,7 +1,10 @@
 agent_type = "subagent"
 display_name = "timestamp"
-description = "Get current UTC timestamp in YYYY-MM-DD-HHMM format"
+description = "Get current UTC timestamp in YYYY-MM-DD-HHMM format. Use when user requests current time, timestamp, or date/time."
 active_model = "mistral-small"
 
-[tools.python]
+[python]
+enabled = true
+
+[bash]
 enabled = true

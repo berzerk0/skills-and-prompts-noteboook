@@ -2,11 +2,23 @@
 name: timestamp
 description: Get current UTC timestamp in YYYY-MM-DD-HHMM format. Use when user requests current time, timestamp, or date/time.
 license: MIT
-compatibility: [claude, pi, vibe]
+compatibility: 
+  - claude
+  - pi
+  - vibe
 ---
 
-Return the current UTC time in YYYY-MM-DD-HHMM format (24-hour clock).
+Get current UTC timestamp in YYYY-MM-DD-HHMM format. Use when user requests current time, timestamp, or date/time.
 
-Do not add any additional text, explanations, or formatting. Return only the timestamp string.
+Implementation: `from timestamp_skill import get_utc_timestamp`
 
-Implementation: Use `from timestamp_skill import get_utc_timestamp`
+## When to Use
+
+- What time is it?
+- Give me a timestamp
+- Current date and time
+- /timestamp
+
+## Output Format
+
+YYYY-MM-DD-HHMM
