@@ -3,20 +3,23 @@ display_name = "skill-validator"
 description = "Validate SKILL.md files against Agent Skills specification and cross-agent compatibility. Use when user requests skill validation, spec compliance checking, or quality assurance."
 active_model = "mistral-small"
 
-[python]
+[tools.python]
 enabled = true
 
-[bash]
+[tools.bash]
 enabled = true
 
-[read_file]
+[tools.read_file]
 enabled = true
 
-[write_file]
+[tools.write_file]
 enabled = true
 
-[edit]
+[tools.edit]
 enabled = true
 
-[grep]
+[tools.grep]
+enabled = true
+
+[tools.skill]
 enabled = true
