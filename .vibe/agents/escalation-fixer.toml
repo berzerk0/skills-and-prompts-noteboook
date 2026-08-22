@@ -1,0 +1,24 @@
+agent_type = "subagent"
+display_name = "escalation-fixer"
+description = "Fix-loop escalation. Use for tasks that failed on cheaper models. One tier above whatever got stuck."
+active_model = "mistral-large"
+compaction_model = "mistral-medium"
+allowed_models = ["mistral-medium", "mistral-large"]
+
+[tools.read_file]
+enabled = true
+
+[tools.write_file]
+enabled = true
+
+[tools.edit]
+enabled = true
+
+[tools.grep]
+enabled = true
+
+[tools.bash]
+enabled = true
+
+[tools.skill]
+enabled = true

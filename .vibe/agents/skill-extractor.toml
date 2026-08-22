@@ -1,0 +1,25 @@
+agent_type = "subagent"
+display_name = "skill-extractor"
+description = "Extracts reusable skills from work sessions. Use when non-obvious problem solved or pattern discovered."
+active_model = "mistral-small"
+
+[tools.read_file]
+enabled = true
+
+[tools.write_file]
+enabled = true
+
+[tools.edit]
+enabled = true
+
+[tools.grep]
+enabled = true
+
+[tools.web_search]
+enabled = true
+
+[tools.ask_user_question]
+enabled = true
+
+[tools.bash]
+enabled = true

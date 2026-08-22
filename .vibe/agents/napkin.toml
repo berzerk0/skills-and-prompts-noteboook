@@ -1,0 +1,16 @@
+agent_type = "subagent"
+display_name = "napkin"
+description = "Maintain a per-repo napkin as a continuously curated runbook. Always active, every session."
+active_model = "mistral-small"
+
+[tools.read_file]
+enabled = true
+
+[tools.write_file]
+enabled = true
+
+[tools.edit]
+enabled = true
+
+[tools.bash]
+enabled = true
