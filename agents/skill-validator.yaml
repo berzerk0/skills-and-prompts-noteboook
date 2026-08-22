@@ -1,0 +1,41 @@
+# Skill Validator - Canonical Definition
+
+name: skill-validator
+description: Validate SKILL.md files against Agent Skills specification and cross-agent compatibility. Use when user requests skill validation, spec compliance checking, or quality assurance.
+license: MIT
+compatibility: [claude, pi, vibe]
+
+# Skill type classification
+skill_type: type_c  # File operations - reads and validates SKILL.md files
+
+# This skill primarily reads and validates files, no external API
+implementation_module: null  # Pure instructional skill, no Python implementation needed
+
+# Trigger patterns
+triggers:
+  - "validate this skill"
+  - "validate SKILL.md"
+  - "check skill"
+  - "verify spec compliance"
+  - "test skill compatibility"
+  - "quality check"
+  - "lint this skill"
+  - "is this skill valid"
+  - "check all skills"
+  - "validate skills"
+
+# Requirements
+requires_authentication: false
+requires_network: false
+requires_file_access: true  # Needs to read SKILL.md files
+
+# Validation scope
+category: quality-assurance
+validation_checks:
+  - file_structure
+  - yaml_frontmatter
+  - content_quality
+  - tool_agnostic_language
+  - implementation_reference
+  - cross_agent_compatibility
+  - file_size_limits

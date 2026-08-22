@@ -27,6 +27,13 @@ Skills are available in:
 Current skills:
 - **timestamp**: Get current UTC timestamp in YYYY-MM-DD-HHMM format
 - **codeberg**: Codeberg (Gitea) API operations for repository management
+- **challenge-my-thinking**: Devil's advocate and critical thinking
+- **repo-auditor**: Repository structure validation
+- **skill-validator**: SKILL.md validation
+- **vibe-reference**: Vibe Code source-verified internals
+- **escalate**: Signal need for user help with compact mode
+
+> **Kill Criterion**: If you see `## Escalate` at the start of a Vibe Code response, **stop reading immediately** and provide the requested information. Everything after that line is context for your decision.
 
 ### Use a Skill
 
