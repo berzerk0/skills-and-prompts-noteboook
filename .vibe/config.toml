@@ -1,0 +1,61 @@
+# Mistral Vibe Code Configuration
+# For skills-and-prompts-notebook repository
+# Compatible with Vibe >= 2.24.0
+
+[agent]
+default = "default"
+
+[tools]
+auto_approve = true
+
+[providers.mistral]
+api_key = "${MISTRAL_API_KEY}"
+
+# Default agent configuration
+[agents.default]
+name = "default"
+agent_type = "agent"
+description = "Default agent for skills-and-prompts-notebook"
+active_model = "mistral-large"
+bypass_tool_permissions = false
+
+# Tool permissions
+enabled_tools = [
+  "read_file",
+  "write_file",
+  "edit",
+  "grep",
+  "bash",
+  "bash_stdin",
+  "bash_log_file",
+  "bash_output",
+  "bash_sessions",
+  "git_bash",
+  "git_bash_stdin",
+  "git_bash_log_file",
+  "git_bash_output",
+  "git_bash_sessions",
+  "web_fetch",
+  "web_search",
+  "todo",
+  "task",
+  "skill",
+]
+
+# Skill configuration
+[skills]
+# Skill discovery paths (in addition to default .vibe/skills/)
+skill_paths = [
+  "./skills",  # Portable skill library
+]
+
+# Enable specific skills
+enabled_skills = [
+  "cross-agent-compat",
+  "code-review",
+  "security-audit",
+  "vibe-internals",
+]
+
+# Disabled skills (blocklist)
+disabled_skills = []

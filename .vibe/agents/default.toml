@@ -1,0 +1,57 @@
+# Default Vibe Agent Configuration
+# Compatible with Mistral Vibe Code >= 2.24.0
+# Designed to work alongside Claude Code
+
+[agent]
+name = "default"
+agent_type = "agent"
+description = "Default agent for skills-and-prompts-notebook. Works with both Vibe and Claude."
+
+# Model configuration - uses Mistral's API
+active_model = "mistral-large"
+
+[providers.mistral]
+name = "mistral"
+api_base = "https://api.mistral.ai/v1"
+api_style = "openai"
+api_key_env_var = "MISTRAL_API_KEY"
+
+[[models]]
+name = "mistral-large"
+provider = "mistral"
+alias = "default"
+
+# Tool permissions
+bypass_tool_permissions = false
+enabled_tools = [
+  "read_file",
+  "write_file", 
+  "edit",
+  "grep",
+  "bash",
+  "bash_stdin",
+  "bash_log_file",
+  "bash_output",
+  "bash_sessions",
+  "git_bash",
+  "git_bash_stdin",
+  "git_bash_log_file",
+  "git_bash_output",
+  "git_bash_sessions",
+  "web_fetch",
+  "web_search",
+  "todo",
+  "task",
+  "skill",
+  "powershell",
+  "powershell_stdin",
+  "powershell_log_file",
+  "powershell_output",
+  "powershell_sessions"
+]
+
+# Skill configuration
+disabled_skills = []
+
+[interactive]
+default_agent = "default"
