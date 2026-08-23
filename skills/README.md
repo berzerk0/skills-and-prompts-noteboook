@@ -24,26 +24,24 @@ can be silently missing a capability.
 | Skill | Source | License | Notes |
 |---|---|---|---|
 | `ask-questions-if-underspecified` | original | none asserted | Clarify before acting on ambiguous requests. |
-| `challenge-my-thinking` | original | none asserted | Socratic stress-test for plans/decisions. Already ported from Mistral Vibe once — see its own frontmatter. |
-| `copilot-preset` | original | none asserted | Always-on compressed-output + clarification preset. |
-| `karpathy-guidelines` | original, cites [@karpathy](https://x.com/karpathy/status/2015883857489522876) | none asserted | Coding-discipline guidelines; **flagged retired in `cl-repo`'s Vibe install plan** — check that repo's `docs/skill-action-plan-v3.md` amendments before installing into Vibe. |
-| `pilot-preset` | original | none asserted | Bundles `solus-skill` + `karpathy-guidelines` + `ask-questions-if-underspecified`. |
+| `challenge-my-thinking` | original | none asserted | Socratic stress-test for plans/decisions. |
 | `prompt-committee` | original | none asserted | Send a prompt/decision to another model for review, triage the feedback. |
-| `prompt-pipeline` | original | none asserted | Five-phase idea → production prompt workflow; depends on `prompt-master` + `prompt-committee`. |
+| `prompt-pipeline` | original | none asserted | Five-phase idea → production prompt workflow. |
 | `skill-extractor` | original | none asserted | Extract a reusable skill from a work session. |
-| `solus-skill` | original | none asserted | Compressed, answer-first communication mode. |
 | `task-chunkdown` | original | none asserted | Break a large task into granular first steps. |
-| `prompt-master` | third-party — [Nidhin Joseph Nelson](https://github.com) | MIT (bundled `LICENSE`) | Generates tool-specific prompts. `prompt-pipeline` depends on this — keep both in sync if either is edited. |
 | `import-memory` | Anthropic example skill | Apache-2.0 ([shared copy](_third-party-licenses/apache-2.0-anthropic-examples.txt)) | Imports another assistant's memory export. |
-| `morning` | Anthropic example skill | Apache-2.0 ([shared copy](_third-party-licenses/apache-2.0-anthropic-examples.txt)) | Morning-brief artifact / recurring task. |
-| `skill-creator` | Anthropic example skill | Apache-2.0 (bundled `LICENSE.txt`) | Create and iterate on skills; the tool used to build most of the skills in this repo. |
-| `session-start-hook` | Anthropic example skill | Apache-2.0 ([shared copy](_third-party-licenses/apache-2.0-anthropic-examples.txt)) | `SessionStart` hooks for Claude Code on the web. Claude-Code-specific — the hook mechanism doesn't map onto Vibe's `PRE_TOOL`/`POST_AGENT` model; see `cl-repo`'s reference before attempting a Vibe port. |
+| `skill-creator` | Anthropic example skill | Apache-2.0 (bundled `LICENSE.txt`) | Create and iterate on skills; enables testing and refining skills in this repo. |
 
 **Not included, on purpose:** `docx`, `pdf`, `pptx`, `xlsx`. These are
 Anthropic's proprietary built-in skills — their license forbids extracting or
 redistributing them outside Anthropic's Services. See [`../NOTICE.md`](../NOTICE.md).
 Both tools ship their own file-format handling natively; there is nothing to
 port.
+
+**Intentionally removed:** `copilot-preset`, `karpathy-guidelines`, `pilot-preset`,
+`solus-skill`, `prompt-master`, `morning`, `session-start-hook`. These were
+ported initially but removed as out-of-scope for this notebook's focus on
+reusable skills and prompts.
 
 ## Adding a skill here
 
