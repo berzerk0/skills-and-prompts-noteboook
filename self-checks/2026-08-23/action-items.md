@@ -11,10 +11,10 @@
 | Priority | Total | Open | In Progress | Done | % Complete |
 |----------|-------|------|-------------|------|------------|
 | Critical | 0 | 0 | 0 | 0 | 100% |
-| High | 4 | 3 | 0 | 1 | 25% |
+| High | 5 | 4 | 0 | 1 | 20% |
 | Medium | 6 | 6 | 0 | 0 | 0% |
 | Low | 2 | 2 | 0 | 0 | 0% |
-| **Total** | **12** | **11** | **0** | **1** | **8%** |
+| **Total** | **13** | **12** | **0** | **1** | **8%** |
 
 ---
 
@@ -35,6 +35,7 @@
 | 4 | High | Process multi-agent-drop-823 content | Both | Open | None | High-value cross-agent standards from crispy-couscous. Contains COMPATIBILITY.md, STANDARDS.md, GAPS.md, MAINTENANCE.md, cross-agent-primitives.md |
 | 5 | High | Fix skill frontmatter consistency | Both | Open | None | Add missing `license`, `compatibility`, `allowed-tools` fields to all skills. Standardize format. |
 | 6 | High | Deduplicate skills | Both | Open | None | Remove duplicate between skills/ and mailroom/. Decide on single source of truth. |
+| 15 | High | Fix Vibe `enabled_skills` allowlist gating symlinked skills | Both | Open | None | **Tested 2026-08-23** (live symlink of `skills/time-estimate` into both `.claude/skills/` and `.vibe/skills/`): Claude Code auto-discovers a symlinked skill directory with no extra config — confirmed working in a fresh session. Vibe does NOT — `.vibe/config.toml` already had `skill_paths = ["./skills"]`, so the library was reachable regardless of the symlink, but `enabled_skills` is a hard allowlist (currently `["cross-agent-compat", "code-review", "security-audit", "vibe-internals"]`) that silently hides anything not named in it, symlinked or not. Vibe's own report: fix is either (a) delete `enabled_skills` entirely so all discovered skills auto-load, or (b) keep it and add each skill name manually. (a) is lower-maintenance but removes the allowlist's control; (b) preserves control but means every new shared skill needs a `.vibe/config.toml` edit on top of whatever Claude Code needs (nothing). Decision needed before adopting the symlink plan repo-wide. |
 
 **Next Action:** Start with #4 (multi-agent-drop-823) - highest value, contains verified research.
 
