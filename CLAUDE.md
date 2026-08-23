@@ -10,8 +10,9 @@ actual use belong in `./.claude/skills/<name>/` (project) or
 
 ---
 
-## Mailroom (Read-Only)
+## Mailroom and Archive (Read-Only)
 
-The `mailroom/` directory is a **read-only** staging area. See
-[mailroom/README.md](mailroom/README.md) for processing guidelines.
-**Agents MUST NEVER write to mailroom/.**
+The `mailroom/` and `archive/` directories are both **read-only**. Agents
+MUST NEVER write to either. Full guidelines live in AGENTS.md; see
+[mailroom/README.md](mailroom/README.md) and
+[archive/README.md](archive/README.md) for the details of each.

@@ -269,7 +269,7 @@ skills-and-prompts-notebook/
 
 3. `skill-validator/` - SKILL.md validation (single file)
 
-4. `SKILL.md` - Duplicate of skills/challenge-my-thinking/SKILL.md
+4. `SKILL.md` - challenge-my-thinking (reference copy retained in mailroom after harvest, not a duplicate needing cleanup)
 
 ---
 

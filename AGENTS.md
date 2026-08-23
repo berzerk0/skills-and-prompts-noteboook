@@ -59,26 +59,26 @@ organized here — go to `cl-repo` for the full verified reference.
 **SYMPTOM:** Agent enters infinite loop when given contradictory instructions that
 appear to reference the same entity in different contexts.
 
-**EXAMPLE:** User says "use planning-with-files skill" but planning-with-files only
-exists in `mailroom/` (which user previously stated is REFERENCE ONLY, never to be
-used). Agent loops: "Use planning-with-files → but it's in mailroom → mailroom is
-reference-only → can't use it → but user said to use it → ..."
+**RESOLVED EXAMPLE (kept for the pattern, not as a live constraint):**
+`planning-with-files` used to exist only in `mailroom/` (reference-only,
+never to be used directly). That's no longer true — it was promoted to
+`skills/planning-with-files/` and is the real, usable copy. If a name looks
+like it points only into `mailroom/`, check `skills/` first before assuming
+a contradiction; the mailroom copy of something is often a leftover
+original, not the only copy.
 
-**REMEDY:**
+**GENERAL REMEDY (still applies to future contradictions):**
 1. **Detect the contradiction explicitly** - recognize when instructions reference
    the same named entity in mutually exclusive contexts
-2. **Escalate immediately** - ask user to clarify: "planning-with-files exists in
-   mailroom/ (reference-only) but not in skills/. Should I wait for you to move
-   it, use it from mailroom anyway, or is there another version?"
-3. **Never spin** - do not attempt to resolve contradictions through repeated
+2. **Check for a resolution first** - search `skills/`, `docs/`, and recent
+   commits before assuming the contradiction is still live; it may already
+   be resolved and just under-documented
+3. **Escalate if it's still unresolved** - ask the user to clarify rather than
+   guessing
+4. **Never spin** - do not attempt to resolve contradictions through repeated
    reasoning. Each iteration deepens the loop.
-4. **Document the pattern** - add detected contradictions to this section for
-   future agent awareness
-
-**TRIGGER PHRASES:**
-- "Use X" where X exists only in mailroom/
-- "X is reference-only" but user asks to use X
-- Any instruction that requires violating a previously stated constraint
+5. **Document the pattern** - add detected contradictions to this section for
+   future agent awareness, and update or remove the entry once resolved
 
 ## Editing rules
 
@@ -119,7 +119,9 @@ See [self-checks/README.md](self-checks/README.md) for audit format and structur
 
 The `mailroom/` directory is a **read-only** staging area for content to be reviewed,
 remixed, harvested, and integrated into the main repository. **Agents MUST NEVER write
-to this directory** — it is for human-maintained drop-offs only.
+to this directory** — it is for human-maintained drop-offs only. Read from it when the
+user asks you to review, process, or harvest something from there — not as a place to
+browse on your own initiative.
 
 **What to do with mailroom content:**
 - **Review** for quality, relevance, and compatibility
@@ -130,5 +132,25 @@ to this directory** — it is for human-maintained drop-offs only.
   - Documentation: `docs/`
   - Agents: `.vibe/agents/` or `.claude/agents/`
 
+A skill or doc appearing in both `mailroom/` and its integrated home (e.g.
+`skills/`) is expected, not a bug: mailroom keeps the original drop-off for
+reference even after something's been harvested out of it. Don't flag that
+as duplicate content needing cleanup.
+
 **See:** [`mailroom/README.md`](mailroom/README.md) for complete processing guidelines,
 current contents inventory, and priority list.
+
+## Archive (Read-Only Deprecated Content)
+
+The `archive/` directory holds deprecated, superseded, or historical content —
+old prompts that were ported into real skills, prior drafts, anything no
+longer maintained. **Agents MUST NEVER write to this directory.** Read from
+it when the user explicitly asks about the history of something — not as a
+place to browse on your own initiative.
+
+New content goes in `skills/`, `docs/`, or another live directory; content
+awaiting review goes in `mailroom/`; `archive/` is for neither — only for
+what's already been decided and superseded.
+
+**See:** [`archive/README.md`](archive/README.md) for the full inventory and
+what happened to each archived item.

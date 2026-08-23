@@ -67,10 +67,31 @@ Use the `planning-with-files` skill to update audit logs with corrected understa
 
 ## Current Phase Status
 
-**Phase 2: IN PROGRESS**
-- Started: 2026-08-23
-- Blocking: None
-- Next Action: Update audit.md with corrected understanding
+**Phase 2: TAKEN OVER BY CLAUDE CODE, 2026-08-23 (later session)**
+- Mistral hit sandbox file-editing errors and could not execute past planning.
+- User decided: Claude Code executes the mailroom/archive/agents-confusion fix
+  (this phase), then hands the rest of the original plan (Phase 3 + Mistral's
+  own broader plan: skill frontmatter, symlink rollout, docs fixes, missing
+  READMEs) back to Mistral to implement, now that the confusion is resolved
+  and blocking questions are answered.
+- User also voted: remove `.vibe/config.toml`'s `enabled_skills` allowlist
+  entirely (see action item #15 in self-checks/2026-08-23/action-items.md) —
+  folded into this pass since it's small and decided.
+
+### New Finding (supersedes Finding 1/2 below in scope, adds a root cause)
+
+**The actual "mailroom and agents confusion":** AGENTS.md's "Critical Agent
+Loop Detection" section (added commit 8cda491) documents a deadlock example
+where `planning-with-files` "only exists in mailroom/". That was true when
+written, but became stale one commit earlier than its own addition —
+`planning-with-files` was copied to `skills/planning-with-files/` in commit
+55aaa89, *before* 8cda491 added the loop-detection section describing it as
+mailroom-only. The doc never reflected its own fix. Any agent reading it
+literally (including a fresh Mistral session) would still hit the described
+loop, because the doc asserts a contradiction that no longer holds.
+**Fix:** update the loop-detection section to state the resolution
+explicitly, keep the general remedy pattern (it's still useful for future
+contradictions), but stop presenting this specific instance as live.
 
 ---
 

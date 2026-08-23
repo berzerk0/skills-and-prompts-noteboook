@@ -11,10 +11,10 @@
 | Priority | Total | Open | In Progress | Done | % Complete |
 |----------|-------|------|-------------|------|------------|
 | Critical | 0 | 0 | 0 | 0 | 100% |
-| High | 5 | 4 | 0 | 1 | 20% |
-| Medium | 6 | 6 | 0 | 0 | 0% |
+| High | 5 | 3 | 0 | 2 | 40% |
+| Medium | 6 | 5 | 0 | 1 | 17% |
 | Low | 2 | 2 | 0 | 0 | 0% |
-| **Total** | **13** | **12** | **0** | **1** | **8%** |
+| **Total** | **13** | **10** | **0** | **3** | **23%** |
 
 ---
 
@@ -35,7 +35,7 @@
 | 4 | High | Process multi-agent-drop-823 content | Both | Open | None | High-value cross-agent standards from crispy-couscous. Contains COMPATIBILITY.md, STANDARDS.md, GAPS.md, MAINTENANCE.md, cross-agent-primitives.md |
 | 5 | High | Fix skill frontmatter consistency | Both | Open | None | Add missing `license`, `compatibility`, `allowed-tools` fields to all skills. Standardize format. |
 | 6 | High | Deduplicate skills | Both | Open | None | Remove duplicate between skills/ and mailroom/. Decide on single source of truth. |
-| 15 | High | Fix Vibe `enabled_skills` allowlist gating symlinked skills | Both | Open | None | **Tested 2026-08-23** (live symlink of `skills/time-estimate` into both `.claude/skills/` and `.vibe/skills/`): Claude Code auto-discovers a symlinked skill directory with no extra config — confirmed working in a fresh session. Vibe does NOT — `.vibe/config.toml` already had `skill_paths = ["./skills"]`, so the library was reachable regardless of the symlink, but `enabled_skills` is a hard allowlist (currently `["cross-agent-compat", "code-review", "security-audit", "vibe-internals"]`) that silently hides anything not named in it, symlinked or not. Vibe's own report: fix is either (a) delete `enabled_skills` entirely so all discovered skills auto-load, or (b) keep it and add each skill name manually. (a) is lower-maintenance but removes the allowlist's control; (b) preserves control but means every new shared skill needs a `.vibe/config.toml` edit on top of whatever Claude Code needs (nothing). Decision needed before adopting the symlink plan repo-wide. |
+| 15 | High | Fix Vibe `enabled_skills` allowlist gating symlinked skills | Both | Done | None | **Tested 2026-08-23** (live symlink of `skills/time-estimate` into both `.claude/skills/` and `.vibe/skills/`): Claude Code auto-discovers a symlinked skill directory with no extra config. Vibe did NOT — `enabled_skills` was a hard allowlist hiding anything not named in it, regardless of `skill_paths` already resolving it. **User voted to remove `enabled_skills` entirely** (2026-08-23) — done in `.vibe/config.toml`. All skills discovered via `skill_paths`/`.vibe/skills/` now auto-load for Vibe. Needs a fresh Vibe session to confirm end-to-end. |
 
 **Next Action:** Start with #4 (multi-agent-drop-823) - highest value, contains verified research.
 
@@ -47,7 +47,7 @@
 |---|----------|------|-------|--------|------------|-------|
 | 7 | Medium | Add README.md to .vibe/prompts/ | Both | Open | None | Document purpose of prompts directory |
 | 8 | Medium | Add README.md to .claude/skills/ | Both | Open | None | Document purpose of Claude skills directory |
-| 9 | Medium | Add README.md to archive/ | Both | Open | None | Document archive purpose and guidelines. Distinguish from mailroom. |
+| 9 | Medium | Add README.md to archive/ | Both | Done | None | Already existed (predates this audit) with full inventory and outcomes per archived item. Distinguished from mailroom in AGENTS.md as of this pass. |
 | 10 | Medium | Process skill-extractor from mailroom | Both | Open | None | Contains quality-guide.md, skill-lifecycle.md, skill-template.md. Integrate into workflow. |
 | 11 | Medium | Standardize skill quality | Both | Open | #5 | Apply quality standards from mailroom/skill-extractor/. Review and improve existing skills. |
 | 12 | Medium | Add compatibility fields to all skills | Both | Open | #5 | Add cross-agent compatibility info. Part of frontmatter fix. |

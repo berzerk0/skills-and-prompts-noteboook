@@ -49,13 +49,11 @@ skill_paths = [
   "./skills",  # Portable skill library
 ]
 
-# Enable specific skills
-enabled_skills = [
-  "cross-agent-compat",
-  "code-review",
-  "security-audit",
-  "vibe-internals",
-]
+# No enabled_skills allowlist: all skills discovered via skill_paths and
+# .vibe/skills/ auto-load. Removed 2026-08-23 after testing showed it was
+# silently hiding symlinked skills from the shared skills/ library even
+# though skill_paths already resolved them (see self-checks/2026-08-23/
+# action-items.md item #15).
 
 # Disabled skills (blocklist)
 disabled_skills = []

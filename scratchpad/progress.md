@@ -115,4 +115,48 @@
 
 ---
 
-*Last updated: 2026-08-23 06:40 UTC*
+### Session 2: 2026-08-23 (Claude Code, later same day)
+
+**Handoff:** Mistral hit sandbox file-editing errors after Session 1 and could
+not execute Phase 2/3 — produced a written plan instead (not yet implemented).
+User reviewed that plan, ran a live symlink test with both agents (separate
+thread), then asked Claude Code to take over just the mailroom/archive/agents
+confusion piece using this skill, and hand the rest of Mistral's plan back to
+Mistral afterward.
+
+**Root cause found (see task_plan.md "New Finding"):** AGENTS.md's Critical
+Agent Loop Detection section described `planning-with-files` as mailroom-only,
+which stopped being true one commit before that section was written. That
+stale claim is what was primed to send Mistral (or any agent) into the exact
+loop the section describes.
+
+**Actions taken:**
+1. Fixed AGENTS.md's loop-detection section: kept the general remedy, replaced
+   the stale example with a note that it's resolved and how to check.
+2. Added an Archive section to AGENTS.md (read-only, read-on-request, mirrors
+   the Mailroom section) — Directive 0 from Mistral's plan.
+3. Added "read on request, not on your own initiative" language to the
+   Mailroom section, and a note that mailroom/skills content coexisting is
+   expected, not a duplicate-content bug.
+4. Updated CLAUDE.md to mention archive/ alongside mailroom/, kept as a thin
+   pointer (did not duplicate full guidance, per this repo's established
+   CLAUDE.md convention).
+5. Fixed the one remaining stale line in self-checks/2026-08-23/audit.md
+   (item 4 in the mailroom inventory, line ~272) — the rest of findings.md's
+   audit.md corrections were already applied in an earlier commit.
+6. Corrected self-checks/2026-08-23/action-items.md: item #9 (archive/
+   README.md) was already done (file predates this audit) — marked Done,
+   updated summary counts.
+7. Removed `enabled_skills` allowlist from `.vibe/config.toml` per user's
+   explicit vote (from the separate symlink-test thread) — see action item
+   #15.
+
+**Status:** Mailroom/archive/agents-confusion scope complete. Handing the
+rest of Mistral's original 4-directive plan (skill frontmatter, symlink
+rollout for remaining skills, broken-link fixes, missing READMEs,
+multi-agent-drop-823 integration) back to Mistral next, with corrections
+from Claude's earlier review folded in.
+
+---
+
+*Last updated: 2026-08-23 (Session 2)*
