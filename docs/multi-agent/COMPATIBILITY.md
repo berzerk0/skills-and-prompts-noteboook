@@ -44,13 +44,13 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 
 | **Tool** | **Purpose** | **Official Source** |
 |---------|-------------|---------------------|
-| `read` | Read file contents (truncates to 2,000 lines by default) | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `bash` | Execute shell commands | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `edit` | Patch files | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `write` | Create/overwrite files | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `grep` | Search files for regex patterns | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `find` | Find files/directories | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
-| `ls` | List directory contents | [Pi Tool System](https://pt-act-pi-mono.mintlify.app/concepts/tools) |
+| `read` | Read file contents (truncates to 2,000 lines by default) | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `bash` | Execute shell commands | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `edit` | Patch files | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `write` | Create/overwrite files | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `grep` | Search files for regex patterns | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `find` | Find files/directories | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| `ls` | List directory contents | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
 
 #### Version
 - **v0.80.6** (Published ~August 19–20, 2026)
@@ -88,7 +88,7 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 | **Standard** | Agent Skills + **proprietary Anthropic extensions** | [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) |
 | **Discovery Paths** | `.claude/skills/` (project), `~/.claude/skills/` (user) | [Skills Docs](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) |
 | **Frontmatter** | Standard + proprietary fields (e.g., `allowed-tools`) | [Skills Docs](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) |
-| **Hot-Loading** | Skills/subagents **hot-loaded** by CLI upon detection | [Totalum Blog](https://www.totalum.app/blog/claude-code-subagents-totalum) |
+| **Hot-Loading** | Skills/subagents **hot-loaded** by CLI upon detection | [Claude Code Docs](https://code.claude.com/docs/en/sub-agents) |
 
 ---
 
@@ -117,12 +117,12 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 ### Claude Code
 | **Aspect** | **Behavior** | **Official Source** |
 |-----------|--------------|---------------------|
-| **Native Support** | ✅ Built-in | [Subagents Docs](https://hidekazu-konishi.com/entry/claude_code_features_settings_reference_2026.html) |
-| **Config Format** | Markdown + YAML frontmatter | [Totalum Blog](https://www.totalum.app/blog/claude-code-subagents-totalum) |
-| **Config Paths** | `.claude/agents/` (project), `~/.claude/agents/` (user) | [Subagents Docs](https://hidekazu-konishi.com/entry/claude_code_features_settings_reference_2026.html) |
+| **Native Support** | ✅ Built-in | [Subagents Docs](https://code.claude.com/docs/en/sub-agents) |
+| **Config Format** | Markdown + YAML frontmatter | [Claude Code Docs](https://code.claude.com/docs/en/sub-agents) |
+| **Config Paths** | `.claude/agents/` (project), `~/.claude/agents/` (user) | [Subagents Docs](https://code.claude.com/docs/en/sub-agents) |
 | **Delegation** | `Agent` tool | [Tools Reference](https://code.claude.com/docs/en/tools-reference) |
-| **Isolation** | Separate context windows | [Totalum Blog](https://www.totalum.app/blog/claude-code-subagents-totalum) |
-| **Nesting** | Supported up to **depth 5** | [Totalum Blog](https://www.totalum.app/blog/claude-code-subagents-totalum) |
+| **Isolation** | Separate context windows | [Claude Code Docs](https://code.claude.com/docs/en/sub-agents) |
+| **Nesting** | Supported up to **depth 5** | [Claude Code Docs](https://code.claude.com/docs/en/sub-agents) |
 
 ---
 
@@ -139,12 +139,12 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 ### Mistral Vibe Code
 | **Aspect** | **Behavior** | **Official Source** |
 |-----------|--------------|---------------------|
-| **Native Support** | ✅ Built-in | [Mistral Docs](https://docs.mistral.ai/mistral-vibe/agents-skills) |
+| **Native Support** | ✅ Built-in | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
 | **Config Format** | `.toml` files | [GitHub README](https://github.com/mistralai/mistral-vibe) |
-| **Config Paths** | `.vibe/agents/` (project), `~/.vibe/agents/` (user) | [Mistral Docs](https://docs.mistral.ai/mistral-vibe/agents-skills) |
-| **Schema** | `agent_type`, `display_name`, `description`, `safety`, `enabled_tools`, `disabled_tools`, `system_prompt_id` | [Mistral Docs](https://docs.mistral.ai/mistral-vibe/agents-skills) |
+| **Config Paths** | `.vibe/agents/` (project), `~/.vibe/agents/` (user) | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
+| **Schema** | `agent_type`, `display_name`, `description`, `safety`, `enabled_tools`, `disabled_tools`, `system_prompt_id` | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
 | **Delegation** | `task` tool | [GitHub README](https://github.com/mistralai/mistral-vibe) |
-| **Isolation** | Separate context windows | [Mistral Docs](https://docs.mistral.ai/mistral-vibe/agents-skills) |
+| **Isolation** | Separate context windows | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
 | **Built-in Subagents** | `explore` (read-only for codebase exploration) | [GitHub README](https://github.com/mistralai/mistral-vibe) |
 
 > **💡 This Repo:** See [`../../.vibe/agents/codeberg.toml`](../../.vibe/agents/codeberg.toml) and [`../../.vibe/agents/timestamp.toml`](../../.vibe/agents/timestamp.toml) for examples.
@@ -155,9 +155,9 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 
 | **Tool** | **Native Support** | **Paths** | **Fallback** | **Official Source** |
 |---------|-------------------|----------|--------------|---------------------|
-| **Claude Code** | ❌ No | `CLAUDE.md`, `.claude/rules/` | `@AGENTS.md` import in `CLAUDE.md` | [MorphLLM Guide](https://www.morphllm.com/agents-md-guide) |
+| **Claude Code** | ❌ No | `CLAUDE.md`, `.claude/rules/` | `@AGENTS.md` import in `CLAUDE.md` | [AGENTS.md](https://agents.md/) |
 | **Pi Agent** | ✅ Yes | `~/.pi/agent/`, cwd, ancestors | N/A | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
-| **Vibe Code** | ✅ Yes | `~/.vibe/AGENTS.md`, `.vibe/AGENTS.md` | N/A | [Mistral Docs](https://docs.mistral.ai/mistral-vibe/agents-skills) |
+| **Vibe Code** | ✅ Yes | `~/.vibe/AGENTS.md`, `.vibe/AGENTS.md` | N/A | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
 
 ---
 
