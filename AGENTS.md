@@ -5,6 +5,12 @@ Shared instructions for any agent working in this repo — written primarily for
 content repo: prompts, musings, docs, notebooks, and skills. There is no code
 to build and no tests to run. Treat every change as documentation.
 
+## General Behavior Guidelines
+
+- Use all ASCII characters for max portability (— != -)
+- Say what to do, not what not to do (positive instructions > negative)
+- Avoid smart quotes (always)
+
 ## What this repo is
 
 A shared notebook, not a live agent configuration. Nothing under `skills/`
