@@ -48,7 +48,7 @@ This directory contains **validated, source-backed** documentation for developin
 | **Tool** | **Skills Path** | **Subagents Path** | **AGENTS.md Support** | **Built-in Tools** |
 |---------|----------------|--------------------|-----------------------|-------------------|
 | **Claude Code** | `.claude/skills/`, `~/.claude/skills/` | `.claude/agents/`, `~/.claude/agents/` | ❌ (Uses `CLAUDE.md`) | `Agent`, `Artifact`, `AskUserQuestion`, `Bash`, `Read`, `Grep`, `Glob`, `LS`, `Write`, `Edit` |
-| **Pi Agent** | `.agents/skills/`, `~/.pi/agent/skills/` | Extensions (e.g., `subagent.ts`) | ✅ | `read`, `bash`, `edit`, `write`, `grep`, `find`, `ls` |
+| **Pi Agent** | `.pi/skills/`, `~/.pi/agent/skills/` | Extensions (e.g., `subagent.ts`) | ✅ | `read`, `bash`, `edit`, `write`, `grep`, `find`, `ls` |
 | **Vibe Code** | `.vibe/skills/`, `~/.vibe/skills/` | `.vibe/agents/`, `~/.vibe/agents/` | ✅ | `read`, `write_file`, `edit`, `shell`/`!`, `grep`, `todo`, `ask_user_question`, `task` |
 
 ---

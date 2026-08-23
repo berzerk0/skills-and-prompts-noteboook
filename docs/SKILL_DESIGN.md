@@ -54,80 +54,6 @@ metadata: {...}          # Optional
 
 ---
 
-## Skill Types
-
-### Type A: Pure Function Skills
-
-**Characteristics**:
-- Stateless computation
-- No file I/O
-- No external API calls
-- Example: `timestamp`
-
-**Implementation**:
-```python
-# timestamp_skill.py
-def get_utc_timestamp() -> str:
-    ...
-```
-
-**SKILL.md**:
-```markdown
----
-name: timestamp
-description: Get current UTC timestamp...
----
-Return the current UTC time in YYYY-MM-DD-HHMM format.
-```
-
-### Type B: API Client Skills
-
-**Characteristics**:
-- Wraps external API
-- May require authentication
-- Stateful operations
-- Example: `codeberg`
-
-**Implementation**:
-```python
-# codeberg_connector.py
-class CodebergClient:
-    async def list_repos(self):
-        ...
-```
-
-**SKILL.md**:
-```markdown
----
-name: codeberg
-description: Codeberg API operations...
----
-Use the codeberg_connector module. Auth via CODEBERG_TOKEN env var.
-```
-
-### Type C: File Operation Skills
-
-**Characteristics**:
-- Read/write files
-- Search/replace content
-- File system operations
-
-**Implementation**:
-- Use `bash` to invoke scripts
-- Scripts use standard Python file I/O
-- Never reference agent-specific tool names
-
-**SKILL.md**:
-```markdown
----
-name: file-helper
-description: File manipulation utilities...
----
-Use the file_operations.py module via bash commands.
-```
-
----
-
 ## Subagent Design
 
 ### Vibe Code (TOML)
@@ -217,9 +143,11 @@ agents/
 └── codeberg.yaml
 
 meta/
-├── generate_claude.py     # YAML → .claude/agents/*.md
-├── generate_pi.py         # YAML → .pi/agents/*.md
-└── generate_vibe.py       # YAML → .vibe/agents/*.toml
+├── generate_claude.py     # SKILL.md → .claude/agents/*.md (agent configs)
+├── generate_pi.py         # SKILL.md → .pi/agents/*.md (agent configs)
+└── generate_vibe.py       # SKILL.md → .vibe/agents/*.toml (agent configs)
+
+**Note:** Skills use SKILL.md directly (portable). Agent configs are framework-specific.
 ```
 
 This will:

@@ -96,7 +96,7 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 | **Aspect** | **Behavior** | **Official Source** |
 |-----------|--------------|---------------------|
 | **Standard** | Agent Skills (`SKILL.md` + frontmatter) | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
-| **Discovery Paths** | `.agents/skills/` (cwd and ancestors), `~/.pi/agent/skills/` | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
+| **Discovery Paths** | `.pi/skills/` (cwd and ancestors), `~/.pi/agent/skills/` | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
 | **Override** | Project-scope skills **override** user-global skills | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
 | **Validation** | Warns about violations but remains **lenient** | [Pi Skills Docs](https://pi.dev/docs/latest/skills) |
 
@@ -195,7 +195,7 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 |------------|----------------|--------------|---------------|
 | **Standard** | Agent Skills + Proprietary | Agent Skills | Agent Skills |
 | **File** | `SKILL.md` | `SKILL.md` | `SKILL.md` |
-| **Discovery Paths** | `.claude/skills/`, `~/.claude/skills/` | `.agents/skills/`, `~/.pi/agent/skills/` | `.vibe/skills/`, `~/.vibe/skills/` |
+| **Discovery Paths** | `.claude/skills/`, `~/.claude/skills/` | `.pi/skills/`, `~/.pi/agent/skills/` | `.vibe/skills/`, `~/.vibe/skills/` |
 | **Frontmatter** | Standard + Proprietary | Standard | Standard + `allowed-tools` |
 | **Override** | Project > User | Project > User | Project > User |
 

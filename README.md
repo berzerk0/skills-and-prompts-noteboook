@@ -7,7 +7,7 @@
 
 ---
 
-## 🎯 What This Is
+## 🏆 What This Is
 
 This repository stores **portable skills** and **subagent configurations** that work across multiple AI agent platforms. It's designed for:
 
@@ -58,12 +58,12 @@ Or explicitly invoke: `task use <skill-name>` (Vibe Code)
    cd crispy-couscous
    ```
 
-2. **Install dependencies** (for generation scripts):
+2. **Install dependencies** (for agent config generation):
    ```bash
    pip install pyyaml toml
    ```
 
-3. **Regenerate all agent wrappers** (if you modify YAML sources):
+3. **Generate agent configs** (if you add/modify skills):
    ```bash
    python meta/generate_all.py --all
    ```
@@ -88,14 +88,7 @@ Or explicitly invoke: `task use <skill-name>` (Vibe Code)
 │   ├── timestamp_skill.py
 │   └── codeberg_connector.py
 ├── 
-├── agents/                      # Canonical YAML skill definitions
-│   ├── timestamp.yaml
-│   ├── codeberg.yaml
-│   ├── challenge-my-thinking.yaml
-│   ├── repo-auditor.yaml
-│   └── skill-validator.yaml
-├── 
-├── meta/                        # Generation scripts
+├── meta/                        # Generation scripts for agent configs
 │   ├── generate_all.py
 │   ├── generate_claude.py
 │   ├── generate_pi.py
@@ -110,7 +103,7 @@ Or explicitly invoke: `task use <skill-name>` (Vibe Code)
 │       ├── COMPATIBILITY.md
 │       ├── GAPS.md
 │       └── MAINTENANCE.md
-└── 
+├── 
 ├── .claude/                     # Claude Code configurations
 │   ├── agents/                  # Subagent definitions
 │   │   ├── timestamp.md
@@ -141,32 +134,39 @@ Or explicitly invoke: `task use <skill-name>` (Vibe Code)
 
 ---
 
-## 🛠️ Adding New Skills
+## ✍️ Adding New Skills
 
-### 1. Create Canonical YAML
+### 1. Create Portable SKILL.md
 
-Create `agents/<name>.yaml`:
+Create `skills/<name>/SKILL.md` with valid YAML frontmatter:
+
 ```yaml
+---
 name: my-skill
 description: What this skill does and when to use it.
 license: MIT
 compatibility: [claude, pi, vibe]
-skill_type: type_a  # type_a, type_b, or type_c
-triggers:
-  - "trigger phrase 1"
-  - "trigger phrase 2"
+---
 ```
 
-### 2. Create Portable SKILL.md
+**Note:** For internal tracking, you can add custom metadata in the frontmatter:
 
-Create `skills/<name>/SKILL.md` with:
-- Valid YAML frontmatter (6 standard fields only)
-- Tool-agnostic instructions
-- No references to specific tool names
+```yaml
+---
+name: my-skill
+description: What this skill does and when to use it.
+license: MIT
+compatibility: [claude, pi, vibe]
+metadata:
+  requires_authentication: false
+  requires_network: false
+---
+```
 
-### 3. Create Python Implementation (Optional)
+### 2. Create Python Implementation (Optional)
 
 Create `<name>_skill.py` or `<name>_connector.py`:
+
 ```python
 """Implementation for my-skill."""
 
@@ -179,33 +179,50 @@ if __name__ == "__main__":
     main_function()
 ```
 
-### 4. Generate Per-Agent Wrappers
+### 3. Generate Agent Configurations
+
+Generate framework-specific agent configurations from your SKILL.md:
 
 ```bash
+# Generate agent configs for all skills
+python meta/generate_all.py --all
+
+# Generate for a specific skill
 python meta/generate_all.py --skill my-skill
-# OR generate all skills
+```
+
+---
+
+## 📊 Agent Compatibility
+
+| Feature | Claude Code | Pi Agent | Vibe Code |
+|---------|--------------|----------|-----------|
+| Skill Discovery | `.claude/skills/` | `.pi/skills/` | `.vibe/skills/` |
+| Subagents | ✅ Native | ⚠️ Extensions | ✅ Native |
+| AGENTS.md | ❌ (uses CLAUDE.md) | ✅ Native | ✅ Native |
+| Tool Name | `Read`, `Write`, `Edit`, `Bash` | `read`, `write`, `edit`, `bash` | `read`, `write_file`, `edit`, `bash` |
+| **Universal Tool** | **`Bash`** | **`bash`** | **`bash`** |
+
+**Key Insight**: `bash`/`Bash` is the **only tool name consistent across all three agents**. All skill implementations should be invocable via bash.
+
+---
+
+## 🛠️ Agent Configuration Generation
+
+The `meta/` directory contains scripts to generate **framework-specific agent configurations** from portable SKILL.md files:
+
+```bash
+# Note: Skills use SKILL.md directly (portable)
+# Agent configs are framework-specific and generated from skills
+
 python meta/generate_all.py --all
 ```
 
-### 5. Update Symlinks
-
-```bash
-python meta/generate_all.py --symlinks
-```
+**Important:** Skills themselves (in `skills/<name>/SKILL.md`) are portable and follow the Agent Skills specification. Agent configurations (in `.vibe/agents/`, `.claude/agents/`, `.pi/agents/`) are framework-specific and generated from the canonical skills.
 
 ---
 
-## 🔍 Skill Types
-
-| Type | Description | Example | Tools Needed |
-|------|-------------|---------|---------------|
-| **Type A** | Pure function, no I/O, no API | `timestamp` | bash only |
-| **Type B** | API client, external service | `codeberg` | bash + network |
-| **Type C** | File operations, local filesystem | `repo-auditor` | bash + file tools |
-
----
-
-## 📖 Documentation
+## 📚 Documentation
 
 | Document | Purpose |
 |----------|---------|
@@ -218,41 +235,7 @@ python meta/generate_all.py --symlinks
 
 ---
 
-## 🤖 Agent Compatibility
-
-| Feature | Claude Code | Pi Agent | Vibe Code |
-|---------|--------------|----------|-----------|
-| Skill Discovery | `.claude/skills/` | `.pi/skills/` / `.agents/skills/` | `.vibe/skills/` |
-| Subagents | ✅ Native | ⚠️ Extensions | ✅ Native |
-| AGENTS.md | ❌ (uses CLAUDE.md) | ✅ Native | ✅ Native |
-| Tool Name | `Read`, `Write`, `Edit`, `Bash` | `read`, `write`, `edit`, `bash` | `read`, `write_file`, `edit`, `bash` |
-| **Universal Tool** | **`Bash`** | **`bash`** | **`bash`** |
-
-**Key Insight**: `bash`/`Bash` is the **only tool name consistent across all three agents**. All skill implementations should be invocable via bash.
-
----
-
-## 🎛️ Generation System
-
-The `meta/` directory contains scripts to auto-generate per-agent wrappers from canonical YAML:
-
-```bash
-# Validate all YAML files
-python meta/generate_all.py --validate
-
-# Generate wrappers for a specific skill
-python meta/generate_all.py --skill my-skill
-
-# Generate all skills for all agents
-python meta/generate_all.py --all
-
-# Update symlinks only
-python meta/generate_all.py --symlinks
-```
-
----
-
-## 🔗 References
+## 🎯 References
 
 - [Agent Skills Specification](https://agentskills.io/specification)
 - [GitHub AGENTS.md](https://agents.md/)
@@ -260,7 +243,7 @@ python meta/generate_all.py --symlinks
 
 ---
 
-## 📝 Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feat/my-skill`)
@@ -270,12 +253,12 @@ python meta/generate_all.py --symlinks
 
 ---
 
-## 📄 License
+## 📜 License
 
 This repository and all skills are licensed under the **MIT License** unless otherwise specified in individual skill frontmatter.
 
 ---
 
-## 📋 To-Do List
+## 📝 To-Do List
 
 - [ ] **writing-style skill** - Define and enforce consistent writing style across documentation
