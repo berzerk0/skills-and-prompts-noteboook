@@ -28,7 +28,10 @@ can be silently missing a capability.
 | `prompt-committee` | original | none asserted | Send a prompt/decision to another model for review, triage the feedback. |
 | `prompt-pipeline` | original | none asserted | Five-phase idea → production prompt workflow. |
 | `skill-extractor` | original | none asserted | Extract a reusable skill from a work session. |
-| `task-chunkdown` | original | none asserted | Break a large task into granular first steps. |
+| `task-chunkdown` | original | none asserted | Break a large task into granular first steps. Successor to "Todo Goblin" (see `../archive/`) — built independently, before the archive was rediscovered. No new skill needed for Todo Goblin; this one already does the job, with a better delivery model (drip-fed steps vs. an upfront checklist). |
+| `ef-unblock` | original, adapted from archive | none asserted | Clarify a goal and name the executive-function trap blocking the start. Adapted from "EF Goblin" (`../archive/original-goblins.txt`) — kept the trap taxonomy and questioning framework, dropped the chat-mode activation/exit scaffolding. |
+| `time-estimate` | original, adapted from archive | none asserted | Realistic time range with rationale, never a single number. Adapted from "Time Goblin" (`../archive/`) — estimation logic and range-sizing heuristics kept as-is; scaffolding dropped. |
+| `braindump-triage` | original, adapted from archive | none asserted | Convert a brain dump into an actionable list, triaged do-now/do-later/delegate/drop. Adapted from "Braindump Goblin" (`../archive/original-goblins.txt`) — sharpened against real mind-sweep/ADHD brain-dump practice (GTD's mind sweep, action-bucket triage) rather than ported as-is: added explicit permission to drop trivial items and a destination step, replacing the original's topic-only tagging. |
 | `import-memory` | Anthropic example skill | Apache-2.0 ([shared copy](_third-party-licenses/apache-2.0-anthropic-examples.txt)) | Imports another assistant's memory export. |
 | `skill-creator` | Anthropic example skill | Apache-2.0 (bundled `LICENSE.txt`) | Create and iterate on skills; enables testing and refining skills in this repo. |
 
