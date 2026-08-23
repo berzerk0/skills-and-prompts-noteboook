@@ -54,6 +54,32 @@ organized here — go to `cl-repo` for the full verified reference.
   are resident every turn; the full `SKILL.md` body loads on invocation via
   the `skill` tool. `user-invocable` does not change that residency.
 
+## Critical Agent Loop Detection
+
+**SYMPTOM:** Agent enters infinite loop when given contradictory instructions that
+appear to reference the same entity in different contexts.
+
+**EXAMPLE:** User says "use planning-with-files skill" but planning-with-files only
+exists in `mailroom/` (which user previously stated is REFERENCE ONLY, never to be
+used). Agent loops: "Use planning-with-files → but it's in mailroom → mailroom is
+reference-only → can't use it → but user said to use it → ..."
+
+**REMEDY:**
+1. **Detect the contradiction explicitly** - recognize when instructions reference
+   the same named entity in mutually exclusive contexts
+2. **Escalate immediately** - ask user to clarify: "planning-with-files exists in
+   mailroom/ (reference-only) but not in skills/. Should I wait for you to move
+   it, use it from mailroom anyway, or is there another version?"
+3. **Never spin** - do not attempt to resolve contradictions through repeated
+   reasoning. Each iteration deepens the loop.
+4. **Document the pattern** - add detected contradictions to this section for
+   future agent awareness
+
+**TRIGGER PHRASES:**
+- "Use X" where X exists only in mailroom/
+- "X is reference-only" but user asks to use X
+- Any instruction that requires violating a previously stated constraint
+
 ## Editing rules
 
 - **Never add the four proprietary Anthropic file-format skills** (`docx`,
