@@ -81,6 +81,14 @@ points back here so both tools read one shared source of truth.
 
 ---
 
+## Self-Checks (Audit Logs)
+
+The `self-checks/` directory contains dated audit logs for repository self-assessment.
+Both Mistral Vibe Code and Claude Code can read these to understand what needs improvement.
+See [self-checks/README.md](self-checks/README.md) for audit format and structure.
+
+---
+
 ## Mailroom (Read-Only Staging Area)
 
 The `mailroom/` directory is a **read-only** staging area for content to be reviewed,
