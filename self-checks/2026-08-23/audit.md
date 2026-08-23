@@ -44,11 +44,11 @@
    - **Location:** skills/challenge-my-thinking/SKILL.md, skills/braindump-triage/SKILL.md, others
    - **Issue:** Missing `license`, `compatibility`, or `allowed-tools` fields
 
-2. **Duplicate content** - Some skills appear in both `skills/` and `mailroom/`
-   - **Impact:** Confusion about which is canonical, potential for divergence
-   - **Priority:** High
-   - **Location:** mailroom/SKILL.md appears to duplicate skills/challenge-my-thinking/SKILL.md
-   - **Issue:** Need to deduplicate and decide on single source of truth
+2. **Mailroom reference material** - mailroom/ contains reference-only content, not duplicates
+   - **Impact:** None - mailroom is read-only staging, not viable skills
+   - **Priority:** Low (documentation clarification)
+   - **Location:** mailroom/ directory
+   - **Note:** mailroom is REFERENCE ONLY per AGENTS.md and CLAUDE.md. Agents MUST NEVER write to mailroom/
 
 3. **Missing mailroom reference in CLAUDE.md** - CLAUDE.md doesn't mention mailroom
    - **Impact:** Claude Code agents won't know about mailroom from CLAUDE.md
@@ -119,7 +119,7 @@
 | Priority | Task | Owner | Status | Notes |
 |----------|------|-------|--------|-------|
 | High | Fix skill frontmatter consistency | Both | Open | Standardize all skills with proper frontmatter |
-| High | Deduplicate skills | Both | Open | Remove duplicates between skills/ and mailroom/ |
+| Low | Clarify mailroom purpose | Both | Open | Document mailroom as reference-only, not duplicates |
 | High | Add mailroom reference to CLAUDE.md | Both | Open | Ensure Claude knows about mailroom |
 | High | Add compatibility fields to all skills | Both | Open | Add cross-agent compatibility info |
 | Medium | Add README.md to .vibe/prompts/ | Both | Open | Document purpose of prompts directory |
@@ -248,7 +248,7 @@ skills-and-prompts-notebook/
 **Status:** Documented but unprocessed
 
 **Contents:**
-1. `SKILL.md` - challenge-my-thinking (appears to be duplicate)
+1. `SKILL.md` - challenge-my-thinking (reference material, NOT a duplicate)
 2. `skill-extractor/` - Skill extraction methodology with references
 3. `skill-validator/` - SKILL.md validation
 4. `multi-agent-drop-823/` - **HIGH VALUE** - Cross-agent standards from crispy-couscous
@@ -305,9 +305,9 @@ skills-and-prompts-notebook/
    - **Owner:** Both agents
    - **Effort:** 1-2 hours
 
-5. **Deduplicate skills**
-   - Remove duplicate between skills/ and mailroom/
-   - Decide on single source of truth
+5. **Document mailroom purpose**
+   - Clarify mailroom is reference-only, not duplicates
+   - Update all references
    - **Owner:** Both agents
    - **Effort:** 30 minutes
 
@@ -373,7 +373,7 @@ skills-and-prompts-notebook/
 |--------|-------|--------|
 | Total files | 62 | ✅ |
 | Total directories | 48 | ✅ |
-| Skills in library | 13 | ⚠️ (format issues) |
+| Skills in library | 13 | ⚠️ (format issues, skills/ only) |
 | Live Vibe skills | 4 | ✅ |
 | Claude commands | 3 | ✅ |
 | Documentation files | 15+ | ⚠️ (some missing) |
