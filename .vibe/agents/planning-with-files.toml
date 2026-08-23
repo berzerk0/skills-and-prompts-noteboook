@@ -1,22 +1,17 @@
-agent_type = "subagent"
+agent_type = "agent"
 display_name = "planning-with-files"
 description = "Implements file-based planning for complex multi-step tasks. Creates task_plan.md, findings.md, and progress.md as persistent working memory."
-active_model = "mistral-small"
-
-[tools.read_file]
-enabled = true
-
-[tools.write_file]
-enabled = true
-
-[tools.edit]
-enabled = true
-
-[tools.grep]
-enabled = true
-
-[tools.bash]
-enabled = true
+active_model = "mistral-medium"
 
 [tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
 enabled = true

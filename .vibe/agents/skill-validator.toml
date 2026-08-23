@@ -1,22 +1,17 @@
-agent_type = "subagent"
+agent_type = "agent"
 display_name = "skill-validator"
 description = "Validate SKILL.md files against Agent Skills specification and cross-agent compatibility. Use when user requests skill validation, spec compliance checking, or quality assurance."
 active_model = "mistral-small"
 
-[python]
+[tools.skill]
 enabled = true
-
-[bash]
+[tools.read_file]
 enabled = true
-
-[read_file]
+[tools.write_file]
 enabled = true
-
-[write_file]
+[tools.edit]
 enabled = true
-
-[edit]
+[tools.grep]
 enabled = true
-
-[grep]
+[tools.bash]
 enabled = true
