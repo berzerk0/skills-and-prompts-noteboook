@@ -354,7 +354,7 @@ skills-and-prompts-notebook/
 1. **Always check AGENTS.md first** - It has the most up-to-date shared instructions
 2. **Respect mailroom as read-only** - NEVER write to mailroom/
 3. **Use self-checks/ for audit logs** - Document all repository assessments
-4. **Follow the processing workflow** - Review → Remix → Harvest → Integrate
+4. **Follow the processing workflow** - Review -> Remix -> Harvest -> Integrate
 5. **Prioritize multi-agent-drop-823** - High-value content that should be integrated
 
 ### For Repository Maintainers

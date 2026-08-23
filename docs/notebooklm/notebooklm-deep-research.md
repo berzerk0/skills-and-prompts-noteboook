@@ -17,16 +17,16 @@ Broad date ranges let old sources dominate. Explicit recency steers toward fresh
 *E.g. Add "Prioritize sources from the most recent 12 months within the window"*
 
 **4. Anchor dimension count at both intro and dimensions header**
-Stating the count once decays over long prompts — model loses the constraint before reaching the dimensions block. Restate at both locations.
-*E.g. Intro: "across exactly 5 thematic areas" + Header: "Research Dimensions (5 total — do not add, combine, or omit)"*
+Stating the count once decays over long prompts -- model loses the constraint before reaching the dimensions block. Restate at both locations.
+*E.g. Intro: "across exactly 5 thematic areas" + Header: "Research Dimensions (5 total -- do not add, combine, or omit)"*
 
 **4b. State the current date explicitly in the temporal window**
 Agents don't reliably self-determine today's date. Without it, recency weighting is undefined.
-*E.g. "Extract data from January 1, 2024 onward. Current date: June 4, 2026. Prioritize sources from December 2025–June 2026."*
+*E.g. "Extract data from January 1, 2024 onward. Current date: June 4, 2026. Prioritize sources from December 2025-June 2026."*
 
 **5. Add citation metadata capture explicitly**
 Deep Research won't preserve URL, publication month, or verbatim anchor unless instructed. Downstream citation formats fail without this.
-*E.g. Add "For every source, record full URL, publication date including month, and exact 10–15 word verbatim sentence anchor"*
+*E.g. Add "For every source, record full URL, publication date including month, and exact 10-15 word verbatim sentence anchor"*
 
 **6. Reframe state tracking for deduplication**
 Track and exclude already-imported sources between sequential queries. Use URLs for web mode, document titles for corpus mode.
@@ -48,7 +48,7 @@ Large documents create token-gravity that suppresses shorter sources. Mandate at
 Deep Research decomposes into sub-queries. Noun phrases = search angles. Commands belong in report prompts.
 *E.g. "Map exploit chaining vs planning failures" -> "AI autonomous execution limits: exploit chaining, context exhaustion, planning failures"*
 
-**10. Avoid academic phrasing — it pulls academic sources**
+**10. Avoid academic phrasing -- it pulls academic sources**
 Dimensions written as research abstracts attract papers *about* the topic, not real-world evidence *of* it. Anchor to where the evidence lives.
 *E.g. "Token attention scoring anomalies" -> "Token attention scoring anomalies: transformer evaluation logs, model-attention visualization studies, ablation test results"*
 
@@ -58,7 +58,7 @@ Agents stop once a dimension feels "satisfied." Phrasing that implies multiple i
 
 **12. Lead each dimension with its saturation count**
 Burying "locate at least 3" mid-sentence downgrades it from hard floor to descriptor. Lead with the count.
-*E.g. "Locate at least 3 independent instances of [topic] across [artifacts]" — not "[topic]: locate at least 3..."*
+*E.g. "Locate at least 3 independent instances of [topic] across [artifacts]" -- not "[topic]: locate at least 3..."*
 
 **13. Place saturation and null-result rules globally, not inline per dimension**
 Inline repetition per dimension causes duplicate outputs. One global rule covers all dimensions cleanly.
@@ -89,7 +89,7 @@ Conceptual phrases return soft summaries. Append the specific data containers wh
 *E.g. "Implementation flaws" -> "Implementation flaws: commit logs, post-mortems, changelogs, issue trackers, release notes"*
 
 **20. Apply skepticism globally, not per dimension**
-Inline skepticism on one dimension causes uneven enforcement — agent applies it most aggressively there, treats global rule as background elsewhere.
+Inline skepticism on one dimension causes uneven enforcement -- agent applies it most aggressively there, treats global rule as background elsewhere.
 *E.g. Remove inline skepticism from individual dimensions; add to Execution Rules: "Treat all vendor claims as idealized baselines across all dimensions"*
 
 **21. Add a contradiction-targeting dimension**

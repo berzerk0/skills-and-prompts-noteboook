@@ -25,7 +25,7 @@ Long or complex prompts in the chat box cause instruction drift.
 **2. One topic per session**
 Multiple topics accumulate context that bleeds between reports. Each topic gets a clean session.
 
-**3. Clear Configure Chat between report and audit steps — do not delete chat history**
+**3. Clear Configure Chat between report and audit steps -- do not delete chat history**
 Clearing Configure Chat removes the active instruction set. Deleting chat history
 removes the report the audit needs to read. These are separate actions with opposite effects.
 
@@ -73,7 +73,7 @@ Repeating rules across sections creates competing instruction pressure.
 Define once, reference downstream.
 
 **Replace negative constraints with positive behavioral direction**
-"Do not restate here" → "Open the first paragraph with market adoption metrics."
+"Do not restate here" -> "Open the first paragraph with market adoption metrics."
 Negative constraints fail under dense corpus load.
 
 **Use exact literal matches for banned source rules**
@@ -84,7 +84,7 @@ Semantic categories trigger over-generalization. List exact source names.
 than property lists.
 
 **Use short tag-style delimiters**
-`<RULES>`, `<OUTPUT>`, `<CONSTRAINTS>` — visual boundaries reduce attention bleed.
+`<RULES>`, `<OUTPUT>`, `<CONSTRAINTS>` -- visual boundaries reduce attention bleed.
 Avoid nesting beyond two levels.
 
 **Provide a tone example in the prompt**
@@ -112,7 +112,7 @@ NotebookLM silently updates models. Principles survive; rigid syntax may break.
 
 ### URL Handling
 
-**Remove URL burden from report prompt — delegate to audit**
+**Remove URL burden from report prompt -- delegate to audit**
 Forcing report prompt to find, format, and embed URLs simultaneously with prose
 causes citation dropout. Output citation hooks only in report pass; resolve
 to full URLs in audit pass using source corpus as lookup.
@@ -190,7 +190,7 @@ Scattered hedging instructions produce uneven enforcement.
 Audit may re-introduce repeated elements during correction.
 
 **Use short tag-style delimiters**
-`<PERSONA>`, `<RULES>`, `<PARAMETERS>` — reduces attention bleed.
+`<PERSONA>`, `<RULES>`, `<PARAMETERS>` -- reduces attention bleed.
 
 **Order audit parameters by correction priority**
 Model applies early parameters more reliably. Place critical corrections first.
@@ -207,11 +207,11 @@ If tone example lives only in report prompt, audit generates without register an
 
 ### What Didn't Work (Report & Audit)
 
-**Two-turn instruction loading** — unreliable for multi-rule prompts.
-**Verification scaffold** — surface-level check that doesn't prevent underlying failure.
-**Escaped link syntax** — corrupts valid URLs.
-**Bibliography extraction from inline citations only** — placeholder URLs propagate.
-**Sentence count enforcement** — not reliably enforceable in single-pass regeneration.
+**Two-turn instruction loading** -- unreliable for multi-rule prompts.
+**Verification scaffold** -- surface-level check that doesn't prevent underlying failure.
+**Escaped link syntax** -- corrupts valid URLs.
+**Bibliography extraction from inline citations only** -- placeholder URLs propagate.
+**Sentence count enforcement** -- not reliably enforceable in single-pass regeneration.
 
 ---
 
@@ -224,7 +224,7 @@ Corpus mode = "documents." Web agent mode = "URLs." Wrong vocabulary breaks
 instruction translation.
 
 **Convert negative constraints to positive assertions**
-"Reject all data predating 2024" → "Extract data exclusively from January 1, 2024 onward."
+"Reject all data predating 2024" -> "Extract data exclusively from January 1, 2024 onward."
 
 **Add recency bias within a hard temporal window**
 "Prioritize sources from the most recent 12 months within the window."
@@ -262,7 +262,7 @@ Attracts papers *about* the topic, not real-world evidence *of* it.
 "Multiple documented instances of [topic] across [artifacts]" forces continued searching.
 
 **Lead each dimension with its saturation count**
-"Locate at least 3 independent instances of [topic]" — not buried mid-sentence.
+"Locate at least 3 independent instances of [topic]" -- not buried mid-sentence.
 
 **Place saturation and null-result rules globally, not inline**
 Inline repetition per dimension causes duplicate outputs.

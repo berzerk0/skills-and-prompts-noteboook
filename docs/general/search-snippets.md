@@ -5,7 +5,7 @@
 ```
 Search coverage:
 - Minimum 3 independently parsed sources from distinct domains
-- Continue searching after question is answered — don't stop at first satisfying result
+- Continue searching after question is answered -- don't stop at first satisfying result
 - If topic is jurisdiction-dependent, require geographically relevant sources
 - If topic is contested, require opposing viewpoints
 ```
@@ -28,8 +28,8 @@ Source quality:
 Verification:
 - Cross-check key claims across sources
 - Flag any claim supported by only one source
-- Flag circular sourcing — when sources cite each other without independent basis
-- Surface disagreements between sources explicitly — do not silently synthesize
+- Flag circular sourcing -- when sources cite each other without independent basis
+- Surface disagreements between sources explicitly -- do not silently synthesize
 ```
 
 ---
@@ -50,7 +50,7 @@ Gap handling:
 - Do not predict when evidence is insufficient
 - Flag partial answers explicitly: "found X but not Y"
 - Distinguish "not found" from "does not exist"
-- After 3 attempts without sufficient answer, flag the gap — do not continue speculating
+- After 3 attempts without sufficient answer, flag the gap -- do not continue speculating
 ```
 
 ---
@@ -77,15 +77,15 @@ Source quality:
 
 Coverage:
 - Minimum 3 independently parsed sources from distinct domains
-- Continue searching after question is answered — don't stop at first satisfying result
+- Continue searching after question is answered -- don't stop at first satisfying result
 - If topic is jurisdiction-dependent, require geographically relevant sources
 - If topic is contested, require opposing viewpoints
 
 Verification:
 - Cross-check key claims across sources
 - Flag any claim supported by only one source
-- Flag circular sourcing — when sources cite each other without independent basis
-- Surface disagreements between sources explicitly — do not silently synthesize
+- Flag circular sourcing -- when sources cite each other without independent basis
+- Surface disagreements between sources explicitly -- do not silently synthesize
 
 Transparency:
 - Show search queries used
@@ -96,7 +96,7 @@ Gap handling:
 - Do not predict when evidence is insufficient
 - Flag partial answers explicitly: "found X but not Y"
 - Distinguish "not found" from "does not exist"
-- After 3 attempts without sufficient answer, flag the gap — do not continue speculating
+- After 3 attempts without sufficient answer, flag the gap -- do not continue speculating
 
 Citations:
 - Cite each source in full: (Source Name, YYYY-MM, URL)

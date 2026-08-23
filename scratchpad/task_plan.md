@@ -75,7 +75,7 @@ Use the `planning-with-files` skill to update audit logs with corrected understa
   READMEs) back to Mistral to implement, now that the confusion is resolved
   and blocking questions are answered.
 - User also voted: remove `.vibe/config.toml`'s `enabled_skills` allowlist
-  entirely (see action item #15 in self-checks/2026-08-23/action-items.md) —
+  entirely (see action item #15 in self-checks/2026-08-23/action-items.md) --
   folded into this pass since it's small and decided.
 
 ### New Finding (supersedes Finding 1/2 below in scope, adds a root cause)
@@ -83,7 +83,7 @@ Use the `planning-with-files` skill to update audit logs with corrected understa
 **The actual "mailroom and agents confusion":** AGENTS.md's "Critical Agent
 Loop Detection" section (added commit 8cda491) documents a deadlock example
 where `planning-with-files` "only exists in mailroom/". That was true when
-written, but became stale one commit earlier than its own addition —
+written, but became stale one commit earlier than its own addition --
 `planning-with-files` was copied to `skills/planning-with-files/` in commit
 55aaa89, *before* 8cda491 added the loop-detection section describing it as
 mailroom-only. The doc never reflected its own fix. Any agent reading it

@@ -1,10 +1,10 @@
-# Mistral Vibe Code — Complete Reference & Skill Builder Guide
+# Mistral Vibe Code -- Complete Reference & Skill Builder Guide
 
 > **Verified against:** `mistralai/mistral-vibe` @ `a84be0391bf93e93a4025a5e08e8032ecb587123` (2026-08-20), `pyproject.toml` version **2.24.3**
 > **Verified:** 2026-08-22, two rounds, in a Vibe Code Web sandbox reading its own source
 > **Method:** static source analysis (T2). Runtime testing was blocked by MCP/sentry import errors in the sandbox.
 
-> **Standing rule discovered during verification: trust source over docs.** Three separate claims taken from official docs turned out to disagree with the code, always in the same direction — docs describe something simpler or older. Where this file and `docs.mistral.ai` conflict, the code was checked more recently.
+> **Standing rule discovered during verification: trust source over docs.** Three separate claims taken from official docs turned out to disagree with the code, always in the same direction -- docs describe something simpler or older. Where this file and `docs.mistral.ai` conflict, the code was checked more recently.
 
 ---
 
@@ -42,13 +42,13 @@
 
 ## 1. Tool Names
 
-Builtin tools live in `vibe/core/tools/builtins/*.py`. Each is a `BaseTool` subclass; the invocable name is derived from the class name by `BaseTool.get_name()` (`vibe/core/tools/base.py:424-426`), which converts PascalCase to snake_case. Discovery is `ToolManager._iter_tool_classes_with_origin()` (`vibe/core/tools/manager.py:165-178`), which walks `search_paths` — note the plural.
+Builtin tools live in `vibe/core/tools/builtins/*.py`. Each is a `BaseTool` subclass; the invocable name is derived from the class name by `BaseTool.get_name()` (`vibe/core/tools/base.py:424-426`), which converts PascalCase to snake_case. Discovery is `ToolManager._iter_tool_classes_with_origin()` (`vibe/core/tools/manager.py:165-178`), which walks `search_paths` -- note the plural.
 
 ### Complete Builtin List
 
 `ask_user_question`, `bash`, `bash_log_file`, `bash_output`, `bash_sessions`, `bash_stdin`, `edit`, `exit_plan_mode`, `experimental_bash`, `git_bash`, `git_bash_log_file`, `git_bash_output`, `git_bash_sessions`, `git_bash_stdin`, `grep`, `powershell`, `powershell_log_file`, `powershell_output`, `powershell_sessions`, `powershell_stdin`, `read_file`, `skill`, `task`, `todo`, `web_fetch`, `web_search`, `write_file`
 
-**Scope caveat:** exhaustive for *builtins only*. `search_paths` is plural — user/project tool directories and MCP servers add names at runtime. Sufficient for translating imported skills; not a complete session inventory.
+**Scope caveat:** exhaustive for *builtins only*. `search_paths` is plural -- user/project tool directories and MCP servers add names at runtime. Sufficient for translating imported skills; not a complete session inventory.
 
 ### Translation from Claude Code
 
@@ -56,16 +56,16 @@ Builtin tools live in `vibe/core/tools/builtins/*.py`. Each is a `BaseTool` subc
 |---|---|---|
 | `Read` | `read_file` | |
 | `Write` | `write_file` | |
-| `Edit` | `edit` | **Not `search_replace`** — no such tool exists |
+| `Edit` | `edit` | **Not `search_replace`** -- no such tool exists |
 | `Grep` | `grep` | |
-| `Glob` | **— none —** | No glob/list tool. Use `grep`, or `bash` running `find`/`ls` |
+| `Glob` | **-- none --** | No glob/list tool. Use `grep`, or `bash` running `find`/`ls` |
 | `Bash` | `bash` | |
 | `Task` | `task` | |
 | `AskUserQuestion` | `ask_user_question` | Unavailable to subagents |
 
 ### Failure Mode
 
-Unrecognized names in `enabled_tools` are **silently ignored** — no match means not included in `available_tools` (`vibe/core/tools/manager.py:563-568`). A typo or a stale Claude Code name does not error; it quietly removes the capability. This is the single most dangerous behaviour in this document.
+Unrecognized names in `enabled_tools` are **silently ignored** -- no match means not included in `available_tools` (`vibe/core/tools/manager.py:563-568`). A typo or a stale Claude Code name does not error; it quietly removes the capability. This is the single most dangerous behaviour in this document.
 
 **Corollary:** a subagent whose `enabled_tools` omits `skill` cannot load skills at all.
 
@@ -89,9 +89,9 @@ A skill is a directory containing `SKILL.md` with YAML frontmatter (`vibe/core/s
 
 **Docs are wrong here.** `docs.mistral.ai` lists `./.agents/skills/` as a discovery path. It is not one in source. Use `.vibe/skills/`.
 
-### Context Residency — Progressive Disclosure Holds
+### Context Residency -- Progressive Disclosure Holds
 
-This was verified twice; round 1 got it wrong. The prompt-assembly path is `get_universal_system_prompt()` → `_get_available_skills_section()` (`vibe/core/system_prompt.py:262-290`, `345-380`).
+This was verified twice; round 1 got it wrong. The prompt-assembly path is `get_universal_system_prompt()` -> `_get_available_skills_section()` (`vibe/core/system_prompt.py:262-290`, `345-380`).
 
 **For an enabled but uninvoked skill,** the system prompt contains only:
 
@@ -117,13 +117,13 @@ Cost model that follows:
 
 `user-invocable: true` exposes the skill as a slash command. It does **not** prevent model invocation (`vibe/core/skills/models.py:62-65`, `manager.py:179-188`).
 
-**There is no per-skill equivalent of Claude Code's `disable-model-invocation`.** The only lever is `enabled_skills` / `disabled_skills` in `config.toml` — global, user-set, all-or-nothing per skill. Supports exact names, globs, and regex with an `re:` prefix (`manager.py:54-63`, `vibe_schema.py:395-405`). A non-empty `enabled_skills` acts as an allow-list.
+**There is no per-skill equivalent of Claude Code's `disable-model-invocation`.** The only lever is `enabled_skills` / `disabled_skills` in `config.toml` -- global, user-set, all-or-nothing per skill. Supports exact names, globs, and regex with an `re:` prefix (`manager.py:54-63`, `vibe_schema.py:395-405`). A non-empty `enabled_skills` acts as an allow-list.
 
 ### No Plugin System
 
 Skills are directories on disk. No marketplace, no `/plugin install` (`vibe/core/skills/manager.py`). A separate opt-in registry exists but is not a plugin system.
 
-**Installation is therefore:** clone or download → copy the skill directory into `~/.vibe/skills/` or `./.vibe/skills/` → rewrite `allowed-tools` → adjust or remove anything harness-specific.
+**Installation is therefore:** clone or download -> copy the skill directory into `~/.vibe/skills/` or `./.vibe/skills/` -> rewrite `allowed-tools` -> adjust or remove anything harness-specific.
 
 ---
 
@@ -131,11 +131,11 @@ Skills are directories on disk. No marketplace, no `/plugin install` (`vibe/core
 
 ### Definition
 
-`.toml` files in `~/.vibe/agents/` (user) or `./.vibe/agents/` (project) — `vibe/core/config/harness_files/_harness_manager.py:187-189`.
+`.toml` files in `~/.vibe/agents/` (user) or `./.vibe/agents/` (project) -- `vibe/core/config/harness_files/_harness_manager.py:187-189`.
 
 Every agent declares `agent_type` (`vibe/agents.py:1-17`):
-- `"agent"` — user-facing, selectable via `--agent <name>` or Shift+Tab
-- `"subagent"` — delegation-only, spawned by the model through the `task` tool
+- `"agent"` -- user-facing, selectable via `--agent <name>` or Shift+Tab
+- `"subagent"` -- delegation-only, spawned by the model through the `task` tool
 
 Subagents cannot be selected with `--agent`. Attempting it errors: *"Only agents of type 'agent' can be selected with --agent"* (`vibe/core/agents/manager.py:43-48`).
 
@@ -150,14 +150,14 @@ Builtin subagent `explore` is read-only (`vibe/core/agents/models.py:85-91`).
 | `active_model` | **Per-agent model routing.** The primary cost lever. |
 | `allowed_models` | Restrict which models this agent may use |
 | `providers` / `models` | Provider and model config overrides |
-| `compaction_model` | Model used for context compaction — separate from `active_model` |
+| `compaction_model` | Model used for context compaction -- separate from `active_model` |
 | `bypass_tool_permissions` | Skip permission prompts |
 | `enabled_tools` / `disabled_tools` | Tool scoping |
 | `tools` | Dict with per-tool `permission`, `allowlist`, `denylist` |
 | `system_prompt_id` | Points at a file in `~/.vibe/prompts/` |
-| `safety` | **Cosmetic only** — sets input border colour, enforces nothing (`vibe/agents.py:7-14`) |
+| `safety` | **Cosmetic only** -- sets input border colour, enforces nothing (`vibe/agents.py:7-14`) |
 
-### Subagent Isolation — Confirmed Clean
+### Subagent Isolation -- Confirmed Clean
 
 `vibe/app_server/_runtime.py:509-540`, `vibe/app_server/_sessions.py:291-345`.
 
@@ -166,7 +166,7 @@ Builtin subagent `explore` is read-only (`vibe/core/agents/models.py:85-91`).
 - Own `AGENTS.md` load, own `AgentLoop`, own `session_logger`, own stats.
 - Skills visible are those from its own (inherited-then-overridden) config.
 
-### `scratchpad_dir` — Native File Handoff
+### `scratchpad_dir` -- Native File Handoff
 
 `vibe/core/subagents.py:76-84`:
 
@@ -208,7 +208,7 @@ Text only. No structured payload, no file handles. A subagent returning a path r
 
 - **Not** limited to two files. Loads the user-level file plus **one per project root**, walking up to the trust root.
 - Additional `AGENTS.md` files are auto-discovered for lazy injection when reading files below open project roots.
-- Loaded at session start via `load_project_docs()` and **resident every turn**. Always-on cost — budget every line.
+- Loaded at session start via `load_project_docs()` and **resident every turn**. Always-on cost -- budget every line.
 
 ---
 
@@ -219,7 +219,7 @@ Text only. No structured payload, no file handles. A subagent returning a path r
 `vibe/core/hooks/models.py`, `vibe/core/hooks/config.py`, `_harness_manager.py:109-114`.
 
 - **Events:** `PRE_TOOL`, `POST_TOOL`, `POST_AGENT`
-- **Config:** `hooks.toml` — a `hooks` list with fields `name`, `type`, `command`, `match`, `timeout`, `strict`, `description`
+- **Config:** `hooks.toml` -- a `hooks` list with fields `name`, `type`, `command`, `match`, `timeout`, `strict`, `description`
 - **Location:** `.vibe/hooks.toml` in project roots, and `~/.vibe/hooks.toml`
 - **Rough Claude Code mapping:** `PRE_TOOL` ≈ `PreToolUse`, `POST_AGENT` ≈ `Stop`
 
@@ -231,7 +231,7 @@ Text only. No structured payload, no file handles. A subagent returning a path r
 | `PreToolInvocation` | above + `tool_name`, `tool_call_id`, `tool_input` |
 | `PostToolInvocation` | above + `tool_status`, `tool_output`, `tool_output_text`, `tool_error`, `duration_ms` |
 
-**No token counts are passed to hooks.** But `POST_AGENT` carries `transcript_path` — which is the route to usage data (see below).
+**No token counts are passed to hooks.** But `POST_AGENT` carries `transcript_path` -- which is the route to usage data (see below).
 
 ---
 
@@ -252,7 +252,7 @@ AgentStatsSnapshot:  steps
 PublicSession:       token_usage: TokenUsage | None
 ```
 
-Tracked **per subagent** — each has its own `AgentLoop` and stats.
+Tracked **per subagent** -- each has its own `AgentLoop` and stats.
 
 ### What `--output json` Actually Emits
 
@@ -268,10 +268,10 @@ or, with teleport, `{"history": [...], "teleportUrl": "..."}`.
 
 ### Consequences for Measurement
 
-- `--output json` → **no usage data.** Dead end.
-- Hooks → **no token counts.** Dead end.
+- `--output json` -> **no usage data.** Dead end.
+- Hooks -> **no token counts.** Dead end.
 - No `/cost` command exists.
-- **Viable route:** `POST_AGENT` hook receives `transcript_path`. Parse the transcript. This is the same technique Anthropic's `session-report` uses against Claude Code JSONL — only the file format differs.
+- **Viable route:** `POST_AGENT` hook receives `transcript_path`. Parse the transcript. This is the same technique Anthropic's `session-report` uses against Claude Code JSONL -- only the file format differs.
 
 *Unverified at runtime.* Transcript format and contents were never inspected. Confirm before building.
 
@@ -295,7 +295,7 @@ or, with teleport, `{"history": [...], "teleportUrl": "..."}`.
 
 **Docs are wrong here too.** `docs.mistral.ai` says programmatic mode falls back to `auto-approve`. Source shows it falls back to the `default_agent` config value, whose default is **`accept-edits`** (`vibe/cli/cli.py:174`, `entrypoint.py:105-124`).
 
-Less dangerous than the docs imply — `accept-edits` auto-approves file edits but still prompts for shell commands. **Still pass `--agent` explicitly when scripting.**
+Less dangerous than the docs imply -- `accept-edits` auto-approves file edits but still prompts for shell commands. **Still pass `--agent` explicitly when scripting.**
 
 ---
 
@@ -401,9 +401,9 @@ This skill does something.
 
 **Order of precedence** (first found wins for same name):
 
-1. **`skill_paths` in `config.toml`** — explicit paths
-2. **Project-level:** `./.vibe/skills/` — relative to current project
-3. **User-level:** `~/.vibe/skills/` — global skills
+1. **`skill_paths` in `config.toml`** -- explicit paths
+2. **Project-level:** `./.vibe/skills/` -- relative to current project
+3. **User-level:** `~/.vibe/skills/` -- global skills
 
 ```toml
 # config.toml - explicit skill paths
@@ -624,7 +624,7 @@ vibe -p "What skills are available?" --max-turns 1
 
 ### Pitfall 4: Silent Tool Name Errors
 
-**Remember:** Unrecognized tool names in `enabled_tools` or `allowed-tools` are **silently ignored** — no error, just removed. This is the most dangerous behavior.
+**Remember:** Unrecognized tool names in `enabled_tools` or `allowed-tools` are **silently ignored** -- no error, just removed. This is the most dangerous behavior.
 
 ---
 
@@ -708,8 +708,8 @@ Before deploying a skill:
 | Aspect | Key Insight |
 |---|---|
 | **Discovery** | `.vibe/skills/` not `.agents/skills/` |
-| **Loading** | Progressive — cheap until invoked |
-| **Tools** | Verify names — silent failures on typos |
+| **Loading** | Progressive -- cheap until invoked |
+| **Tools** | Verify names -- silent failures on typos |
 | **Invocation** | `user-invocable` only affects slash commands |
 | **Context** | Full body loaded once, stays resident |
 | **Subagents** | Fresh context, scratchpad_dir, no ask_user_question |
@@ -731,4 +731,4 @@ Before deploying a skill:
 
 - [Mistral Vibe Docs](https://docs.mistral.ai/vibe/)
 - [Source Code](https://github.com/mistralai/mistral-vibe)
-- [vibe-container repo](https://github.com/berzerk0/vibe-container) — This repo with additional migration docs
+- [vibe-container repo](https://github.com/berzerk0/vibe-container) -- This repo with additional migration docs

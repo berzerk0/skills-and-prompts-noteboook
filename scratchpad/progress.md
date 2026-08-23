@@ -118,7 +118,7 @@
 ### Session 2: 2026-08-23 (Claude Code, later same day)
 
 **Handoff:** Mistral hit sandbox file-editing errors after Session 1 and could
-not execute Phase 2/3 — produced a written plan instead (not yet implemented).
+not execute Phase 2/3 -- produced a written plan instead (not yet implemented).
 User reviewed that plan, ran a live symlink test with both agents (separate
 thread), then asked Claude Code to take over just the mailroom/archive/agents
 confusion piece using this skill, and hand the rest of Mistral's plan back to
@@ -134,7 +134,7 @@ loop the section describes.
 1. Fixed AGENTS.md's loop-detection section: kept the general remedy, replaced
    the stale example with a note that it's resolved and how to check.
 2. Added an Archive section to AGENTS.md (read-only, read-on-request, mirrors
-   the Mailroom section) — Directive 0 from Mistral's plan.
+   the Mailroom section) -- Directive 0 from Mistral's plan.
 3. Added "read on request, not on your own initiative" language to the
    Mailroom section, and a note that mailroom/skills content coexisting is
    expected, not a duplicate-content bug.
@@ -142,13 +142,13 @@ loop the section describes.
    pointer (did not duplicate full guidance, per this repo's established
    CLAUDE.md convention).
 5. Fixed the one remaining stale line in self-checks/2026-08-23/audit.md
-   (item 4 in the mailroom inventory, line ~272) — the rest of findings.md's
+   (item 4 in the mailroom inventory, line ~272) -- the rest of findings.md's
    audit.md corrections were already applied in an earlier commit.
 6. Corrected self-checks/2026-08-23/action-items.md: item #9 (archive/
-   README.md) was already done (file predates this audit) — marked Done,
+   README.md) was already done (file predates this audit) -- marked Done,
    updated summary counts.
 7. Removed `enabled_skills` allowlist from `.vibe/config.toml` per user's
-   explicit vote (from the separate symlink-test thread) — see action item
+   explicit vote (from the separate symlink-test thread) -- see action item
    #15.
 
 **Status:** Mailroom/archive/agents-confusion scope complete. Handing the
@@ -159,4 +159,39 @@ from Claude's earlier review folded in.
 
 ---
 
-*Last updated: 2026-08-23 (Session 2)*
+### Session 3: 2026-08-23 (Claude Code, same day, before handoff)
+
+Before sending the handoff prompt, user flagged that Mistral pushed a
+branch (`vibe/errors-2026-08-24`) documenting file-editing failures and
+proposed workarounds, and asked Claude to address the real problem first.
+
+**What Mistral found (correct diagnosis, wrong framing):** its edit tool
+fails on files containing literal Unicode em-dashes/en-dashes/arrows
+(confirmed: `search_replace` string matching breaks on `—` etc.).
+Mistral's branch treats this as something Vibe must work around (unicode-
+normalizing wrapper scripts, backup-and-retry procedures, ~1700 lines
+across ERROR_LOG_2026-08-24.md, FILE_EDITING_WORKAROUNDS.md,
+RECOVERY_PROCEDURE.md, audit_report_2026.md, edit_file.py).
+
+**Actual root cause:** these characters shouldn't have been in the files
+at all. AGENTS.md already states "Use all ASCII characters for max
+portability (-- != -)" - the convention existed, it just was never
+enforced. Verified via a repo-wide scan: 30 files outside mailroom/archive
+contained em-dashes, en-dashes, or arrows, including AGENTS.md itself (in
+the very sentence stating the rule).
+
+**Fix applied:** normalized all 30 files to ASCII (-- for em-dash, - for
+en-dash, -> and <- for arrows), excluding mailroom/ and archive/ (read-only,
+left untouched deliberately). This fixes the problem at the source instead
+of requiring Vibe to carry workaround scripts for content that should not
+have needed workarounds.
+
+**Recommendation on the vibe/errors-2026-08-24 branch:** don't merge the
+workaround scripts as-is - they're band-aids for a now-fixed problem and
+would add clutter. The diagnostic docs (ERROR_LOG especially) are a useful
+record of a real bug and its symptoms; worth keeping somewhere if the user
+wants the paper trail, but not as active tooling.
+
+---
+
+*Last updated: 2026-08-23 (Session 3)*

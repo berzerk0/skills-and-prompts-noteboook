@@ -42,11 +42,11 @@ Work through these 6 types of questions, picking the most relevant ones:
 ## Rules
 
 - **Be tough but constructive.** Every challenge should come with a reason why it matters.
-- **Explain WHY you're asking each question** — say what risk or gap the question surfaces.
+- **Explain WHY you're asking each question** -- say what risk or gap the question surfaces.
 - **Focus on the 3-5 most important challenges**, not an exhaustive list. Prioritize by impact.
 - **After challenging, offer to help strengthen the weak points** you've identified.
 - **End with:** *"The thing I'd be least confident defending to [relevant stakeholder] is: ___"*
 
 ## Interaction with solus-skill / pilot-preset
 
-When run under solus compression, keep the 3-5 challenges but compress each to: question → one-line risk it surfaces. Do not compress away the "why it matters" clause or the closing least-confident-defense line — both are load-bearing, not fluff.
+When run under solus compression, keep the 3-5 challenges but compress each to: question -> one-line risk it surfaces. Do not compress away the "why it matters" clause or the closing least-confident-defense line -- both are load-bearing, not fluff.

@@ -6,11 +6,11 @@ description: Two-phase skill for getting structured feedback on prompts, guideli
 
 # Prompt Committee
 
-Two phases, independent — use either alone. Re-run Phase 2 each turn if feedback arrives in multiple turns.
+Two phases, independent -- use either alone. Re-run Phase 2 each turn if feedback arrives in multiple turns.
 
 ---
 
-## Phase 1 — Outbound
+## Phase 1 -- Outbound
 
 Extract from context: artifact type, what changed since last review, what it runs on, what feedback is wanted. Ask if unclear.
 
@@ -18,7 +18,7 @@ Draft structure:
 
 ```
 <context>
-[1–2 sentences: what artifact is and what it does]
+[1-2 sentences: what artifact is and what it does]
 </context>
 
 <changes>
@@ -26,7 +26,7 @@ Draft structure:
 </changes>
 
 <request>
-[3–5 focused questions. Default if unspecified:
+[3-5 focused questions. Default if unspecified:
 - Logic gaps or contradictions
 - Ambiguous instructions
 - Missing edge cases
@@ -51,7 +51,7 @@ End output with:
 
 ---
 
-## Phase 2 — Inbound
+## Phase 2 -- Inbound
 
 Strip all praise first. Identify distinct items: suggested change, flagged issue, question back to user, design tradeoff.
 
@@ -65,21 +65,21 @@ USER CHOICE
 - [item]: [conflict, design decision, contradictory feedback, unanswered question, or style/scope tradeoff]
 
 DEFER
-- [item]: [valid but conditional — revisit if X]
+- [item]: [valid but conditional -- revisit if X]
 
 REJECT
 - [item]: [misunderstands artifact purpose, adds bloat, or solves non-problem]
 
 NO ACTION NEEDED
-- [reason — if nothing actionable after praise stripped]
+- [reason -- if nothing actionable after praise stripped]
 ```
 
 Triage rules:
-- **IMPLEMENT** — unambiguous, aligns with artifact goals, no tradeoffs
-- **USER CHOICE** — requires a decision: conflicts, contradictions, unanswered questions, or style/compression/scope preference (artifact still works — user preference only)
-- **DEFER** — valid but conditional or non-urgent
-- **REJECT** — misunderstands purpose, adds bloat, solves non-problem
-- **NO ACTION NEEDED** — nothing actionable remains after praise stripped
+- **IMPLEMENT** -- unambiguous, aligns with artifact goals, no tradeoffs
+- **USER CHOICE** -- requires a decision: conflicts, contradictions, unanswered questions, or style/compression/scope preference (artifact still works -- user preference only)
+- **DEFER** -- valid but conditional or non-urgent
+- **REJECT** -- misunderstands purpose, adds bloat, solves non-problem
+- **NO ACTION NEEDED** -- nothing actionable remains after praise stripped
 - All-IMPLEMENT is valid. Don't manufacture DEFER/REJECT to balance the list.
 - Omit empty category headers from output.
 

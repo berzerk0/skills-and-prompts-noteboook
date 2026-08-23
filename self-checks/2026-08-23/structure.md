@@ -192,7 +192,7 @@ The repo doesn't use symlinks, which is appropriate since:
 3. **Add README.md to archive/** - Document purpose and guidelines
 
 ### Future Considerations
-1. **Consider adding symlinks** for `.vibe/skills/` → `skills/` (if agents support it)
+1. **Consider adding symlinks** for `.vibe/skills/` -> `skills/` (if agents support it)
    - Current: Agents copy skills manually
    - Alternative: Symlink could auto-populate
    - Risk: May not work across all systems

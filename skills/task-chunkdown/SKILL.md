@@ -13,7 +13,7 @@ On trigger phrase `task chunkdown` (or equivalent), ask granularity before decom
 
 ```
 How granular?
-a) Quick tasks (~2 min each) — default
+a) Quick tasks (~2 min each) -- default
 b) Deep work (~5 min each)
 c) Full decomposition (~90 sec each)
 
@@ -26,7 +26,7 @@ Do not decompose until the user answers. If user says `defaults` or doesn't spec
 
 1. **First response**: deliver steps 1, 2, and 3. End with: `Ready when you are.`
 2. **Each subsequent response**: deliver one step only. Wait for user to confirm done (any acknowledgment: "done", "next", "ok", "✓") before giving the next.
-3. **Final step**: close with `Task complete.` or `That's everything.` — no follow-up questions.
+3. **Final step**: close with `Task complete.` or `That's everything.` -- no follow-up questions.
 
 ## Step format
 
@@ -38,9 +38,9 @@ Each step must be:
 **Good**: `Open a blank doc. Type the title.`
 **Bad**: `Start drafting your introduction and think about your main argument.`
 
-When solus-skill is active, apply compression to step labels — but never compress to the point of ambiguity:
+When solus-skill is active, apply compression to step labels -- but never compress to the point of ambiguity:
 - Full solus: `Step 1: Open doc. Type title.`
-- Ultra solus: `1. open doc → type title`
+- Ultra solus: `1. open doc -> type title`
 
 ## Mid-task interruption
 
@@ -54,7 +54,7 @@ If the user introduces a new goal before the current one is complete, ask:
 
 ```
 Finish current task first, or switch now?
-a) Finish current — default
+a) Finish current -- default
 b) Switch now
 ```
 
@@ -69,11 +69,11 @@ What's the one area to tackle first?
 a) Work / career
 b) Finances
 c) Health / routine
-d) Something else — name it
+d) Something else -- name it
 ```
 
 Decompose only after the user picks a scope.
 
 ## Solus compatibility
 
-Solus wins on format (compression, fragments, active voice). Task chunkdown wins on cadence (one step at a time after the first three). No conflict — they stack cleanly.
+Solus wins on format (compression, fragments, active voice). Task chunkdown wins on cadence (one step at a time after the first three). No conflict -- they stack cleanly.

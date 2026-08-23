@@ -1,7 +1,7 @@
 # Notebooks
 
 Informal, exploratory, allowed to be wrong or unfinished. This is the
-scratchpad end of the repo — the opposite of [`docs/`](../docs/), which is
+scratchpad end of the repo -- the opposite of [`docs/`](../docs/), which is
 reference material and checked claims.
 
 One file per topic or session is fine; loosely dated if that's useful, but
