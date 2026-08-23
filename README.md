@@ -62,12 +62,12 @@ This repository serves as a **shared workspace** for both **Mistral Vibe Code** 
    ├── skills/                      # Portable skill LIBRARY
    │   ├── ask-questions-if-underspecified/
    │   ├── challenge-my-thinking/
-   │   ├── code-review/            # Code review (library version)
    │   ├── cross-agent-compat/      # Cross-agent compatibility
    │   ├── import-memory/          # Anthropic example (Apache-2.0)
+   │   ├── notebooklm-agent/        # NotebookLM expert agent
+   │   ├── search-helpers/          # Structured search guidance
    │   ├── prompt-committee/
    │   ├── prompt-pipeline/
-   │   ├── security-audit/         # Security audit (library version)
    │   ├── skill-creator/          # Anthropic example (Apache-2.0)
    │   ├── skill-extractor/
    │   ├── task-chunkdown/
@@ -205,13 +205,11 @@ Informal, exploratory notes, scratch work, and session logs. Content here is **a
 ### Code Review
 - **Vibe:** `.vibe/skills/code-review/SKILL.md`
 - **Claude:** `.claude/commands/code-review.md`
-- **Library:** `skills/code-review/SKILL.md`
 - **Purpose:** Comprehensive code review with subagent parallelization
 
 ### Security Audit
 - **Vibe:** `.vibe/skills/security-audit/SKILL.md`
 - **Claude:** `.claude/commands/security-audit.md`
-- **Library:** `skills/security-audit/SKILL.md`
 - **Purpose:** Security scanning for vulnerabilities, secrets, and misconfigurations
 
 ### Vibe Internals
