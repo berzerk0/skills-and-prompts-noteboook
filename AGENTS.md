@@ -78,3 +78,23 @@ organized here — go to `cl-repo` for the full verified reference.
 
 Claude Code's own instructions file is `CLAUDE.md` at repo root — it just
 points back here so both tools read one shared source of truth.
+
+---
+
+## Mailroom (Read-Only Staging Area)
+
+The `mailroom/` directory is a **read-only** staging area for content to be reviewed,
+remixed, harvested, and integrated into the main repository. **Agents MUST NEVER write
+to this directory** — it is for human-maintained drop-offs only.
+
+**What to do with mailroom content:**
+- **Review** for quality, relevance, and compatibility
+- **Remix** — adapt for our conventions and workflows
+- **Harvest** — extract useful patterns, skills, or documentation
+- **Integrate** — move validated content to appropriate locations:
+  - Skills: `skills/` (library) or `.vibe/skills/` / `.claude/skills/` (live)
+  - Documentation: `docs/`
+  - Agents: `.vibe/agents/` or `.claude/agents/`
+
+**See:** [`mailroom/README.md`](mailroom/README.md) for complete processing guidelines,
+current contents inventory, and priority list.
