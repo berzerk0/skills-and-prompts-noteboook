@@ -25,3 +25,15 @@ established in `self-checks/2026-08-23/action-items.md`.
 - `vibe/implementation-roadmap-4105aff` (couscous): stale — its real content
   already landed on `main` via the PR #9 merge commit; the unmerged branch tip
   is a stray commit that would fight with later fixes. Recommended for deletion.
+- `vibe/errors-2026-08-24` (notebook): done, never intended to merge. Its
+  useful content (near-incident report, corrected `ERROR_LOG_2026-08-24.md`
+  and `FILE_EDITING_WORKAROUNDS.md`, the external-comms guardrail) already
+  landed on `main` via merge commit `4c040aa`. The three commits still unique
+  to the branch — `self-checks/2026-08-24/CLAUDE_PROMPT_VERSION_INVESTIGATION.md`,
+  `VIBe_CLAUDE_VERSION_RECONCILIATION.md`, and
+  `docs/vibe/TOOL_VERSION_INCONSISTENCY_AUDIT.md` — are the fabricated
+  three-tier-architecture investigation already reviewed and rejected in
+  `self-checks/2026-08-24/CLAUDE_RESPONSE_VERSION_RECONCILIATION.md` (on
+  `main`). No PR was ever opened for this branch. Recommended for deletion —
+  the branch itself already says "DO NOT MERGE TO MAIN," and that response
+  document is the permanent record of why.
