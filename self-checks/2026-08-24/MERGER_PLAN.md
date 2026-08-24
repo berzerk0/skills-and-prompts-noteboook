@@ -36,17 +36,24 @@ not as its own PR.
 
 ### 1. Does this repo adopt Pi Agent as a third supported tool?
 
-`COMPATIBILITY.md` and its `README.md` are written for **three** tools:
-Claude Code, Vibe Code, and **Pi Agent** (`earendil-works/pi`). This repo's
-`AGENTS.md` currently frames everything as dual-agent (Vibe + Claude Code)
-only — Pi Agent doesn't appear anywhere else in this repo. Bringing
-`COMPATIBILITY.md` in as-is would silently introduce a third tool this repo
-otherwise has zero support, skills, or docs for.
-
-Options: (a) adopt Pi Agent as a third documented tool going forward, (b)
-strip Pi Agent content out during the `COMPATIBILITY.md` PR and keep this
-repo dual-agent, (c) keep Pi Agent rows but mark them explicitly
-out-of-scope/unsupported here.
+**Decided: adopt, but mark it explicitly untested at first.** Pi Agent
+becomes a third documented tool alongside Claude Code and Vibe Code, but its
+content (in `COMPATIBILITY.md`, and anywhere else it shows up going forward)
+carries an explicit caveat that it hasn't been verified the way
+`docs/vibe/internals.md` verified Vibe — no pinned-commit source check, no
+in-repo Pi Agent skill or agent to test against, unlike Vibe/Claude Code
+which both have live examples in this repo. Concretely, when
+`COMPATIBILITY.md` is processed:
+- Keep the Pi Agent rows/sections rather than stripping them.
+- Add a visible "unverified / untested" marker on the Pi Agent material
+  specifically (not the whole doc) — e.g. the same kind of caveat
+  `docs/vibe/internals.md` §8 "Known Unverified" uses, but for the entire
+  tool rather than isolated facts.
+- `AGENTS.md`'s framing (currently dual-agent: Vibe + Claude Code) needs a
+  follow-up update once Pi Agent has *any* real footprint here (a skill,
+  an agent config, or a doc) — not before. Adopting it as a documented
+  target doesn't retroactively make this a three-agent repo on its own;
+  that happens when something Pi-Agent-specific actually lands.
 
 ### 2. Does `mailroom/` deserve to keep existing, structurally?
 
