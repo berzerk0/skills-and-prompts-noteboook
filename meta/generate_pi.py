@@ -25,7 +25,6 @@ REPO_ROOT = Path(__file__).parent.parent
 # Directories
 AGENTS_DIR = REPO_ROOT / "agents"
 PI_AGENTS_DIR = REPO_ROOT / ".pi" / "agents"
-PI_SKILLS_DIR = REPO_ROOT / ".pi" / "skills"
 
 # Tool names for Pi Agent
 PI_TOOLS = ["read", "write", "edit", "bash", "grep", "find", "ls"]
@@ -136,55 +135,45 @@ You are a {name} assistant. Use the {data.get('implementation_module', f'{name}_
     return md_content
 
 
-def generate_skill_md(skill_name: str, data: dict) -> str:
-    """Generate portable SKILL.md file for Pi Agent."""
-    name = data.get('name', skill_name)
-    description = data.get('description', '')
-    license = data.get('license', 'MIT')
-    compatibility = data.get('compatibility', ['claude', 'pi', 'vibe'])
-    
-    # Format compatibility as YAML array
-    compat_str = "\n  - " + "\n  - ".join(compatibility) if compatibility else "[]"
-    
-    # Build the markdown content
-    md_content = f"""---
-name: {name}
-description: {description}
-license: {license}
-compatibility: {compat_str}
----
-
-{description}
-
-"""
-    
-    # Add implementation reference
-    impl_module = data.get('implementation_module', f'{name}_skill.py')
-    impl_func = data.get('implementation_function', 'main')
-    if impl_module:
-        md_content += f"Implementation: `from {impl_module.replace('.py', '')} import {impl_func}`\n"
-    
-    # Add usage section
-    triggers = data.get('triggers', [])
-    if triggers:
-        md_content += "\n## When to Use\n\n"
-        for trigger in triggers:
-            md_content += f"- {trigger}\n"
-    
-    # Add output format if specified
-    output_format = data.get('output_format', '')
-    if output_format:
-        md_content += f"\n## Output Format\n\n{output_format}\n"
-    
-    return md_content
-
-
 def write_file(path: Path, content: str) -> None:
-    """Write content to a file, creating parent directories if needed."""
+    """Write content to a file. Refuses to write through a symlink.
+    
+    Never write through a symlink: .claude/skills, .pi/skills, .vibe/skills
+    are symlink farms pointing at the canonical skills/ library. Writing
+    through one silently overwrites the canonical file (see: the 2026-08-24
+    incident that flattened all 14 SKILL.md files to stubs).
+    Generators must only write per-agent wrapper files, never skill bodies.
+    """
+    # Never write through a symlink: .claude/skills, .pi/skills, .vibe/skills
+    # are symlink farms pointing at the canonical skills/ library. Writing
+    # through one silently overwrites the canonical file (see: the 2026-08-24
+    # incident that flattened all 14 SKILL.md files to stubs).
+    resolved = path.resolve()
+    canonical_skills = (REPO_ROOT / "skills").resolve()
+    
+    # Check if resolved path is inside canonical skills directory
+    try:
+        resolved.relative_to(canonical_skills)
+        raise RuntimeError(
+            f"Refusing to write {path} -- it resolves to {resolved}, "
+            f"inside the canonical skills/ library. Generators must only "
+            f"write per-agent wrapper files, never skill bodies."
+        )
+    except ValueError:
+        # Not inside canonical skills, check parent symlinks
+        pass
+    
+    # Check if any parent is a symlink
+    for parent in path.parents:
+        if parent.is_symlink():
+            raise RuntimeError(
+                f"Refusing to write {path} -- parent {parent} is a symlink."
+            )
+    
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, 'w') as f:
         f.write(content)
-    print(f"  ✓ Written: {path}")
+    print(f"  \u2713 Written: {path}")
 
 
 def generate_skill(skill_name: str) -> None:
@@ -194,7 +183,7 @@ def generate_skill(skill_name: str) -> None:
     try:
         data = load_yaml(skill_name)
     except FileNotFoundError as e:
-        print(f"  ⚠ Skipping: {e}")
+        print(f"  \u26a0 Skipping: {e}")
         return
     
     # Generate agent markdown
@@ -202,14 +191,7 @@ def generate_skill(skill_name: str) -> None:
     agent_path = PI_AGENTS_DIR / f"{skill_name}.md"
     write_file(agent_path, agent_content)
     
-    # Generate skill markdown
-    skill_content = generate_skill_md(skill_name, data)
-    skill_dir = PI_SKILLS_DIR / skill_name
-    skill_path = skill_dir / "SKILL.md"
-    write_file(skill_path, skill_content)
-    
-    print(f"  ✓ Generated agent: {agent_path}")
-    print(f"  ✓ Generated skill: {skill_path}")
+    print(f"  \u2713 Generated agent: {agent_path}")
 
 
 def main():
@@ -231,7 +213,6 @@ def main():
     
     # Ensure output directories exist
     PI_AGENTS_DIR.mkdir(parents=True, exist_ok=True)
-    PI_SKILLS_DIR.mkdir(parents=True, exist_ok=True)
     
     if args.skill:
         # Generate specific skill
@@ -248,7 +229,7 @@ def main():
             skill_name = yaml_file.stem
             generate_skill(skill_name)
         
-        print("\n✓ All Pi Agent files generated")
+        print("\n\u2713 All Pi Agent files generated")
     else:
         parser.print_help()
 
