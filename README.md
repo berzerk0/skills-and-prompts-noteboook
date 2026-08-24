@@ -23,7 +23,6 @@ This repository stores **portable skills** and **subagent configurations** that 
 | Skill | Description | Type | Compatibility |
 |-------|-------------|------|---------------|
 | **[challenge-my-thinking](skills/challenge-my-thinking/SKILL.md)** | Actively challenges assumptions, plays devil's advocate | Thinking Framework | \u2705 Claude, Pi, Vibe |
-| **[codeberg](skills/codeberg/SKILL.md)** | Codeberg API operations for repository management and issue tracking | Repository Management | \u2705 Claude, Pi, Vibe |
 | **[clarify](skills/clarify/SKILL.md)** | Ask clarifying questions when task is underspecified | Thinking Framework | \u2705 Claude, Pi, Vibe |
 | **[escalate](skills/escalate/SKILL.md)** | Create escalation brief when stuck | Workflow | \u2705 Claude, Pi, Vibe |
 | **[modern-python](skills/modern-python/SKILL.md)** | Configures Python projects with modern tooling (uv, ruff, ty) | Configuration | \u2705 Claude, Pi, Vibe |
@@ -46,7 +45,6 @@ This repository stores **portable skills** and **subagent configurations** that 
 Skills are **automatically discoverable**. Just ask:
 
 - **"What time is it?"** → Triggers `timestamp` skill
-- **"List my Codeberg repos"** → Triggers `codeberg` skill
 - **"Challenge my thinking on this"** → Triggers `challenge-my-thinking` skill
 - **"Audit this repository"** → Triggers `repo-auditor` skill
 - **"Validate the skills"** → Triggers `skill-validator` skill
@@ -93,14 +91,13 @@ These directories are **symlink farms** pointing to the canonical `skills/` dire
 ├── 
 ├── skills/                      # Portable skill definitions (Agent Skills spec)
 │   ├── timestamp/SKILL.md
-│   ├── codeberg/SKILL.md
 │   ├── challenge-my-thinking/SKILL.md
 │   ├── repo-auditor/SKILL.md
-│   └── skill-validator/SKILL.md
+│   ├── skill-validator/SKILL.md
+│   └── ... (13 skills total, see table above)
 ├── 
 ├── *.py                         # Shared Python implementations
-│   ├── timestamp_skill.py
-│   └── codeberg_connector.py
+│   └── timestamp_skill.py
 ├── 
 ├── meta/                        # Generation scripts for agent configs
 │   ├── generate_all.py
@@ -119,32 +116,51 @@ These directories are **symlink farms** pointing to the canonical `skills/` dire
 │       └── MAINTENANCE.md
 ├── 
 ├── .claude/                     # Claude Code configurations
-│   ├── agents/                  # Subagent definitions
+│   ├── agents/                  # Subagent definitions (one .md per skill)
 │   │   ├── timestamp.md
-│   │   ├── codeberg.md
 │   │   ├── challenge-my-thinking.md
 │   │   ├── repo-auditor.md
-│   │   └── skill-validator.md
-│   └── skills/                  # → symlink to ../skills/
+│   │   └── ... (13 total, one per skill)
+│   └── skills/                  # → symlinks to ../skills/<name>
 ├── 
 ├── .pi/                         # Pi Agent configurations
-│   ├── agents/                  # Subagent definitions
+│   ├── agents/                  # Subagent definitions (one .md per skill)
 │   │   ├── timestamp.md
-│   │   ├── codeberg.md
 │   │   ├── challenge-my-thinking.md
 │   │   ├── repo-auditor.md
-│   │   └── skill-validator.md
-│   └── skills/                  # → symlink to ../skills/
+│   │   └── ... (13 total, one per skill)
+│   └── skills/                  # → symlinks to ../skills/<name>
 └── 
 └── .vibe/                       # Vibe Code configurations
     ├── agents/                  # Subagent definitions
     │   ├── timestamp.toml
-    │   ├── codeberg.toml
     │   ├── challenge-my-thinking.toml
     │   ├── repo-auditor.toml
-    │   └── skill-validator.toml
-    └── skills/                  # → symlink to ../skills/
+    │   ├── ... (13 total, one per skill)
+    │   └── architect.toml, escalation-fixer.toml, implementer.toml,
+    │       reviewer.toml, router.toml, transcription.toml
+    │       (6 orchestration subagents -- Vibe-only, no portable skill;
+    │       see Subagent Orchestration below)
+    └── skills/                  # → symlinks to ../skills/<name>
 ```
+
+### Subagent Orchestration (Vibe-only)
+
+`.vibe/agents/` also has six subagents with no corresponding `skills/` entry --
+they're pure delegation targets, not portable skills, so Claude Code and Pi
+Agent don't have equivalents:
+
+| Subagent | Purpose |
+|----------|---------|
+| `router` | Primary entry point. Routes tasks to the right specialized subagent based on intent, domain, and complexity. |
+| `architect` | Architecture and design tasks: broad codebase understanding, final review, design judgment. |
+| `implementer` | Implements prose-spec tasks. |
+| `reviewer` | Reviews prose-spec implementations: mid-tier floor tasks, multi-file coordination, debugging. |
+| `escalation-fixer` | Fix-loop escalation for tasks that failed on a cheaper model -- one tier up. |
+| `transcription` | Isolated, mechanical single-file tasks with a clear spec (1-2 files). |
+
+See `docs/MODEL_SELECTION_STRATEGY.md` and `docs/SUBAGENT_RETURN_CONVENTION.md`
+for how these fit together.
 
 ---
 
@@ -240,12 +256,16 @@ python meta/generate_all.py --all
 
 | Document | Purpose |
 |----------|---------|
-| **[AGENTS.md](AGENTS.md)** | Instructions for agents working in this repo |
+| **[AGENTS.md](AGENTS.md)** | Instructions for agents working in this repo (the live one -- loaded at session start) |
+| **[docs/AGENTS.md](docs/AGENTS.md)** | Older, shorter "Agent Manifest" -- predates the root `AGENTS.md` above and has not been reconciled with it. Read the root one; this one needs a keep-or-remove decision. |
 | **[SKILL_DESIGN.md](docs/SKILL_DESIGN.md)** | How to design portable skills |
 | **[cross-agent-primitives.md](docs/cross-agent-primitives.md)** | Tool name standardization research |
 | **[STANDARDS.md](docs/multi-agent/STANDARDS.md)** | Official standards reference |
 | **[COMPATIBILITY.md](docs/multi-agent/COMPATIBILITY.md)** | Cross-agent compatibility guide |
 | **[GAPS.md](docs/multi-agent/GAPS.md)** | Undocumented gaps in multi-agent standards |
+| **[MAINTENANCE.md](docs/multi-agent/MAINTENANCE.md)** | How to keep the standards docs current |
+| **[MODEL_SELECTION_STRATEGY.md](docs/MODEL_SELECTION_STRATEGY.md)** | Model tier strategy behind the Vibe orchestration subagents |
+| **[SUBAGENT_RETURN_CONVENTION.md](docs/SUBAGENT_RETURN_CONVENTION.md)** | JSON return convention for subagents |
 
 ---
 
