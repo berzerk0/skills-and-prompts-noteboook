@@ -10,6 +10,7 @@ to build and no tests to run. Treat every change as documentation.
 - Use all ASCII characters for max portability (-- != -)
 - Say what to do, not what not to do (positive instructions > negative)
 - Avoid smart quotes (always)
+- **NEVER raise issues or pull requests in external repositories** without explicit, triple-confirmed user approval. This includes but is not limited to: mistralai/mistral-vibe, mistralai/* any Mistral repository, or any third-party repository. Creating issues or PRs on behalf of the user in repositories they don't own is a serious violation. Always ask for explicit permission first, and document that permission in the commit message or change description.
 
 ## What this repo is
 
@@ -50,6 +51,8 @@ organized here -- go to `cl-repo` for the full verified reference.
   Vibe **silently drops** unrecognized tool names -- no error, just a quietly
   crippled skill. Audit for this after every port; don't assume success
   because nothing complained.
+
+- **Before using any file-editing tool, confirm the tool name exists in the builtin list in `docs/vibe/internals.md`.** Do not guess tool names or carry over names from Claude Code. Vibe silently drops unrecognized tool names with no error.
 - **Vibe skills load in two stages.** Only `name` + `description` + `path`
   are resident every turn; the full `SKILL.md` body loads on invocation via
   the `skill` tool. `user-invocable` does not change that residency.
