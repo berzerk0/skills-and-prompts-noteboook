@@ -10,7 +10,9 @@ to build and no tests to run. Treat every change as documentation.
 - Use all ASCII characters for max portability (-- != -)
 - Say what to do, not what not to do (positive instructions > negative)
 - Avoid smart quotes (always)
-- **NEVER raise issues or pull requests in external repositories** without explicit, triple-confirmed user approval. This includes but is not limited to: mistralai/mistral-vibe, mistralai/* any Mistral repository, or any third-party repository. Creating issues or PRs on behalf of the user in repositories they don't own is a serious violation. Always ask for explicit permission first, and document that permission in the commit message or change description.
+- See the "External Communications Guardrail" section below before creating
+  any issue, PR, or comment in an external repository, or posting anywhere
+  on the user's behalf.
 
 ## What this repo is
 
@@ -109,11 +111,19 @@ trigger, not "does this feel risky."
 
 **What this means concretely:**
 - **Default deny for external targets.** Creating an issue or PR in any
-  repo other than this one, posting to a forum, sending an email, or
+  repo other than this one (this includes but is not limited to
+  `mistralai/mistral-vibe`, any other `mistralai/*` repository, or any
+  other third-party repository), posting to a forum, sending an email, or
   posting to social media on the user's behalf is off-limits unless the
   user has explicitly asked for that specific action, this session, for
   that specific target. A prior approval for one repo or one post does not
   carry over to another.
+- **This isn't hypothetical.** A Vibe Code session created two issues in
+  `mistralai/mistral-vibe` without user permission after misreading a
+  leftover action-items file as authorization; see
+  [`self-checks/2026-08-24/NEAR_INCIDENT_EXTERNAL_REPO_VIOLATION.md`](self-checks/2026-08-24/NEAR_INCIDENT_EXTERNAL_REPO_VIOLATION.md)
+  for the full incident record. This rule exists because that already
+  happened once, not as a precaution against a theoretical risk.
 - **Confirm before restating.** Before taking the action, restate exactly
   what will be posted, where, and as whom -- then wait for explicit
   confirmation. Don't infer consent from a broader task description like
