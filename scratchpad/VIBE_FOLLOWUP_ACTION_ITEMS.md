@@ -228,12 +228,66 @@ The unicode normalization logic is technically sound. However:
 
 ## Research Backing
 
-All findings above were validated against:
-- Repo docs: `docs/vibe/internals.md`, `docs/cross-tool-notes.md`,
-  `skills/vibe-internals/SKILL.md`
-- Official sources: docs.mistral.ai, mistral-vibe GitHub issue tracker
-- Specific issue: github.com/mistralai/mistral-vibe/issues/667 (write_file
-  context-overflow, confirmed real, affects v1.2.3 and v2.7.2)
+### Repo docs (source-verified, high confidence)
+
+- `docs/vibe/internals.md` -- complete builtin tool list, verified against
+  `mistralai/mistral-vibe@a84be03` (v2.24.3, 2026-08-22) via static source
+  analysis. Confirms `edit` exists, `search_replace` does not.
+- `docs/cross-tool-notes.md` -- tool translation table, same source.
+- `skills/vibe-internals/SKILL.md` -- skill version of the same reference.
+
+Note: these were verified against source code, not docs.mistral.ai. Where the
+two disagree, source has been found to be more accurate (three documented
+discrepancies in the internals file itself).
+
+### Official Mistral sources (web search, egress-blocked so pages not fully fetched)
+
+URLs surfaced in search results. Claude Code could not fetch the full page
+content due to proxy restrictions -- treat these as starting points, not
+verified reads. Vibe: you may be able to fetch these directly.
+
+**Vibe Code overview (file operations)**
+https://docs.mistral.ai/vibe/code/overview
+Confirmed from search snippet: lists `read_file`, `write_file`, `edit` as the
+file operation tools. No `search_replace` mentioned.
+
+**CLI reference**
+https://docs.mistral.ai/vibe/code/cli/work-with-cli
+https://docs.mistral.ai/vibe/code/cli/configuration
+
+**Safety, approvals and permissions**
+https://docs.mistral.ai/vibe/code/safety-approvals-permissions
+Relevant to understanding what happens when tools are called outside CWD.
+
+**Sandbox environment (Vibe Code Web)**
+https://docs.mistral.ai/vibe/code/vibe-code-web/sandbox-environment
+Relevant to the `/workspace/github__...` path format confirmed in the error log.
+
+**write_file tool prompt (v1.0.4 source)**
+https://github.com/mistralai/mistral-vibe/blob/v1.0.4/vibe/core/tools/builtins/prompts/write_file.md
+May clarify intended write_file behavior vs. the context-overflow bug.
+
+### Confirmed GitHub issues (found via web search, not fetched)
+
+**Issue #667 -- write_file context-overflow silently drops content**
+https://github.com/mistralai/mistral-vibe/issues/667
+Confirmed real from search snippet: partial file rewrite reported as success,
+affects v1.2.3 and v2.7.2. This is the bug the workaround doc walks into.
+
+**Issue #545 -- Skills not loading in Vibe 2.7.0**
+https://github.com/mistralai/mistral-vibe/issues/545
+Confirmed real from search snippet: 0 skills detected despite correct config,
+no errors logged. Relevant if the error session ran on v2.7.0.
+
+**Issue tracker (browse for unknown-tool runtime behavior)**
+https://github.com/mistralai/mistral-vibe/issues
+Vibe: search here for any existing report on what Vibe returns when an unknown
+tool name is invoked at runtime. That answer resolves the Bug A uncertainty.
+
+**CHANGELOG (for version-specific behavior)**
+https://github.com/mistralai/mistral-vibe/blob/main/CHANGELOG.md
+Search snippet confirmed: `write_file` behavior changes and unicode stream
+fixes appear here. Useful for correlating session version to known bugs.
 
 Full research notes: `scratchpad/VALIDATION_RESEARCH.md` (scratchpad dir,
 session-local, may not be committed)
