@@ -11,7 +11,7 @@
 **Current State:**
 - ✅ Can READ all files reliably
 - ✅ Can CREATE new files reliably  
-- ❌ Cannot MODIFY existing files with `search_replace`
+- ❌ Cannot MODIFY existing files with ``edit``
 - ⚠️ Can MODIFY with workarounds (python scripts)
 
 **Workarounds Available:**
@@ -32,8 +32,8 @@ read_file: AGENTS.md
 # Test 2: Can we create files?
 write_file: /tmp/test_file.md, "# Test\nThis is a test file."
 
-# Test 3: Can we use search_replace? (Expected: FAIL)
-search_replace: {"file_path": "AGENTS.md", "content": [{"old_str": "it is for human-maintained drop-offs only.", "new_str": "it is for human-maintained drop-offs only. TEST"}]}
+# Test 3: Can we use `edit`? (Expected: FAIL)
+`edit`: {"file_path": "AGENTS.md", "content": [{"old_str": "it is for human-maintained drop-offs only.", "new_str": "it is for human-maintained drop-offs only. TEST"}]}
 
 # Test 4: Can we use python workaround?
 bash: "python3 scratchpad/edit_file.py AGENTS.md 'it is for human-maintained drop-offs only.' 'it is for human-maintained drop-offs only. TEST'"
@@ -272,7 +272,7 @@ bash: "cp /tmp/*.backup . 2>/dev/null || echo 'No backups found'"
 
 | Task | Command | Status |
 |------|---------|--------|
-| Verify current state | `read_file`, `write_file`, `search_replace` tests | ⬜ |
+| Verify current state | `read_file`, `write_file`, ``edit`` tests | ⬜ |
 | Restore from backups | `git checkout .` or `cp *.backup` | ⬜ |
 | Test workarounds | python scripts, bash commands | ⬜ |
 | Implement Directive 0 | archive/mailroom clarification | ⬜ |
