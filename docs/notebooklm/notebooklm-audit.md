@@ -12,7 +12,7 @@ Workflow context:
 3. Audit phase (this guide): Configure Chat cleared, audit prompt loaded. Chat history preserved. Short audit trigger submitted. Fully corrected report output.
 4. Session reset: chat history deleted before running the next topic.
 
-For delivery architecture, prompt structure basics, and output quality principles that apply equally to report and audit prompts, see the NotebookLM Report Prompt Improvement Guide.
+For delivery architecture, prompt structure basics, and output quality principles that apply equally to report and audit prompts, see the notebooklm-report.md.
 
 ---
 

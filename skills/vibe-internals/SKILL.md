@@ -2,21 +2,13 @@
 name: vibe-internals
 description: Complete guide to Mistral Vibe Code internals and skill-building workflows. Includes verified source analysis of tool names, skill system, agents/subagents, hooks, token accounting, CLI flags, plus actionable patterns for building effective skills.
 license: MIT
-compatibility:
-  - vibe: ">=2.24.0"
+compatibility: [claude, pi, vibe]
 metadata:
   verified_against: mistralai/mistral-vibe@a84be0391bf93e93a4025a5e08e8032ecb587123
   verified_date: 2026-08-22
   verification_method: static source analysis
   source: https://github.com/berzerk0/vibe-container/blob/main/docs/vibe-internals-22Aug.md
 user-invocable: true
-allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - write_file
-  - todo
-  - edit
 ---
 
 # Mistral Vibe Code — Complete Reference & Skill Builder Guide
@@ -274,13 +266,8 @@ cat > ~/.vibe/skills/my-skill/SKILL.md << 'EOF'
 name: my-skill
 description: What this skill does
 license: MIT
-compatibility:
-  - vibe: ">=2.24.0"
+compatibility: [claude, pi, vibe]
 user-invocable: true
-allowed-tools:
-  - read_file
-  - grep
-  - bash
 ---
 
 # My Skill Content
@@ -383,12 +370,6 @@ enabled_skills = ["my-*", "re:^audit-"]
 
 ```yaml
 # In SKILL.md frontmatter
-allowed-tools:
-  - read_file
-  - write_file
-  - grep
-  - bash
-  - todo
 ```
 
 **Best practice:** Only include tools your skill actually needs. Fewer tools = smaller system prompt = more tokens for reasoning.
@@ -437,10 +418,6 @@ user-invocable: false
 name: security-audit
 description: Security audit checklist and patterns
 user-invocable: true
-allowed-tools:
-  - grep
-  - read_file
-  - bash
 ---
 
 # Security Audit Skill
@@ -462,9 +439,6 @@ Call me when you need to perform a security review.
 name: git-expert
 description: Advanced git operations helper
 user-invocable: true
-allowed-tools:
-  - git_bash
-  - bash
 ---
 
 # Git Expert Skill
@@ -483,10 +457,6 @@ You have access to advanced git knowledge and operations.
 name: code-reviewer
 description: Code review assistant that spawns subagents
 user-invocable: true
-allowed-tools:
-  - task
-  - read_file
-  - grep
 ---
 
 # Code Review Skill
@@ -573,9 +543,6 @@ skill: code-quality
 
 #### Restricted Tool Access
 ```markdown
-allowed-tools:
-  - read_file
-  - grep
   # Intentionally NO bash for safety
 ```
 

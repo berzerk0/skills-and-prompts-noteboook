@@ -46,7 +46,7 @@ skills-and-prompts-notebook/
 │   │   ├── cross-agent.md      # Cross-agent compatibility
 │   │   ├── code-review.md      # Code review commands
 │   │   └── security-audit.md   # Security audit commands
-│   └── skills/                 # Claude skills (future)
+│   └── skills/                 # Symlinks to skills/ for portability
 │
 ├── docs/                        # Documentation
 │   ├── shared/                 # Cross-agent docs (THIS DIRECTORY)
@@ -78,7 +78,7 @@ skills-and-prompts-notebook/
 ### 3. How It Works
 
 - **`skills/`**: Library of portable `SKILL.md` files. Copy to `.vibe/skills/` or `.claude/skills/` to use.
-- **`.vibe/skills/`**: Live Vibe skills for this project
+- **`.vibe/skills/`**: Symlinks to skills/ for portability
 - **`.claude/commands/`**: Claude command documentation
 - **`docs/`**: Reference material and verified claims
 - **`notebooks/`**: Informal, exploratory notes
@@ -90,7 +90,7 @@ skills-and-prompts-notebook/
 - [AGENTS.md](../../AGENTS.md) - Shared instructions for both agents
 - [docs/cross-tool-notes.md](../../docs/cross-tool-notes.md) - Tool translation table
 - [skills/README.md](../../skills/README.md) - Skill library index
-- [.vibe/skills/cross-agent-compat/SKILL.md](../../.vibe/skills/cross-agent-compat/SKILL.md) - Cross-agent skill
+- [skills/cross-agent-compat/SKILL.md](../../../skills/cross-agent-compat/SKILL.md) - Cross-agent skill
 
 ---
 

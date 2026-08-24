@@ -48,7 +48,7 @@ MCP provides **execution capability**, while Skills provide the **procedural "wh
 | Read file | `Read` | `read` | `read_file` |
 | Search | `Grep` | `grep` | `grep` |
 | Find files | `Glob` | `find` | varies |
-| Edit | `Edit` | `edit` | `search_replace` |
+| Edit | `Edit` | `edit` | `edit` |
 | Write | `Write` | `write` | `write_file` |
 | Shell | `Bash` | `bash` | `bash` |
 
