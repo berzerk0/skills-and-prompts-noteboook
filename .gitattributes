@@ -12,9 +12,6 @@
 .pi/skills/ -merge=union
 .vibe/skills/ -merge=union
 
-# General: preserve symlinks in the repository
-* -text
-
 # Explicitly mark all SKILL.md files as text (they are canonical, not symlinks)
 skills/**/SKILL.md text
 

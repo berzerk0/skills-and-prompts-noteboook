@@ -6,9 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
-# This workflow runs the same checks that should be in a pre-commit hook
-# For local development, install the pre-commit hook:
-#   ln -s ../../.github/workflows/pre-commit-check.sh .git/hooks/pre-commit
+# This workflow runs the same checks that should be in a pre-commit hook.
+# There is no standalone pre-commit-check.sh yet -- the checks below are
+# inline in this workflow. Extract them into a script under scripts/ if a
+# local pre-commit hook is wanted later.
 
 jobs:
   pre-commit:

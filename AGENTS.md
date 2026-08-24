@@ -184,6 +184,7 @@ Implementation: `from new_skill import main_function`
 | Write file | `Write` | `write` | `write_file` |
 | Edit file | `Edit` | `edit` | `edit` |
 | Shell | `Bash` | `bash` | `bash` |
+| Search | `Grep` | `grep` | `grep` |
 
 **Use `bash`/`Bash` for all script invocations** to ensure cross-tool compatibility.
 

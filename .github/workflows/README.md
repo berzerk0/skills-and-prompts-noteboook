@@ -36,14 +36,11 @@ This directory contains CI/CD workflows for the crispy-couscous repository.
 4. Tests generators don't modify canonical skills
 
 **Local Setup:**
-To run these checks locally before commit:
-```bash
-# Make the hook executable
-chmod +x .github/workflows/pre-commit-check.sh
-
-# Create the pre-commit hook
-ln -s ../../.github/workflows/pre-commit-check.sh .git/hooks/pre-commit
-```
+There is no standalone pre-commit script yet -- the checks above run inline
+in `pre-commit-check.yml` on every push/PR, so CI always catches them even
+without a local hook. If a local pre-commit hook is wanted later, extract
+the checks into a `scripts/pre-commit-check.sh` and symlink that into
+`.git/hooks/pre-commit`.
 
 ---
 
