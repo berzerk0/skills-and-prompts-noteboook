@@ -44,7 +44,6 @@ Route based on the domain/content of the request:
 | **Skill Validation** | SKILL.md, spec, compliance, validate, quality assurance | skill-validator |
 | **Time/Date** | time, timestamp, date, current, now | Use timestamp_skill.py |
 | **Python Projects** | Python, pyproject.toml, uv, ruff, ty, modern, migrate | modern-python |
-| **Codeberg** | Codeberg, Gitea, repository management | N/A (deleted) |
 | **Architecture** | architecture, design, final review, broad understanding | architect |
 | **Implementation** | implement, code changes, prose-spec | implementer |
 | **Review** | review, debugging, multi-file, coordination | reviewer |

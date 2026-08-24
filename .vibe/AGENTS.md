@@ -26,7 +26,6 @@ Skills are available in:
 
 Current skills:
 - **timestamp**: Get current UTC timestamp in YYYY-MM-DD-HHMM format
-- **codeberg**: Codeberg (Gitea) API operations for repository management
 - **challenge-my-thinking**: Devil's advocate and critical thinking
 - **repo-auditor**: Repository structure validation
 - **skill-validator**: SKILL.md validation

@@ -151,8 +151,7 @@ Similar to Claude Code but with Pi's tool names and model defaults.
 
 ```
 agents/
-├── timestamp.yaml          # Canonical source
-└── codeberg.yaml
+└── timestamp.yaml          # Canonical source
 
 meta/
 ├── generate_claude.py     # SKILL.md → .claude/agents/*.md (agent configs)

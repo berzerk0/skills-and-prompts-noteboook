@@ -42,7 +42,6 @@ Skills are available in:
 
 Current skills:
 - **timestamp**: Get current UTC timestamp in YYYY-MM-DD-HHMM format
-- **codeberg**: Codeberg (Gitea) API operations for repository management
 - **challenge-my-thinking**: Devil's advocate and critical thinking
 - **repo-auditor**: Repository structure validation
 - **skill-validator**: SKILL.md validation
@@ -199,7 +198,6 @@ Implementation: `from new_skill import main_function`
 +-- 
 +-- skills/                      # Portable SKILL.md files
 |   +-- timestamp/SKILL.md
-|   +-- codeberg/SKILL.md
 |   +-- challenge-my-thinking/SKILL.md
 |   +-- repo-auditor/SKILL.md
 |   +-- skill-validator/SKILL.md
@@ -207,7 +205,6 @@ Implementation: `from new_skill import main_function`
 +-- 
 +-- *.py                         # Shared implementations
 |   +-- timestamp_skill.py
-|   +-- codeberg_connector.py
 +-- 
 +-- meta/                        # Generation scripts for agent configs
 |   +-- generate_all.py
@@ -228,7 +225,6 @@ Implementation: `from new_skill import main_function`
 +-- .claude/                     # Claude Code configurations
 |   +-- agents/                  # Subagent definitions
 |   |   +-- timestamp.md
-|   |   +-- codeberg.md
 |   |   +-- challenge-my-thinking.md
 |   |   +-- repo-auditor.md
 |   |   +-- skill-validator.md
@@ -237,7 +233,6 @@ Implementation: `from new_skill import main_function`
 +-- .pi/                         # Pi Agent configurations
 |   +-- agents/                  # Subagent definitions
 |   |   +-- timestamp.md
-|   |   +-- codeberg.md
 |   |   +-- challenge-my-thinking.md
 |   |   +-- repo-auditor.md
 |   |   +-- skill-validator.md
@@ -246,7 +241,6 @@ Implementation: `from new_skill import main_function`
 +-- .vibe/                       # Vibe Code configurations
     +-- agents/                  # Subagent definitions
     |   +-- timestamp.toml
-    |   +-- codeberg.toml
     |   +-- challenge-my-thinking.toml
     |   +-- repo-auditor.toml
     |   +-- skill-validator.toml

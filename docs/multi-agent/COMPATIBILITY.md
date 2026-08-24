@@ -147,7 +147,7 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 | **Isolation** | Separate context windows | [Mistral Docs](https://docs.mistral.ai/vibe/code/cli/skills) |
 | **Built-in Subagents** | `explore` (read-only for codebase exploration) | [GitHub README](https://github.com/mistralai/mistral-vibe) |
 
-> **💡 This Repo:** See [`../../.vibe/agents/codeberg.toml`](../../.vibe/agents/codeberg.toml) and [`../../.vibe/agents/timestamp.toml`](../../.vibe/agents/timestamp.toml) for examples.
+> **💡 This Repo:** See [`../../.vibe/agents/timestamp.toml`](../../.vibe/agents/timestamp.toml) for examples.
 
 ---
 
@@ -223,7 +223,6 @@ This document details how **Claude Code**, **Pi Agent**, and **Mistral Vibe Code
 
 ### Skills
 This repo implements **cross-agent skills** in [`../../skills/`](../../skills/):
-- [`codeberg/SKILL.md`](../../skills/codeberg/SKILL.md): Codeberg API operations (compatible with Claude, Pi, Vibe).
 - [`timestamp/SKILL.md`](../../skills/timestamp/SKILL.md): UTC timestamp generation (compatible with Claude, Pi, Vibe).
 
 Each skill includes:
@@ -238,7 +237,6 @@ compatibility: [claude, pi, vibe]
 
 ### Subagents
 This repo includes **Vibe Code subagent configurations** in [`../../.vibe/agents/`](../../.vibe/agents/):
-- [`codeberg.toml`](../../.vibe/agents/codeberg.toml): Codeberg API operations subagent.
 - [`timestamp.toml`](../../.vibe/agents/timestamp.toml): Timestamp generation subagent.
 
 Each subagent uses the schema:

@@ -9,20 +9,15 @@ This repository contains **skills** and **subagents** for cross-tool AI agent wo
 ├── docs/                          # Documentation
 │   └── cross-agent-primitives.md  # Architecture decisions
 ├── skills/                       # Portable SKILL.md files (Agent Skills spec)
-│   ├── timestamp/SKILL.md
-│   └── codeberg/SKILL.md
+│   └── timestamp/SKILL.md
 ├── .vibe/agents/                  # Vibe Code subagents (TOML format)
-│   ├── timestamp.toml
-│   └── codeberg.toml
+│   └── timestamp.toml
 ├── .claude/agents/                # Claude Code subagents (MD+YAML)
-│   ├── timestamp.md
-│   └── codeberg.md
+│   └── timestamp.md
 ├── .pi/agents/                   # Pi Agent subagents (MD+YAML)
-│   ├── timestamp.md
-│   └── codeberg.md
+│   └── timestamp.md
 └── *.py                          # Shared Python implementations
-    ├── timestamp_skill.py
-    └── codeberg_connector.py
+    └── timestamp_skill.py
 ```
 
 ## Skills (Portable)
@@ -55,7 +50,6 @@ Subagent files should be **generated** from a canonical source (future: YAML fil
 Shared Python modules in the root directory provide the actual functionality:
 
 - `timestamp_skill.py` — UTC timestamp in `YYYY-MM-DD-HHMM` format
-- `codeberg_connector.py` — Full Codeberg (Gitea) API client
 
 **All agent wrappers (SKILL.md and subagents) should invoke these modules via `bash`/`Bash`** — the only tool name consistent across all three agents.
 
