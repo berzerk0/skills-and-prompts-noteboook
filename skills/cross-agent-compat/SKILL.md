@@ -2,23 +2,12 @@
 name: cross-agent-compat
 description: Cross-agent compatibility helper for Mistral Vibe and Claude Code. Provides tool translation, pattern guidance, and dual-agent workflows.
 license: MIT
-compatibility:
-  - vibe: ">=2.24.0"
+compatibility: [claude, pi, vibe]
 metadata:
   author: "berzerk0"
   repository: "https://github.com/berzerk0/skills-and-prompts-notebook"
   tags: ["compatibility", "claude", "cross-agent", "translation"]
 user-invocable: true
-allowed-tools:
-  - read_file
-  - write_file
-  - edit
-  - grep
-  - bash
-  - bash_stdin
-  - todo
-  - task
-  - skill
 ---
 
 # Cross-Agent Compatibility Skill
@@ -269,11 +258,6 @@ cat > .vibe/skills/my-capability/SKILL.md << 'EOF'
 name: my-capability
 description: Description here
 user-invocable: true
-allowed-tools:
-  - read_file
-  - write_file
-  - grep
-  - bash
 ---
 
 # My Capability

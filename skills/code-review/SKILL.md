@@ -2,21 +2,12 @@
 name: code-review
 description: Code review assistant that performs comprehensive analysis of codebases. Spawns subagents for different review aspects and combines findings.
 license: MIT
-compatibility:
-  - vibe: ">=2.24.0"
+compatibility: [claude, pi, vibe]
 metadata:
   author: "berzerk0"
   repository: "https://github.com/berzerk0/skills-and-prompts-notebook"
   tags: ["code-review", "security", "quality", "audit"]
 user-invocable: true
-allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - bash_stdin
-  - todo
-  - task
-  - skill
 ---
 
 # Code Review Skill

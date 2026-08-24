@@ -2,20 +2,12 @@
 name: security-audit
 description: Security audit skill that scans codebases for vulnerabilities, hardcoded secrets, dangerous patterns, and security misconfigurations.
 license: MIT
-compatibility:
-  - vibe: ">=2.24.0"
+compatibility: [claude, pi, vibe]
 metadata:
   author: "berzerk0"
   repository: "https://github.com/berzerk0/skills-and-prompts-notebook"
   tags: ["security", "audit", "vulnerabilities", "secrets"]
 user-invocable: true
-allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - bash_stdin
-  - todo
-  - task
 ---
 
 # Security Audit Skill
