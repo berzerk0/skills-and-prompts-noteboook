@@ -13,8 +13,8 @@
 | Critical | 0 | 0 | 0 | 0 | 100% |
 | High | 5 | 3 | 0 | 2 | 40% |
 | Medium | 6 | 5 | 0 | 1 | 17% |
-| Low | 2 | 2 | 0 | 0 | 0% |
-| **Total** | **13** | **10** | **0** | **3** | **23%** |
+| Low | 3 | 3 | 0 | 0 | 0% |
+| **Total** | **14** | **11** | **0** | **3** | **21%** |
 
 ---
 
@@ -60,6 +60,7 @@
 |---|----------|------|-------|--------|------------|-------|
 | 13 | Low | Standardize user-invocable field | Both | Open | None | Add to all skills. Cosmetic improvement. |
 | 14 | Low | Fix minor formatting issues | Both | Open | None | Cosmetic improvements to markdown formatting. |
+| 16 | Low | Extract "unicode breaks string-match edit tools" as a skill | Claude | Open | None | Candidate surfaced by /skill-extractor on 2026-08-23, deferred rather than built. Problem: an agent's search-and-replace edit tool silently fails on files with literal em-dashes/en-dashes/arrows because the agent's own ASCII old_str never byte-matches the file's real Unicode glyph - easily misdiagnosed as a sandbox/tooling bug (as Mistral initially did) instead of a content issue. Triggers: "file not found"/"pattern not found" on a file that verifiably exists; repeated failed string replacements on prose/markdown. Root cause and fix verified this session (commit 3f31f48 + Mistral's confirmation). Not yet written up as an actual SKILL.md. |
 
 ---
 
