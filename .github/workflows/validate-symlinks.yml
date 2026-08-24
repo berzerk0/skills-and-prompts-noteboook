@@ -1,0 +1,62 @@
+name: Validate Symlinks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+
+jobs:
+  validate:
+    name: Validate All Symlinks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: List all symlinks in repository
+        run: |
+          #!/bin/bash
+          echo "All symlinks in repository:"
+          find . -type l -ls | sort
+      
+      - name: Verify symlink farms
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Verifying symlink farm integrity..."
+          
+          for farm in .claude/skills .pi/skills .vibe/skills; do
+            echo "Checking $farm..."
+            
+            # Count symlinks
+            symlink_count=$(find "$farm" -maxdepth 1 -mindepth 1 -type l 2>/dev/null | wc -l)
+            echo "  Found $symlink_count symlinks"
+            
+            # Count real directories (should be 0)
+            real_count=$(find "$farm" -maxdepth 1 -mindepth 1 -type d ! -type l 2>/dev/null | wc -l)
+            if [ "$real_count" -gt 0 ]; then
+              echo "::error:: Found $real_count real directories in $farm"
+              find "$farm" -maxdepth 1 -mindepth 1 -type d ! -type l
+              exit 1
+            fi
+            
+            # Count broken symlinks
+            broken_count=0
+            for entry in "$farm"/*; do
+              if [ -L "$entry" ] && [ ! -e "$entry" ]; then
+                broken_count=$((broken_count + 1))
+                echo "::error:: Broken symlink: $entry"
+              fi
+            done
+            
+            if [ "$broken_count" -gt 0 ]; then
+              exit 1
+            fi
+            
+            echo "  ✓ $farm is valid"
+          done
+          
+          echo "All symlink farms validated successfully"
