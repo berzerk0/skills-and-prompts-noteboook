@@ -96,3 +96,5 @@ reliability, not a history file.
 1. **[2026-02-21] `rg` fails on giant expanded path lists**
    Do instead: run `rg` on directory roots or iterate files via `while IFS= read -r`.
 ```
+
+**Important:** The napkin file at `.vibe/napkin.md` is a **real file**, not a symlink. This is intentional - it's a per-repo configuration file, not part of the portable skills library. Do not symlink napkin.md into the skills/ directory.

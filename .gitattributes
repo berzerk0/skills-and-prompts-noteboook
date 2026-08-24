@@ -1,0 +1,30 @@
+# Symlink handling for Windows compatibility
+# See: https://github.com/git-for-windows/git/issues/1058
+# Without core.symlinks=true, git checkout will create text files instead of symlinks
+
+# Ensure symlinks in skill farms are preserved as symlinks on all platforms
+.claude/skills/* -text
+.pi/skills/* -text
+.vibe/skills/* -text
+
+# Mark symlink farm directories as containing symlinks
+.claude/skills/ -merge=union
+.pi/skills/ -merge=union
+.vibe/skills/ -merge=union
+
+# General: preserve symlinks in the repository
+* -text
+
+# Explicitly mark all SKILL.md files as text (they are canonical, not symlinks)
+skills/**/SKILL.md text
+
+# Agent configuration files
+.claude/agents/*.md text
+.pi/agents/*.md text
+.vibe/agents/*.toml text
+
+# Python and YAML files
+*.py text
+*.yaml text
+*.toml text
+*.md text
