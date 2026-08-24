@@ -55,6 +55,7 @@ organized here -- go to `cl-repo` for the full verified reference.
   because nothing complained.
 
 - **Before using any file-editing tool, confirm the tool name exists in the builtin list in `docs/vibe/internals.md`.** Do not guess tool names or carry over names from Claude Code. Vibe silently drops unrecognized tool names with no error.
+- **If a tool call fails, check whether the tool name exists in `docs/vibe/internals.md` before writing a new theory about why it failed.** A wrong tool name once escalated into an invented multi-tier architecture explaining the failure -- see `self-checks/2026-08-24/CLAUDE_RESPONSE_VERSION_RECONCILIATION.md`. The cheap, correct check comes first; an elaborate unverified explanation is a sign to re-check the premise, not a finding to build on.
 - **Vibe skills load in two stages.** Only `name` + `description` + `path`
   are resident every turn; the full `SKILL.md` body loads on invocation via
   the `skill` tool. `user-invocable` does not change that residency.
