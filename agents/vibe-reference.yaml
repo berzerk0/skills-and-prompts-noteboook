@@ -1,48 +1,9 @@
-# Vibe Code Reference Skill - Canonical Definition
-
 name: vibe-reference
-description: Access verified Mistral Vibe Code reference documentation. Use when user requests Vibe-specific information, tool name translations, skill loading behavior, or subagent capabilities.
+description: Access verified Mistral Vibe Code reference documentation. Use when user
+  requests Vibe-specific information, tool name translations, skill loading behavior,
+  or subagent capabilities.
 license: MIT
-compatibility: [claude, pi, vibe]
-
-# Skill type classification
-skill_type: type_c  # File operations - reads reference documentation
-
-# This skill primarily reads documentation files, no external API
-implementation_module: null  # Pure instructional skill, no Python implementation needed
-
-# Trigger patterns
-triggers:
-  - "vibe code reference"
-  - "vibe code tool names"
-  - "vibe tool names"
-  - "how does vibe load skills"
-  - "vibe vs claude tool mapping"
-  - "vibe subagent capabilities"
-  - "vibe hooks"
-  - "vibe token accounting"
-  - "vibe cli flags"
-  - "vibe agents.md behavior"
-  - "vibe source vs docs"
-  - "vibe code internals"
-  - "mistral vibe code reference"
-
-# Requirements
-requires_authentication: false
-requires_network: false
-requires_file_access: true  # Needs to read docs/vibe/VERIFIED_REFERENCE.md
-
-# Reference scope
-category: documentation
-reference_document: docs/vibe/VERIFIED_REFERENCE.md
-
-# Key topics covered
-coverage:
-  - tool_names
-  - skill_loading
-  - agent_subagent_behavior
-  - agents_md_loading
-  - hooks_system
-  - token_accounting
-  - cli_flags
-  - docs_vs_source_discrepancies
+compatibility:
+- claude
+- pi
+- vibe

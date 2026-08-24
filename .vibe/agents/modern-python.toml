@@ -1,17 +1,22 @@
 agent_type = "subagent"
 display_name = "modern-python"
-description = "Configures Python projects with modern tooling (uv, ruff, ty). Use when creating projects or migrating from legacy tools."
+description = "Configures Python projects with modern tooling (uv, ruff, ty). Use when creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black."
 active_model = "mistral-small"
 
-[tools.skill]
+[python]
 enabled = true
-[tools.read_file]
+
+[bash]
 enabled = true
-[tools.write_file]
+
+[read_file]
 enabled = true
-[tools.edit]
+
+[write_file]
 enabled = true
-[tools.grep]
+
+[edit]
 enabled = true
-[tools.bash]
+
+[grep]
 enabled = true

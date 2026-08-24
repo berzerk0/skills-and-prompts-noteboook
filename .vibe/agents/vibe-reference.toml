@@ -3,15 +3,20 @@ display_name = "vibe-reference"
 description = "Access verified Mistral Vibe Code reference documentation. Use when user requests Vibe-specific information, tool name translations, skill loading behavior, or subagent capabilities."
 active_model = "mistral-small"
 
-[tools.skill]
+[python]
 enabled = true
-[tools.read_file]
+
+[bash]
 enabled = true
-[tools.write_file]
+
+[read_file]
 enabled = true
-[tools.edit]
+
+[write_file]
 enabled = true
-[tools.grep]
+
+[edit]
 enabled = true
-[tools.bash]
+
+[grep]
 enabled = true

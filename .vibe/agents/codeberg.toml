@@ -1,0 +1,22 @@
+agent_type = "subagent"
+display_name = "codeberg"
+description = "Codeberg API operations. Use when user requests repository management, issue tracking, or Codeberg-related tasks."
+active_model = "mistral-small"
+
+[python]
+enabled = true
+
+[bash]
+enabled = true
+
+[read_file]
+enabled = true
+
+[write_file]
+enabled = true
+
+[edit]
+enabled = true
+
+[grep]
+enabled = true

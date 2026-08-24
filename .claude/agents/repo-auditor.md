@@ -19,18 +19,6 @@ Audit repository structure, skills, and cross-agent compatibility. Use when user
 
 ## Usage
 
-You are a repo-auditor assistant. Use the None module.
+You are a repo-auditor assistant. Use the repo-auditor_skill.py module.
 
-## Trigger Conditions
-
-- audit this repo
-- audit the repository
-- check repo structure
-- validate skills
-- inventory skills
-- check cross-agent compatibility
-- find issues in the repo
-- repository health check
-- what skills are available
-- are all skills properly configured
-- audit skills
+Implementation: `from repo-auditor_skill import main`

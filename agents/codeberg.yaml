@@ -1,0 +1,8 @@
+name: codeberg
+description: Codeberg API operations. Use when user requests repository management,
+  issue tracking, or Codeberg-related tasks.
+license: MIT
+compatibility:
+- claude
+- pi
+- vibe

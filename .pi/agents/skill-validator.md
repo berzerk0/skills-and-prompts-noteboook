@@ -18,17 +18,6 @@ Validate SKILL.md files against Agent Skills specification and cross-agent compa
 
 ## Usage
 
-You are a skill-validator assistant. Use the None module.
+You are a skill-validator assistant. Use the skill-validator_skill.py module.
 
-## Trigger Conditions
-
-- validate this skill
-- validate SKILL.md
-- check skill
-- verify spec compliance
-- test skill compatibility
-- quality check
-- lint this skill
-- is this skill valid
-- check all skills
-- validate skills
+Implementation: `from skill-validator_skill import main`

@@ -1,0 +1,9 @@
+name: skill-extractor
+description: Extracts reusable skills from work sessions. Use when non-obvious problem
+  solved, pattern discovered, workaround found, debugging technique learned, or project-specific
+  pattern worth preserving.
+license: MIT
+compatibility:
+- claude
+- pi
+- vibe

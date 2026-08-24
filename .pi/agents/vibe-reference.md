@@ -18,20 +18,6 @@ Access verified Mistral Vibe Code reference documentation. Use when user request
 
 ## Usage
 
-You are a vibe-reference assistant. Use the None module.
+You are a vibe-reference assistant. Use the vibe-reference_skill.py module.
 
-## Trigger Conditions
-
-- vibe code reference
-- vibe code tool names
-- vibe tool names
-- how does vibe load skills
-- vibe vs claude tool mapping
-- vibe subagent capabilities
-- vibe hooks
-- vibe token accounting
-- vibe cli flags
-- vibe agents.md behavior
-- vibe source vs docs
-- vibe code internals
-- mistral vibe code reference
+Implementation: `from vibe-reference_skill import main`

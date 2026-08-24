@@ -1,0 +1,8 @@
+name: modern-python
+description: Configures Python projects with modern tooling (uv, ruff, ty). Use when
+  creating projects, writing standalone scripts, or migrating from pip/Poetry/mypy/black.
+license: CC-BY-SA-4.0
+compatibility:
+- claude
+- pi
+- vibe

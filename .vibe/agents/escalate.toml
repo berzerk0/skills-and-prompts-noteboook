@@ -1,17 +1,22 @@
 agent_type = "subagent"
 display_name = "escalate"
-description = "Create escalation brief when stuck. Use when 3-strike protocol fails or manual escalation needed."
-active_model = "mistral-medium"
+description = "Create escalation brief when stuck. Use when 3-strike protocol fails, cheap model routing hits dead end, or manual escalation needed."
+active_model = "mistral-small"
 
-[tools.skill]
+[python]
 enabled = true
-[tools.read_file]
+
+[bash]
 enabled = true
-[tools.write_file]
+
+[read_file]
 enabled = true
-[tools.edit]
+
+[write_file]
 enabled = true
-[tools.grep]
+
+[edit]
 enabled = true
-[tools.bash]
+
+[grep]
 enabled = true

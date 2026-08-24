@@ -1,0 +1,22 @@
+agent_type = "subagent"
+display_name = "script-it"
+description = "When the same operation applies to 5+ items, or must be repeated to verify it worked, write one throwaway script and run it instead of repeating tool calls. When items need per-item judgment, script the mechanical part and judge the collected output in one pass."
+active_model = "mistral-small"
+
+[python]
+enabled = true
+
+[bash]
+enabled = true
+
+[read_file]
+enabled = true
+
+[write_file]
+enabled = true
+
+[edit]
+enabled = true
+
+[grep]
+enabled = true
