@@ -23,8 +23,8 @@ This directory contains **validated, source-backed** documentation for developin
 1. **Read [STANDARDS.md](./STANDARDS.md)** to understand the **Agent Skills** and **AGENTS.md** specifications.
 2. **Check [COMPATIBILITY.md](./COMPATIBILITY.md)** for **tool-specific behaviors** (e.g., skill paths, subagent configs).
 3. **Follow the examples** in this repo:
-   - Skills: [`../../skills/codeberg/SKILL.md`](../../skills/codeberg/SKILL.md), [`../../skills/timestamp/SKILL.md`](../../skills/timestamp/SKILL.md)
-   - Subagents: [`../../.vibe/agents/codeberg.toml`](../../.vibe/agents/codeberg.toml), [`../../.vibe/agents/timestamp.toml`](../../.vibe/agents/timestamp.toml)
+   - Skills: [`../../skills/timestamp/SKILL.md`](../../skills/timestamp/SKILL.md)
+   - Subagents: [`../../.vibe/agents/timestamp.toml`](../../.vibe/agents/timestamp.toml)
 
 ### For Maintainers
 1. **Monitor official sources** (see [MAINTENANCE.md](./MAINTENANCE.md)).
@@ -83,14 +83,12 @@ This repo demonstrates **cross-agent compatibility** with:
 - **Format:** Agent Skills standard (`SKILL.md` + frontmatter).
 - **Compatibility:** Designed for **Claude Code**, **Pi Agent**, and **Vibe Code**.
 - **Examples:**
-  - [`codeberg/SKILL.md`](../../skills/codeberg/SKILL.md): Codeberg API operations.
   - [`timestamp/SKILL.md`](../../skills/timestamp/SKILL.md): UTC timestamp generation.
 
 ### Subagents (Vibe Code)
 - **Location:** [`../../.vibe/agents/`](../../.vibe/agents/)
 - **Format:** `.toml` files (Vibe Code specific).
 - **Examples:**
-  - [`codeberg.toml`](../../.vibe/agents/codeberg.toml): Codeberg API subagent.
   - [`timestamp.toml`](../../.vibe/agents/timestamp.toml): Timestamp subagent.
 
 ---
