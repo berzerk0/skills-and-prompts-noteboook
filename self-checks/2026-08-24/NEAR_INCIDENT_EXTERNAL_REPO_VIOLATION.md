@@ -153,3 +153,45 @@ To verify this incident has been properly resolved:
 **Document created:** 2026-08-24  
 **Last updated:** 2026-08-24  
 **Status:** Resolved with corrective actions documented
+
+---
+
+## Expanded Protocol: Speaking on User's Behalf
+
+**CRITICAL ADDITION:** Agents must NEVER speak on the user's behalf to post anywhere but its own repository without getting explicit permission from the user. This includes but is not limited to:
+
+- Creating issues in external repositories
+- Creating pull requests in external repositories
+- Posting comments in external repositories
+- Posting to social media or forums
+- Sending emails or messages
+- Any form of external communication that represents the user
+
+### Specific Rules
+
+1. **External Repositories (mistralai/*, other orgs, third-party):**
+   - NEVER create issues, PRs, or comments without triple-confirmed user approval
+   - NEVER speak as if you are the user
+   - NEVER make commitments on the user's behalf
+
+2. **Our Own Repositories (skills-and-prompts-noteboook):**
+   - Be careful when posting - ensure actions align with user intent
+   - For significant changes (new files, structural changes), confirm with user
+   - Document user approval in commit messages when applicable
+
+3. **Claude Code Compatibility Note:**
+   - This protocol applies to ALL agents (Vibe Code, Claude Code, etc.)
+   - Claude Code should be informed of this protocol for its own review
+   - Both agents must follow the same rules when operating in this repository
+
+### For Claude Code's Review
+
+Claude: When operating in this repository or on behalf of this repository's owner:
+- NEVER create issues or PRs in external repositories (mistralai/mistral-vibe, etc.) without explicit user permission
+- NEVER speak on the user's behalf in external forums, social media, or communication channels
+- ALWAYS confirm with the user before taking any action that represents them externally
+- This repository's AGENTS.md contains the authoritative protocol - follow it
+
+The user has explicitly stated: "the agents should never speak on the user's behalf to post anywhere but its own repository without getting explicit permission from the user. even be careful when posting to our own repos."
+
+Violations of this protocol are considered SERIOUS and will be documented as incidents.
