@@ -73,8 +73,19 @@ Or explicitly invoke: `task use <skill-name>` (Vibe Code)
 
 ---
 
-## 📁 Repository Structure
+## :rotating_light: Symlink Safety Invariant
 
+**NEVER write through symlinks in `.claude/skills/`, `.pi/skills/`, or `.vibe/skills/`.**
+
+These directories are **symlink farms** pointing to the canonical `skills/` directory. Writing through a symlink silently overwrites the canonical SKILL.md file. This caused the 2026-08-24 incident where all 14 SKILL.md files were flattened to 13-line stubs.
+
+**Safe pattern:**
+- **READ through symlinks**: Agents discover skills via `.claude/skills/`, `.pi/skills/`, `.vibe/skills/`
+- **WRITE only to agent wrapper files**: `.claude/agents/`, `.pi/agents/`, `.vibe/agents/`
+- **Canonical source**: `skills/<name>/SKILL.md` - single source of truth
+
+
+## 📁 Repository Structure
 ```
 .
 ├── README.md                    # This file - human quick start

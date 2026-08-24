@@ -1,10 +1,22 @@
 # Skill Design Guidelines
 
-This document outlines **how to design skills** for this multi-agent repository.
-
 ---
 
-## Core Principles
+## :rotating_light: Symlink Safety Invariant
+
+**NEVER write through symlinks in `.claude/skills/`, `.pi/skills/`, or `.vibe/skills/`.**
+
+These directories are **symlink farms** pointing to the canonical `skills/` directory. Writing through a symlink silently overwrites the canonical SKILL.md file. This caused the 2026-08-24 incident where all 14 SKILL.md files were flattened to 13-line stubs.
+
+**Safe pattern for skill development:**
+- **READ through symlinks**: Agents discover skills via `.claude/skills/`, `.pi/skills/`, `.vibe/skills/`
+- **WRITE only to agent wrapper files**: `.claude/agents/`, `.pi/agents/`, `.vibe/agents/`
+- **Canonical source**: `skills/<name>/SKILL.md` - single source of truth
+- **Generation scripts**: `meta/generate_*.py` create wrapper files, never modify skills/
+
+The generators enforce this invariant with guardrails that refuse to write through symlinks.
+
+
 
 ### 1. Script-First Architecture
 

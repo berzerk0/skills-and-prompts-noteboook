@@ -56,7 +56,7 @@ def validate_yaml_files() -> bool:
     
     yaml_files = list(AGENTS_DIR.glob("*.yaml"))
     if not yaml_files:
-        print("❌ No YAML files found in agents/ directory")
+        print("\u274c No YAML files found in agents/ directory")
         return False
     
     print(f"Validating {len(yaml_files)} YAML files...")
@@ -69,19 +69,19 @@ def validate_yaml_files() -> bool:
             
             # Check required fields
             if 'name' not in data:
-                print(f"  ❌ {yaml_file.name}: Missing 'name' field")
+                print(f"  \u274c {yaml_file.name}: Missing 'name' field")
                 all_valid = False
             if 'description' not in data:
-                print(f"  ❌ {yaml_file.name}: Missing 'description' field")
+                print(f"  \u274c {yaml_file.name}: Missing 'description' field")
                 all_valid = False
             
-            print(f"  ✓ {yaml_file.name}: Valid")
+            print(f"  \u2713 {yaml_file.name}: Valid")
             
         except yaml.YAMLError as e:
-            print(f"  ❌ {yaml_file.name}: Invalid YAML - {e}")
+            print(f"  \u274c {yaml_file.name}: Invalid YAML - {e}")
             all_valid = False
         except Exception as e:
-            print(f"  ❌ {yaml_file.name}: Error - {e}")
+            print(f"  \u274c {yaml_file.name}: Error - {e}")
             all_valid = False
     
     return all_valid
@@ -93,7 +93,7 @@ def generate_for_skill(skill_name: str) -> bool:
     
     for agent_name, script_path in GENERATION_SCRIPTS.items():
         if not script_path.exists():
-            print(f"⚠ Script not found: {script_path}")
+            print(f"\u26a0 Script not found: {script_path}")
             continue
         
         success = run_script(script_path, ['--skill', skill_name])
@@ -107,7 +107,7 @@ def generate_all() -> bool:
     """Generate wrappers for all skills across all agents."""
     yaml_files = list(AGENTS_DIR.glob("*.yaml"))
     if not yaml_files:
-        print("❌ No YAML files found in agents/ directory")
+        print("\u274c No YAML files found in agents/ directory")
         return False
     
     print(f"Found {len(yaml_files)} skills to generate")
@@ -123,7 +123,13 @@ def generate_all() -> bool:
 
 
 def update_symlinks() -> bool:
-    """Update symlinks for all skills directories."""
+    """Update symlinks for all skills directories.
+    
+    Refuses to delete real directories in symlink farms to prevent data loss.
+    Symlink farms (.claude/skills/, .pi/skills/, .vibe/skills/) should only
+    contain symlinks to ../skills/. If a real directory is found, it indicates
+    a serious configuration error that should be investigated manually.
+    """
     from pathlib import Path
     
     print("\n" + "="*60)
@@ -141,22 +147,33 @@ def update_symlinks() -> bool:
     skill_dirs = [d for d in (REPO_ROOT / "skills").iterdir() if d.is_dir()]
     
     if not skill_dirs:
-        print("❌ No skill directories found in skills/")
+        print("\u274c No skill directories found in skills/")
         return False
     
-    # Remove old symlinks and create new ones
+    # Process each agent's skills directory
     for agent_name, agent_skills_dir in agent_skill_dirs.items():
-        # Remove existing symlinks
+        # Ensure the skills directory exists
+        if not agent_skills_dir.exists():
+            agent_skills_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Check existing items - refuse to delete real directories
         if agent_skills_dir.exists():
             for item in agent_skills_dir.iterdir():
                 if item.is_symlink():
                     item.unlink()
                 elif item.is_dir():
-                    # Remove directory if it's a copied skill
-                    import shutil
-                    shutil.rmtree(item)
-        else:
-            agent_skills_dir.mkdir(parents=True, exist_ok=True)
+                    # REFUSE to delete real directories - this prevents data loss
+                    # from the same class of bug that caused the 2026-08-24 incident
+                    raise RuntimeError(
+                        f"Refusing to delete real directory {item} in symlink farm "
+                        f"{agent_skills_dir}. This directory should only contain "
+                        f"symlinks to ../skills/. If you need to replace this with a "
+                        f"symlink, do it manually and verify no data is lost."
+                    )
+                else:
+                    # Regular file - warn but remove (shouldn't happen in symlink farm)
+                    print(f"  \u26a0 Warning: Found regular file {item} in symlink farm, removing")
+                    item.unlink()
         
         # Create new symlinks
         for skill_dir in skill_dirs:
@@ -164,9 +181,9 @@ def update_symlinks() -> bool:
             target = agent_skills_dir / skill_name
             if not target.exists():
                 target.symlink_to(f"../../skills/{skill_name}")
-                print(f"  ✓ Created symlink: {target} -> ../../skills/{skill_name}")
+                print(f"  \u2713 Created symlink: {target} -> ../../skills/{skill_name}")
     
-    print("\n✓ All symlinks updated")
+    print("\n\u2713 All symlinks updated")
     return True
 
 
@@ -200,10 +217,10 @@ def main():
     if args.validate:
         # Just validate YAML files
         if validate_yaml_files():
-            print("\n✓ All YAML files are valid")
+            print("\n\u2713 All YAML files are valid")
             sys.exit(0)
         else:
-            print("\n❌ Some YAML files have issues")
+            print("\n\u274c Some YAML files have issues")
             sys.exit(1)
     
     elif args.symlinks:
@@ -216,21 +233,21 @@ def main():
     elif args.skill:
         # Generate specific skill
         if generate_for_skill(args.skill):
-            print(f"\n✓ Successfully generated '{args.skill}' for all agents")
+            print(f"\n\u2713 Successfully generated '{args.skill}' for all agents")
             sys.exit(0)
         else:
-            print(f"\n❌ Failed to generate '{args.skill}'")
+            print(f"\n\u274c Failed to generate '{args.skill}'")
             sys.exit(1)
     
     elif args.all:
         # Generate all skills
         if generate_all():
-            print("\n✓ Successfully generated all skills for all agents")
+            print("\n\u2713 Successfully generated all skills for all agents")
             # Also update symlinks
             update_symlinks()
             sys.exit(0)
         else:
-            print("\n❌ Failed to generate some skills")
+            print("\n\u274c Failed to generate some skills")
             sys.exit(1)
     
     else:

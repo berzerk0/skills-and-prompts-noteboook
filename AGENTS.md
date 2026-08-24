@@ -15,6 +15,22 @@ This repository is a **skill and subagent development workspace** that:
 
 ---
 
+## :rotating_light: IMPORTANT: Symlink Safety Invariant
+
+**NEVER write through symlinks in `.claude/skills/`, `.pi/skills/`, or `.vibe/skills/`.**
+
+These directories are **symlink farms** pointing to the canonical `skills/` directory. Writing through a symlink silently overwrites the canonical SKILL.md file. This caused the 2026-08-24 incident where all 14 SKILL.md files were flattened to 13-line stubs.
+
+**Safe pattern:**
+- **READ through symlinks**: Agents discover skills via `.claude/skills/`, `.pi/skills/`, `.vibe/skills/`
+- **WRITE only to agent wrapper files**: `.claude/agents/`, `.pi/agents/`, `.vibe/agents/`
+- **Canonical source**: `skills/<name>/SKILL.md` - single source of truth
+- **Generation scripts**: `meta/generate_*.py` create wrapper files, never modify skills/
+
+**The generators (`meta/generate_claude.py`, `meta/generate_pi.py`, `meta/generate_vibe.py`) enforce this invariant with guardrails that refuse to write through symlinks.**
+
+---
+
 ## Quick Start for Agents
 
 ### Discover Available Skills
@@ -153,7 +169,7 @@ Implementation: `from new_skill import main_function`
 
 1. **Script-First Architecture**: All skills must have a CLI-executable core
    ```
-   Skill Request → Agent Wrapper → bash → Python Script → Result
+   Skill Request -> Agent Wrapper -> bash -> Python Script -> Result
    ```
 
 2. **bash/Bash is the Universal Primitive**: The only tool name consistent across all three agents
@@ -178,35 +194,63 @@ Implementation: `from new_skill import main_function`
 
 ```
 .
-├── AGENTS.md                    # This file - repository context
-├── README.md                    # Human-readable overview
-├── skills/                      # Portable SKILL.md files
-│   ├── timestamp/SKILL.md
-│   └── codeberg/SKILL.md
-├── *.py                         # Shared implementations
-│   ├── timestamp_skill.py
-│   └── codeberg_connector.py
-├── .claude/                     # Claude Code configurations
-│   ├── agents/                  # Subagents
-│   │   ├── timestamp.md
-│   │   └── codeberg.md
-│   └── skills/                  # → symlink to ../skills/
-│       ├── timestamp/          # → ../skills/timestamp
-│       └── codeberg/           # → ../skills/codeberg
-├── .pi/                         # Pi Agent configurations
-│   ├── agents/                  # Subagents
-│   │   ├── timestamp.md
-│   │   └── codeberg.md
-│   └── skills/                  # → symlink to ../skills/
-│       ├── timestamp/          # → ../skills/timestamp
-│       └── codeberg/           # → ../skills/codeberg
-└── .vibe/                       # Vibe Code configurations
-    ├── agents/                  # Subagents
-    │   ├── timestamp.toml
-    │   └── codeberg.toml
-    └── skills/                  # → symlink to ../skills/
-        ├── timestamp/          # → ../skills/timestamp
-        └── codeberg/           # → ../skills/codeberg
++-- AGENTS.md                    # This file - repository context
++-- README.md                    # Human-readable overview
++-- 
++-- skills/                      # Portable SKILL.md files
+|   +-- timestamp/SKILL.md
+|   +-- codeberg/SKILL.md
+|   +-- challenge-my-thinking/SKILL.md
+|   +-- repo-auditor/SKILL.md
+|   +-- skill-validator/SKILL.md
+|   +-- ...
++-- 
++-- *.py                         # Shared implementations
+|   +-- timestamp_skill.py
+|   +-- codeberg_connector.py
++-- 
++-- meta/                        # Generation scripts for agent configs
+|   +-- generate_all.py
+|   +-- generate_claude.py
+|   +-- generate_pi.py
+|   +-- generate_vibe.py
++-- 
++-- docs/                        # Documentation
+|   +-- SKILL_DESIGN.md
+|   +-- cross-agent-primitives.md
+|   +-- AGENTS.md
+|   +-- multi-agent/
+|       +-- STANDARDS.md
+|       +-- COMPATIBILITY.md
+|       +-- GAPS.md
+|       +-- MAINTENANCE.md
++-- 
++-- .claude/                     # Claude Code configurations
+|   +-- agents/                  # Subagent definitions
+|   |   +-- timestamp.md
+|   |   +-- codeberg.md
+|   |   +-- challenge-my-thinking.md
+|   |   +-- repo-auditor.md
+|   |   +-- skill-validator.md
+|   +-- skills/                  # -> symlink to ../skills/
++-- 
++-- .pi/                         # Pi Agent configurations
+|   +-- agents/                  # Subagent definitions
+|   |   +-- timestamp.md
+|   |   +-- codeberg.md
+|   |   +-- challenge-my-thinking.md
+|   |   +-- repo-auditor.md
+|   |   +-- skill-validator.md
+|   +-- skills/                  # -> symlink to ../skills/
++-- 
++-- .vibe/                       # Vibe Code configurations
+    +-- agents/                  # Subagent definitions
+    |   +-- timestamp.toml
+    |   +-- codeberg.toml
+    |   +-- challenge-my-thinking.toml
+    |   +-- repo-auditor.toml
+    |   +-- skill-validator.toml
+    +-- skills/                  # -> symlink to ../skills/
 ```
 
 ---
@@ -235,4 +279,4 @@ Implementation: `from new_skill import main_function`
 
 - Skills directories use symlinks to avoid duplication
 - All skill definitions reference shared Python implementations
-- Generation scripts (future): `meta/` directory will contain scripts to auto-generate per-agent wrappers from canonical YAML sources
+- Generation scripts: `meta/` directory contains scripts to auto-generate per-agent wrappers from canonical YAML sources

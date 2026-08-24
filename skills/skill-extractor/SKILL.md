@@ -44,4 +44,11 @@ If you can answer at least two with something non-trivial, it is worth extractin
 
 ## Output
 
-Save extracted skills to ~/.vibe/skills/ with proper frontmatter and tool-agnostic instructions.
+Save extracted skills to `skills/<name>/SKILL.md` with proper frontmatter and tool-agnostic instructions.
+
+**Important:** After creating the canonical SKILL.md file, create symlinks in each agent's skills directory:
+- `.claude/skills/<name>` -> `../../skills/<name>`
+- `.pi/skills/<name>` -> `../../skills/<name>`
+- `.vibe/skills/<name>` -> `../../skills/<name>`
+
+Never write through these symlinks - they point to the canonical skills/ directory and writing through them would overwrite the source.
