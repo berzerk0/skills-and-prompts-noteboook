@@ -8,7 +8,13 @@ Usage:
 Or import and use edit_file() function directly.
 
 Created: 2026-08-24
-Purpose: Workaround for search_replace tool failures
+Purpose: Unicode-aware file editing helper
+
+WARNING: This script performs ASCII normalization on write, which changes
+file content beyond the requested edit. Em dashes (—) become --, smart
+quotes become straight quotes, etc. Use only if ASCII normalization is
+acceptable for your use case. For most cases, use Vibe's built-in `edit` tool
+instead, which handles unicode natively without normalization.
 """
 
 import sys
