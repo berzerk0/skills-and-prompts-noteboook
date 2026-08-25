@@ -1,0 +1,134 @@
+# Tool registry for cross-harness validation
+# Extracted from docs/cross-tool-notes.md
+# Last updated: 2026-08-25
+
+harnesses:
+  claude-code:
+    name: "Claude Code"
+    tools:
+      # File operations
+      - Read
+      - Write
+      - Edit
+      # Search and discovery
+      - Grep
+      - Glob
+      # Execution
+      - Bash
+      # Task management
+      - Task
+      # User interaction
+      - AskUserQuestion
+      - SendUserFile
+      - PushNotification
+      # Agent coordination
+      - Agent
+      - SendMessage
+      - ListAgents
+      # Output and artifacts
+      - Artifact
+      # Skills and execution
+      - Skill
+      # System/session management
+      - ScheduleWakeup
+      - ReadNotifications
+      # Discovery and suggestions
+      - SuggestSkills
+      - ListSkills
+      - SuggestConnectors
+      - ListConnectors
+      # Web access
+      - WebSearch
+      - WebFetch
+      # Planning and design
+      - EnterPlanMode
+      - ExitPlanMode
+      # Workspaces
+      - EnterWorktree
+      - ExitWorktree
+      # MCP/external systems
+      - SearchMcpRegistry
+      - ListMcpResourcesTool
+      - ReadMcpResourceTool
+      - ReadMcpResourceDirTool
+      # Notebooks
+      - NotebookEdit
+      # Reporting
+      - ReportFindings
+      # Git/remote operations
+      - mcp__Claude_Code_Remote__add_repo
+      - mcp__Claude_Code_Remote__archive_session
+      - mcp__Claude_Code_Remote__create_session
+      - mcp__Claude_Code_Remote__create_trigger
+      - mcp__Claude_Code_Remote__delete_trigger
+      - mcp__Claude_Code_Remote__fire_trigger
+      - mcp__Claude_Code_Remote__get_session
+      - mcp__Claude_Code_Remote__interrupt_session
+      - mcp__Claude_Code_Remote__list_environments
+      - mcp__Claude_Code_Remote__list_repos
+      - mcp__Claude_Code_Remote__list_sessions
+      - mcp__Claude_Code_Remote__list_triggers
+      - mcp__Claude_Code_Remote__register_repo_root
+      - mcp__Claude_Code_Remote__send_later
+      - mcp__Claude_Code_Remote__set_session_tags
+      - mcp__Claude_Code_Remote__set_session_title
+      - mcp__Claude_Code_Remote__subscribe_pr_activity
+      - mcp__Claude_Code_Remote__unarchive_session
+      - mcp__Claude_Code_Remote__unsubscribe_pr_activity
+      - mcp__Claude_Code_Remote__update_trigger
+      # GitHub (via MCP)
+      - mcp__github__*
+
+  vibe:
+    name: "Mistral Vibe Code"
+    tools:
+      - read_file
+      - write_file
+      - edit
+      - grep
+      - bash
+      - task
+      - ask_user_question
+      # note: glob doesn't exist in Vibe; no direct equivalent
+
+  pi-agent:
+    name: "Pi Agent"
+    tools:
+      - read
+      - write
+      - edit
+      - bash
+      - grep
+      - find
+      - ls
+
+# Tool aliases: maps Claude Code names to equivalents in other harnesses
+# For skills that declare tools, use this for portability checking
+translation:
+  claude-code-to-vibe:
+    Read: read_file
+    Write: write_file
+    Edit: edit
+    Grep: grep
+    Glob: null  # No equivalent; use bash find/ls instead
+    Bash: bash
+    Task: task
+    AskUserQuestion: ask_user_question
+
+  claude-code-to-pi:
+    Read: read
+    Write: write
+    Edit: edit
+    Grep: grep
+    Glob: find  # or ls for listing
+    Bash: bash
+
+# Silent drop behavior: which harnesses silently drop unknown tool names
+silent-drop-harnesses:
+  - vibe  # Vibe silently drops unrecognized tool names with no error
+
+# Shared tools: tool names that are valid in multiple harnesses
+# (useful for writing portable skills)
+shared-tools:
+  bash: [claude-code, vibe, pi-agent]
+  bash_output_capture: [claude-code, vibe]  # internal, used by hooks
