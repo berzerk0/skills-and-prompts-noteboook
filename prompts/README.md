@@ -17,5 +17,6 @@ a single conversation.
 
 ## Index
 
-_Empty -- add an entry here as prompts are added, following the table
-pattern in `cl-repo`'s `prompts/README.md`: prompt, target, re-run when._
+| Prompt | Target | Re-run when |
+| --- | --- | --- |
+| [`second-opinion-on-design-braindump.md`](second-opinion-on-design-braindump.md) | any external model/session | you have a raw, unedited design brain dump you want stress-tested before folding it into decisions |
