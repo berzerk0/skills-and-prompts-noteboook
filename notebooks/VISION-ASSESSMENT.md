@@ -305,89 +305,92 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ## Next Steps to Make This Shipping Reality
 
-### Phase 1: Validation & Integration (2-4 Weeks)
+### Phase 1: Validation & Integration (3-5 Days)
 
-**Goal:** Prove behaviors work, integrate cleanly.
+**Goal:** Prove behaviors work, establish measurement baseline.
 
-1. **Verify hook capabilities:**
-   - [ ] Can Claude Code `PreToolUse` hook access tool-error events?
-   - [ ] Can Vibe `PRE_TOOL` hook modify error messages?
-   - [ ] Can both hooks log invocations with timestamps?
+1. **Verify hook capabilities:** (1 day)
+   - [ ] Check Claude Code docs: can `PreToolUse` hook access tool-error events?
+   - [ ] Check Vibe source: can `PRE_TOOL` hook modify error messages?
+   - [ ] If yes to both: B2 is unblocked. If no: design alternative.
 
-2. **Test B1 in production:**
-   - [ ] Run validator against all existing skills
+2. **Run B1 validation:** (1 day)
+   - [ ] Execute against all existing skills
    - [ ] Fix flagged issues (skill-extractor tool names)
-   - [ ] Install pre-commit hook in workflow
-   - [ ] Document any false positives
+   - [ ] Validate fixes
+   - [ ] Install pre-commit hook (optional but recommended)
 
-3. **Merge crispycouscous:**
-   - [ ] Audit new skills for tool compatibility
-   - [ ] Consolidate duplicates
-   - [ ] Document portability assumptions
-
-4. **Start override log:**
+3. **Start override log:** (same day)
    - [ ] Create `docs/override-log.md`
-   - [ ] Log decisions against harness recommendations
-   - [ ] Measure calibration (override rate trend)
+   - [ ] Establish measurement baseline
 
-### Phase 2: Hook Integration (4-8 Weeks)
+4. **Merge crispycouscous & audit:** (1-2 days)
+   - [ ] Run B1 validation on new skills
+   - [ ] Spot-check for duplicates
+   - [ ] Document any tool-name issues
+
+### Phase 2: Hook Integration & B2/B3 (1-2 Weeks)
 
 **Goal:** Implement B2 and B3 with full harness integration.
 
-1. **Implement B2 (Premise Re-Check):**
+1. **Implement B2 (Premise Re-Check):** (3-5 days)
    - [ ] Hook integration for tool-error events
    - [ ] Inject available tool list into error message
    - [ ] Test against real tool-not-found scenarios
 
-2. **Implement B3 (Retirement Sweep):**
-   - [ ] Hook-based invocation logging
+2. **Implement B3 (Retirement Sweep):** (2-3 days)
+   - [ ] Hook-based invocation logging (if Phase 1 verified hook capability)
    - [ ] B3 script queries invocation logs
-   - [ ] Schedule monthly sweep (or quarterly)
+   - [ ] Schedule monthly sweep
 
-3. **Document B4-B7:**
-   - [ ] Design null-first expansion default
-   - [ ] Implement lesson admission check
-   - [ ] Add completion verification hooks
-   - [ ] Design non-progress detection
+3. **Quick docs for B4-B7:** (1 day)
+   - [ ] One-pager per behavior (not full docs)
+   - [ ] Implementation checklist
+   - [ ] Defer detailed design
 
-### Phase 3: Classification Framework (8-12 Weeks)
+### Phase 3: Classification Framework (1 Week)
 
 **Goal:** Replace five-category taxonomy with property-based routing.
 
-1. **Build decision matrix:**
-   - [ ] Map properties (isolation? determinism? loudness?) to artifact types
-   - [ ] Test against real routing decisions from this repo
-   - [ ] Document false positives (compound tasks)
+1. **Build decision matrix:** (2-3 days)
+   - [ ] Map properties (isolation? determinism?) to artifact types
+   - [ ] Test against 10 recent real decisions from this repo
+   - [ ] Document edge cases (compound tasks)
 
-2. **Add framework elements:**
+2. **Add framework elements:** (1-2 days)
    - [ ] Null branch (default: don't create)
-   - [ ] Cost column (tokens, review burden)
-   - [ ] Dependency tracking (which artifacts invoke which?)
-
-3. **Teach to models:**
-   - [ ] Create skill that teaches property-based routing
+   - [ ] Cost column (rough estimates)
    - [ ] Document in AGENTS.md
 
-### Phase 4: Portability Layer (12-16 Weeks)
+3. **Create routing skill:** (1 day)
+   - [ ] Skill that teaches property-based routing
+   - [ ] Test a few times with models
+
+### Phase 4: Portability Layer (2-4 Weeks)
 
 **Goal:** Single-source skills that work in both Claude Code and Vibe.
 
-1. **Build compilation infrastructure:**
-   - [ ] YAML → claude-code/SKILL.md + vibe/SKILL.md
-   - [ ] Tool name translation (Read → read_file)
-   - [ ] Frontmatter adaptation (allowed-tools, user-invocable, etc.)
+**This is the real work.** The phases above are validation. This is implementation.
 
-2. **Migrate existing skills:**
-   - [ ] Convert 18 library skills to single-source format
+1. **Build compilation infrastructure:** (1-2 weeks)
+   - [ ] YAML schema for single-source skill
+   - [ ] Compiler: YAML → claude-code/SKILL.md + vibe/SKILL.md
+   - [ ] Tool name translation (Read → read_file)
+   - [ ] Frontmatter adaptation (allowed-tools, user-invocable)
+   - [ ] Validation & CI checks
+
+2. **Pilot with 5 skills:** (1-2 weeks)
+   - [ ] Convert 5 existing skills to single-source format
    - [ ] Test both outputs in both harnesses
+   - [ ] Fix compiler bugs
    - [ ] Document conventions
 
-3. **Update documentation:**
-   - [ ] Skill authoring guide for portable skills
-   - [ ] Tool translation rules
-   - [ ] Trade-offs (portability vs harness-specific features)
+3. **Optional: Migrate remaining skills:** (1-2 weeks, defer)
+   - [ ] Convert 13 remaining skills
+   - [ ] Consolidate duplicates discovered in process
+   - [ ] Update documentation
 
-### Phase 5: Measurement & Optimization (Ongoing)
+### Phase 5: Measurement & Optimization (Runs Parallel to Phases 2-4)
 
 **Goal:** Prove the substrate helps or identify what needs change.
 
@@ -459,18 +462,27 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ## In One Sentence
 
-**Your vision is 80% implemented (harness provides infrastructure). Your job is 20% (build the 7 behaviors and solve cross-harness portability). The key blocker is hook capability verification. The key insight is that weak models are fine; the harness design matters more than the model.**
+**Your vision is 80% implemented (harness provides infrastructure). Your job is 20% (build the 7 behaviors and solve cross-harness portability). The key blocker is hook capability verification (3-5 days to Phase 1 complete). The key insight is that weak models are fine; the harness design matters more than the model.**
 
 ---
 
 ## Recommendation
 
-**Ship Phase 1 (validation & integration) first.** It's low-risk, high-signal. Get override log running. Verify hook capabilities. Merge crispycouscous and run B1 validation against everything. That alone will tell you whether the approach is working.
+**Do Phase 1 this week.** It's 3-5 days:
+1. Check hook capability (1 day)
+2. Run B1 validation + fix issues (1 day)
+3. Start override log (same day)
+4. Merge crispycouscous and audit (1-2 days)
 
-Then decide Phase 2-5 based on what you learn.
+Then decide whether to proceed to Phases 2-5 based on what you learn.
+
+**If hooks support what you need:** Phase 2 (B2/B3 implementation) is another 1-2 weeks. Then Phase 3 (framework) is 1 week. Then Phase 4 (portability layer) is 2-4 weeks of real work.
+
+**Total realistic timeline:** 1-2 weeks validation → 1 week hook integration → 1 week framework → 2-4 weeks portability = **5-8 weeks to shipping** (not 4+ months).
 
 ---
 
 **Status:** Ready to move forward  
-**Decision point:** Verify hook capabilities (2-3 days of investigation)  
-**Next check-in:** After Phase 1 completion (4 weeks)
+**Immediate action:** Phase 1 (this week)  
+**Decision point:** Hook capability verification results  
+**Check-in:** After Phase 1 (end of week)
