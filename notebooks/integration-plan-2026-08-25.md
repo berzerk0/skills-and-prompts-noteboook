@@ -1,7 +1,8 @@
 # Integration plan — 2026-08-25
 
-**What this is:** the plan for merging two repositories into one and finding out
-where the result actually stands.
+Merge `berzerk0/skills-and-prompts-noteboook` and `berzerk0/crispy-couscous` into
+one repository, then assess the result against
+[`IDEAL.md`](IDEAL.md).
 
 **Repositories:**
 - `berzerk0/skills-and-prompts-noteboook` — a library of skills and prompts
