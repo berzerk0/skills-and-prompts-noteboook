@@ -1,178 +1,196 @@
-# Foundation harness: wants and priorities
+# Foundation harness: ambitions, principles, and what's actually true
 
-**What this is.** The output of the brain-dump-plus-committee exercise, which was
-run as a *wants elicitation* — deliberately impractical, so that the wants would
-surface without being pre-filtered by feasibility. This document extracts the
-priority of principles from that dump by checking each want against what already
-exists.
+## Epistemic status — read this first
 
-**What this is not.** A build plan. See the note at the bottom on why
-[`VISION-ASSESSMENT.md`](VISION-ASSESSMENT.md) is premature.
+**This is not a plan and nothing here is committed to.** It is a set of ambitions
+worth returning to, plus a record of what was verified when they were checked
+against two real repos.
 
----
+Three separate things got conflated in earlier drafts of this document. Keeping them
+apart is the whole point:
 
-## How priority was inferred
-
-The dump was written unedited on purpose, which means it leaks emphasis. Four
-signals, strongest first:
-
-1. **Already solved before it was wished for.** If you built a thing and *then*
-   wrote it on a wish list, you cared about it enough to act before articulating
-   it. This is the strongest available signal and it dominates the ranking below.
-2. **Recurrence.** Wants stated more than once in a single pass.
-3. **Open-question phrasing.** "Where does that logfile go?" — a question mark in
-   a wish list marks genuine uncertainty, not a want.
-4. **Hedging and specificity.** The more carefully qualified, the more thought
-   went in.
-
-These are inferences from the text, not things you said. Correct them where they're
-wrong — the ranking is the point of the exercise, so a wrong rank is worth fixing.
-
----
-
-## Tier A — proven priorities (you built these before wishing for them)
-
-Every row here is a want from the dump that already has a working implementation
-in one of your two repos. This is not "could be built." It exists.
-
-| Want (from the dump) | Already exists as | Where |
+| Layer | What it is | How much weight it carries |
 |---|---|---|
-| "recognizes when to make a script... knows where output should go" | `script-it`, with a concrete threshold: 5+ items, or must be repeated to verify | crispy-couscous |
-| "tell if it needs to expand... logfile? plan? skill? agent? script? mcp?" | `router` agent — "primary entry point, routes tasks to specialized subagents based on intent, domain, complexity" | crispy-couscous `.vibe/agents/router.toml` |
-| "flexible between agents because it is based on principles more than specifics" | Per-harness compiler: `agents/*.yaml` → `.claude/`, `.pi/`, `.vibe/` | crispy-couscous `meta/generate_*.py` |
-| "how those subagents best communicate... where does that logfile go?" | `SUBAGENT_RETURN_CONVENTION.md` — JSON schema, `status`/`task`, enum of success/error/partial/needs_input | crispy-couscous `docs/` |
-| "knows when to sound the alarm if something breaks" | `escalate` — creates an escalation brief when stuck | crispy-couscous |
-| "knows basic principles for the models it uses, they don't behave the same" | `MODEL_SELECTION_STRATEGY.md` | crispy-couscous `docs/` |
-| "knows when contradictions between principles exist and how to balance them" | `pilot-preset` conflict-resolution section — explicit precedence rules between bundled skills | user-level skills |
-| "when to be verbose and when to be direct" / "paragraphs vs bullet points" | `solus-skill` (three intensity levels) | user-level skills |
-| "conflict between what is 'supposed to be' vs what it has evidence for" | The method in `cross-tool-notes.md`: trust source over docs, trust the artifact the tool parses over the one written for humans | notebook repo |
-| "tell when the user needs assistance clarifying their ask" | `clarify` / `ask-questions-if-underspecified` | both repos |
-| "isn't a gutless sycophant, without being obstinate" | `challenge-my-thinking` | both repos |
-| "enough breadcrumbs for a session with 0 context to pick it back up" | `napkin` (curated runbook) + `planning-with-files` | both repos |
-| "knows how to make a skill / prompt / agent" | `skill-creator`, `SKILL_DESIGN.md`, `prompt-pipeline` | both repos |
-| "knows how to talk to other models, pass messages back and forth" | `prompt-committee` — and you just ran it, twice, at scale | notebook repo |
-| "a single prompt or session can do too much" | `task-chunkdown` | both repos |
-| "knows not to rm -rf or drop tables" | deny rules (harness) + `security-audit` | shipped + notebook repo |
+| **The ambitions** | The brain dump. Written deliberately without regard to practicality, as a wants-elicitation exercise. | High as a statement of what you want. Zero as a spec. |
+| **The committee** | 8 models, 2 rounds. | **Low.** Each model got essentially one shot per round, no iteration, no repo access, no ability to run anything. They were reasoning about a description, not a system. Useful for surfacing disagreement; not evidence about your code. |
+| **The verification** | Files read and commands run in `crispy-couscous` on 2026-08-25. | Highest of the three, and still narrow — see the log at the bottom for exactly what was and wasn't checked. |
 
-**Read this table as the answer to "what am I really looking for."** You have been
-building the foundation harness for months. The dump is a description of work
-already substantially done, not a spec for work to start.
+The committee's "reality check" deserves its scare quotes. Its main value was
+*forcing variance* — round 1 produced convergent consensus that was mostly useless,
+round 2 produced disagreement worth reading. It did not validate anything about the
+repos, because it never saw them.
+
+**History this sits on top of:** crispy-couscous was the first attempt. This notebook
+repo was a semi-restart. The committee was an anti-over-engineering check on both.
+None of the three has superseded the others, and that's the actual current state.
 
 ---
 
-## Tier B — wished for, the harness already ships it
+## The ambitions worth returning to
 
-No action beyond configuration. The committee was unanimous on these once corrected.
+Stated as principles rather than features, because that's the form that survives
+re-reading. These are the parts of the dump that still look right after the audit.
 
-- Destructive-command prevention → deny rules
-- Deterministic logging → hooks
-- Session resume from hard failure → shipped in both harnesses
-- Subagent isolation with declared tool lists → a subagent definition, not architecture
-- "doesn't try to load it all at once" → two-stage skill loading, already the default
-- "connect to another source of information" → MCP
+1. **Decide the shape of the work before doing the work.** Does this ask need a
+   logfile, a plan, a script, a new skill, a subagent, an MCP connection — or
+   nothing? Getting this wrong is more expensive than doing the work badly.
 
----
+2. **"Nothing" must be an available answer.** A decision procedure whose output
+   space contains only expansions will always expand. This was the single sharpest
+   idea in the committee round and it came from one model, with a support count of
+   one — so weigh it on its merits, not its backing.
 
-## Tier C — the actual gaps
+3. **Artifacts need a declared home.** "Where does that logfile go?" appears twice
+   in the dump, both times as a question. That's genuine uncertainty, not a want.
 
-Three, and only three, survive the audit.
+4. **Evidence beats documentation, including your own.** Where a tool's docs and its
+   source disagree, the source wins. You already operationalized this in
+   `cross-tool-notes.md` — and the audit below shows a case where your own system
+   prompt was the thing that disagreed with reality.
 
-### 1. The null branch
+5. **Triggers should be countable, not felt.** "Knows when to sound the alarm" is
+   uncashable. "3 failed attempts" is not. The best existing work in either repo
+   follows this rule; the weakest parts don't.
 
-The router routes. `script-it` fires at 5+ items. Nothing in either repo makes
-*"nothing is needed here, just answer"* an explicit, first-class output.
+6. **Separate retrieval from judgment.** `escalate` does this explicitly and it's the
+   best-designed thing in either repo — it gathers the transcript and formats a brief,
+   and *deliberately refuses* to decide whether escalation is warranted or to
+   summarize an attempted solution.
 
-This is the single most valuable thing identified in the whole committee exercise,
-and it came from one model with a support count of one: **a classifier whose output
-space contains only expansions will always classify, and therefore always expand.**
-The taxonomy generates the skill debt.
+7. **Portability is a compilation problem, not a prose problem.** Committee voted 7-1
+   here and the working compiler in crispy-couscous agrees with the majority. Note
+   the one dissenter disclosed that its position favored its own harness.
 
-Cost to fix: one row in the router's decision table. Highest value-to-effort ratio
-in this document.
+8. **Dead artifacts are not inert.** Two-stage loading means every description is
+   resident every turn. Unused skills cost tokens and cause misrouting.
 
-### 2. Retirement
-
-Nothing in either repo finds artifacts that nothing invokes. With two-stage loading,
-every skill description is resident every turn whether or not it is ever used —
-dead skills are a standing tax on context and a standing source of misrouting.
-
-`repo-auditor` audits structure and compatibility, not usage. Closest existing thing,
-but it doesn't answer "is this still earning its residency."
-
-### 3. Consolidation
-
-Two repos, overlapping skills, divergent conventions. `challenge-my-thinking`,
-`clarify`/`ask-questions-if-underspecified`, `planning-with-files`, and
-`skill-extractor` exist in both, and the notebook repo's `skills/README.md` records
-`pilot-preset`, `karpathy-guidelines`, and `solus-skill` as *deliberately removed* —
-while they remain live at user level and carry three Tier A wants between them.
-
-That's not a bug, but it does mean no single place answers "what is the substrate."
+9. **Best-effort, because models predict tokens.** The dump's closing line, and the
+   right frame for all of the above.
 
 ---
 
-## Want vs. mechanism — where the committee's rejections don't land
+## Verification log — 2026-08-25
 
-Two committee verdicts read as rejections of wants but are actually rejections of
-*mechanisms*. The wants survive; they route elsewhere.
+Checked against `berzerk0/crispy-couscous` @ `4d2c23d`. Everything below was read or
+run, not inferred.
 
-| Want | Mechanism you proposed | Committee verdict | Where the want actually lands |
+### Verified true
+
+- **The per-harness compiler works.** `python3 meta/generate_all.py --validate`
+  returns clean on all 13 canonical YAMLs. `agents/*.yaml` → `.claude/agents/*.md`,
+  `.pi/agents/*.md`, `.vibe/agents/*.toml`. This is the committee's 7-1
+  recommendation, already built and functional.
+- **`script-it` is substantive.** Counted trigger (5+ items, or must be repeated to
+  verify), an explicit "when not to script" list, the mechanical/judgment split, and
+  concrete authoring rules (dry-run first, print a verifiable N-found/N-changed
+  summary, PEP 723 throwaway). It has its own null branch.
+- **`escalate` is substantive.** Four steps, a fixed brief format, an explicit
+  "deliberately does NOT" list, a route fork, and a return leg that appends a dated
+  lesson to `napkin.md`.
+- **The 3-strike counter exists.** `planning-with-files` defines attempts 1/2/3 and
+  hands off to `/escalate` after three failures. Combined with `escalate`, the
+  non-progress alarm is real and better-designed than what the committee proposed.
+- **`SUBAGENT_RETURN_CONVENTION.md` exists** with a JSON schema
+  (`status` ∈ success/error/partial/needs_input, `task`, artifacts, warnings, stats).
+- **The router prompt is real** — 213 lines at `prompts/router.md`, with priority
+  tiers, trigger tables, and domain keyword routing.
+
+### Verified false — claims I made that were wrong
+
+- **`skill-validator` does not validate anything.** 25 lines: frontmatter, a restated
+  description, and a list of trigger phrases. No spec definition, no checks, no logic.
+  It names an intent. It is a routing shim, not an implementation. My earlier claim
+  that it duplicated `scripts/validate-tool-names.py` was wrong — those are not the
+  same kind of object.
+- **`repo-auditor` is the same shape.** 26 lines, trigger phrases only.
+- **"~85% built" was fabricated.** I inferred it from directory listings and two file
+  heads. There is no defensible single number; the per-item log is the honest form.
+- **The router does not answer the dump's first question.** It dispatches among
+  *existing* subagents by keyword match. The dump asks whether the ask requires
+  creating a *new* skill / agent / prompt template / script. No branch in the router
+  covers "the needed capability doesn't exist yet."
+
+### Verified false — claims the repo makes about itself
+
+These matter more than my errors, because they live in a system prompt an agent will
+act on.
+
+- **`prompts/router.md`: "All skills have Python implementations. Use `bash` to
+  execute them when appropriate."** There are **zero** `.py` files across all 13
+  skills. An agent running this prompt will look for implementations that do not
+  exist.
+- **`prompts/router.md`: "You have access to 17 specialized subagents and 11
+  skills."** Actual: 19 vibe agents, 13 claude agents, 13 canonical YAMLs, 13 skills.
+  No reading of the repo produces either number.
+
+### Verified — structural gap
+
+- **The router is outside the single source of truth.** 19 vibe agents vs. 13
+  canonical YAMLs. Six orchestration agents — `router`, `architect`, `implementer`,
+  `reviewer`, `escalation-fixer`, `transcription` — exist only under `.vibe/` and are
+  not compiled from `agents/*.yaml`. The component implementing the most-wanted
+  capability is the least portable thing in the repo.
+
+### Not checked
+
+- Whether the generators produce *correct* output, only that they validate input.
+- Whether the router has ever been run, or routes well in practice.
+- Any of `.pi/`, `docs/architecture/`, `docs/multi-agent/`, `main/`.
+- The notebook repo's own skills against the same standard — several are likely
+  thin in the same way `skill-validator` is.
+- Drift: your own `docs/audit-report-2026-08-22.md` lists `challenge-my-thinking` at
+  182 lines; it is 26 today. The repo has changed shape recently and I did not trace
+  what happened.
+
+---
+
+## What's genuinely open
+
+Stated as questions, because they are questions.
+
+1. **Does anything decide whether a *new* capability is needed?** The router
+   dispatches; `script-it` decides one narrow case (script vs. no script) well. The
+   general version of the dump's first line is unbuilt in both repos.
+
+2. **Is "nothing needed" reachable?** The router's Priority 4 handles meta-questions
+   ("what skills are available?"), and Priority 5 falls back to clarifying questions.
+   Neither is "this task needs no artifact, just answer it."
+
+3. **What audits usage?** Nothing in either repo asks whether a skill still earns its
+   residency. `repo-auditor` would be the natural home if it did anything.
+
+4. **What is the relationship between the three attempts?** crispy-couscous,
+   this notebook, and the user-level `~/.claude/skills/synced/` set all hold pieces.
+   `skills/README.md` here records `pilot-preset`, `karpathy-guidelines`, and
+   `solus-skill` as deliberately removed — while they remain live at user level and
+   carry real weight. No single place answers "what is the substrate."
+
+5. **How much of the existing surface is stubs?** Two of the four crispy-couscous
+   skills I read closely were trigger-phrase shims. That rate, if it holds, changes
+   what "already built" means substantially — and it is cheap to measure.
+
+---
+
+## Where the committee's verdicts land after verification
+
+Two verdicts read as rejections of *wants* but were rejections of *mechanisms*:
+
+| Want | Your proposed mechanism | Committee | Where it actually lands |
 |---|---|---|---|
-| Portability across agents | Principle-level instruction ("based on principles more than specifics") | Rejected 7-1 — silent tool-drop means a behavioral hedge has nothing to react to | Satisfied already by `meta/generate_*.py`. The want was right; the mechanism was the thing that lost. |
-| Don't repeat mistakes | "leaves logs for itself... can improve itself as a result" | Rejected unanimously — a lesson drawn from a log has no verifier | Satisfied by `napkin` + manual AGENTS.md edits. The event record is ground truth; only the *automatic* lesson-drawing was rejected. |
+| Portability across agents | Principle-level instruction | Rejected 7-1 | The want is satisfied by the compiler you already built. The mechanism lost; the want didn't. |
+| Don't repeat mistakes | Agent reads its own logs and self-improves | Rejected unanimously | Satisfied by `escalate`'s return leg — a dated lesson appended to `napkin.md` by hand. Only *automatic* lesson-drawing was rejected. |
 
-Worth keeping straight, because "the committee rejected that" is otherwise the wrong
-takeaway on both.
-
----
-
-## What was genuinely surprising
-
-1. **You built the committee's top recommendation before the committee met.** The
-   panel voted 7-1 for per-harness compilation from a single source. `meta/generate_all.py`
-   already does exactly that, across three agents rather than two.
-
-2. **The #1 line of the dump has an implementation.** "Tell if it needs to expand"
-   is the first sentence of the brain dump and the thing I described as the one real
-   gap. There is a `router` agent whose description is nearly a paraphrase of it.
-
-3. **The hardest-to-cash-out line has the most concrete implementation.** "Knows when
-   to make a script" sounds unfalsifiable. `script-it` cashes it out as a counted
-   threshold: 5+ items, or repeated to verify. That is a trigger, not a feeling —
-   exactly the standard the committee demanded and mostly failed to meet itself.
-
-4. **Two wants were already solved twice.** Clarification and anti-sycophancy exist
-   independently in both repos. Convergent invention across your own projects is a
-   strong priority signal.
-
-5. **The exercise's premise held.** Writing it impractically did surface the wants —
-   but what it surfaced most clearly is that the wants were already being acted on.
-   The dump reads less like a wish list and more like an inventory written from memory.
+And one verdict the verification undercuts: the committee treated tool-name
+validation as the highest-consensus behavior (7 of 8). That consensus was formed
+about a two-harness world with silent drops. It is still right for Vibe — but the
+committee never saw that a compiler already existed, so it was answering a question
+that had been partly solved before it was asked.
 
 ---
 
-## What this implies
+## Status of the other documents here
 
-**Stop building. Start consolidating.** The substrate is roughly 85% built and split
-across two repos plus a user-level skills directory. The remaining work is one router
-row (null branch), one usage audit (retirement), and a merge.
-
-**Corollary, and I'm the example:** earlier this session I built
-`scripts/validate-tool-names.py` to satisfy B1. `skill-validator` and `repo-auditor`
-already do that job in crispy-couscous. Check the other repo before building — the
-duplication risk here is real and immediate, not hypothetical.
-
-**On single-agent-first:** deferred, correctly. But note what the audit changes about
-that decision — crispy-couscous is already tri-agent (Claude/Pi/Vibe) with a working
-compiler. "Start with one agent" would mean *giving up* capability you have, not
-avoiding work you'd otherwise take on. The reason to go single-agent was to harvest
-rather than reinvent; the harvest already happened.
-
----
-
-## Status of the other documents in this folder
-
-- [`foundation-harness-vision-2026-08-25.md`](foundation-harness-vision-2026-08-25.md) — the dump. Unchanged, still the source.
-- [`foundation-harness-behavior-spec-2026-08-25.md`](foundation-harness-behavior-spec-2026-08-25.md) — B1-B7. Still valid as *behavior specifications*; the "build this" framing is now wrong for B1 and B7, which exist.
-- [`DEBATE-SUMMARY.md`](DEBATE-SUMMARY.md) — accurate on method and findings; its "next steps" predate the crispy-couscous audit.
-- [`VISION-ASSESSMENT.md`](VISION-ASSESSMENT.md) — **premature.** Written as a build roadmap before the wants were prioritized and before the other repo was inspected. Its "what already exists" section is materially incomplete. Superseded by this document.
+- [`foundation-harness-vision-2026-08-25.md`](foundation-harness-vision-2026-08-25.md) — the dump. The source. Unchanged and still worth re-reading directly.
+- [`foundation-harness-behavior-spec-2026-08-25.md`](foundation-harness-behavior-spec-2026-08-25.md) — B1-B7. Valid as behavior *descriptions*; its "build this" framing is wrong for the alarm (exists, better than proposed) and partly wrong for validation.
+- [`DEBATE-SUMMARY.md`](DEBATE-SUMMARY.md) — accurate on method. Its "already exists" and "next steps" sections predate this verification.
+- [`VISION-ASSESSMENT.md`](VISION-ASSESSMENT.md) — **superseded.** A build roadmap written before priorities were extracted and before either repo was inspected. Its phase structure and timelines were invented, and it is kept only as a record of that error.
