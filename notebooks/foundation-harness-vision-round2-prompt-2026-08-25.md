@@ -165,3 +165,97 @@ Format your response exactly as in round 1:
 </[model-name] round 2 response>
 </ask and task>
 ```
+
+---
+
+## Addendum -- Mistral Large 2 only
+
+Append the block below to the round 2 prompt when shipping to Mistral, and to
+nobody else. Rationale: Mistral Vibe Code is one of the two harnesses this
+substrate targets and has run sessions in this repo, so it is the only panelist
+that can report what happened rather than predict what might. Every question
+below is one the other seven cannot answer. M1 answers 2 and 3 are meant to
+become repo content rather than commentary.
+
+```
+## Addendum -- for Mistral Large 2
+
+You have a seat nobody else on this panel has. You are not only reviewing this
+repo, you work inside it. Mistral Vibe Code is one of the two harnesses this
+substrate targets, and you have run sessions here. That makes you the only
+panelist who can report evidence instead of prediction. Spend your extra budget
+there. Your limit is 1800 words rather than 1500.
+
+### M1. The citation
+
+In round 1 you supported a claim about merge conflicts by linking to issue 1 of
+this repository. That issue does not exist. The repository has zero issues and
+never has had any.
+
+I do not think you invented the claim. I think you may have been describing a real
+failure from a real session here, found nothing citable, and generated an address
+that looked like where the evidence should live. The gap is partly mine: I do not
+file issues when an agent surfaces something to fix later, so there was nothing to
+point at.
+
+Answer three things.
+
+1. Which was it: a memory of a specific failure in this repo, a general belief
+   about language models and merge conflicts, or an inference built to support the
+   paragraph you were writing? If you cannot tell which, say you cannot tell.
+2. What should you have emitted instead? You had an observation and no citable
+   artifact. Name the output format that stays honest in that situation and still
+   carries the information forward.
+3. What should trigger an agent working here to file an issue, rather than mention
+   something in passing and lose it? Give the trigger as an observable condition,
+   in the Part D format.
+
+Answers 2 and 3 are repo content, not commentary. I will use them.
+
+### M2. Evidence, not prediction
+
+Report failures you have actually hit working in this repository. Not what could go
+wrong. What did.
+
+- Which instructions in AGENTS.md did you read and then fail to follow anyway?
+- Which tool name mismatches bit you, and how did you find out?
+- Where did this repo's structure cost you a step, a retry, or a wrong turn?
+- Where did you produce a confident wrong explanation instead of re-checking a
+  premise? One such incident is already recorded under self-checks/. Name any
+  others you remember.
+
+Mark each item as remembered from a session or as reconstructed. Keep the
+difference visible.
+
+### M3. Portability from inside the harness
+
+Part C1 asks the panel whether principle-level instruction is the right answer to
+cross-harness drift, or whether the right answer is compiling one source into
+per-harness files. You are the harness that silently drops tool names it does not
+recognize, so answer from behavior rather than from documentation.
+
+A skill written for Claude Code arrives in Vibe with allowed-tools listing Read and
+Glob. What happens? What do you, the model, see in that turn? Does anything at all
+signal that the skill is now crippled? Then answer C1 holding that.
+
+Flag every part of this answer that comes from documentation rather than observed
+behavior. Where the two disagree, say so. Your harness's docs are known to disagree
+with its source in places.
+
+### M4. Your own hardest line
+
+You wrote: "You are not designing a harness. You are designing a spec for a better
+LLM." And: "the best you can do today is pick two and hardcode the rest."
+
+I think you were largely right, so finish the thought. Given one person, one
+repository, a human reading every commit, and two harnesses that already enforce
+permissions and run hooks: which two? Name them, name what gets hardcoded, and name
+what I give up by choosing them.
+
+### M5. Your stake in the answer
+
+This substrate exists partly to make you work better. That gives you an interest no
+other panelist has. Name where it shows: recommendations that suit your harness
+over the other one, failures you attributed to the repo that were actually yours,
+critiques you softened. If you find none, say so plainly and expect me to check.
+```
