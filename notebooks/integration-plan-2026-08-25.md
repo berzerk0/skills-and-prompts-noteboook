@@ -8,14 +8,25 @@ one repository, then assess the result against
 - `berzerk0/skills-and-prompts-noteboook` — a library of skills and prompts
 - `berzerk0/crispy-couscous` — a multi-agent skill repo whose build step
   (`meta/generate_all.py`) compiles one canonical source, a directory of
-  per-skill YAML files in `agents/`, into per-agent output for Claude Code, Pi,
-  and Mistral Vibe
+  per-skill YAML files in a directory named `agents/`, into per-agent output
+  for Claude Code, Pi, and Mistral Vibe
+
+**Words used precisely below.** *Agent* means one of the three coding tools:
+Claude Code, Mistral Vibe, Pi. *Skill* means a markdown file an agent can load
+to do a particular job. *Session* means one chat session with an agent. Note
+crispy-couscous has a directory literally named `agents/` that holds per-skill
+YAML, not agents — where that directory is meant, it is written as `agents/`.
 
 **Owner:** the project owner. **Policy for this effort:** sessions contribute
 retrieval — what they did, what they know, what they found — and the owner makes
 the decisions. This is a choice about how the work is run, not a claim about
 what sessions are capable of.
 
+> **Which role you have.** Some steps below can only be done by the project
+> owner, and are marked **[OWNER]**. If you are a session helping with this
+> work and you reach an [OWNER] step, stop and report what you would need —
+> do not improvise a way around it.
+>
 > **This file is meant to be acted on.** Other files in this directory are an
 > exploratory record and carry a "do not act on this" banner. Three of them are
 > linked below and each says whether you need to open it — the links are
@@ -33,11 +44,13 @@ never been invoked, `crispy-couscous/prompts/router.md` (the prompt that routes
 requests to sub-agents) has never been used, and Pi — a third coding agent,
 alongside Claude Code and Mistral Vibe — has never been targeted at all.
 
-**Two exceptions, both verified by running them on 2026-08-25.** The
+**Two exceptions, both executed on 2026-08-25.** The
 crispy-couscous build step works: `python3 meta/generate_all.py --all` followed
 by `git status` reports zero changed files, so it is idempotent and nothing it
 generates has been hand-edited. A draft validator that checks skill files for tool names invalid on a target
-agent also runs; it lives at
+agent **executes without error and produces plausible output** — that is all
+that was established; whether its findings are correct was not checked. It lives
+at
 `notebooks/behaviors/validate-tool-names.py` on the
 `notebook/foundation-harness-exercise` branch and is unpromoted draft tooling,
 not part of any workflow. Nothing
@@ -46,12 +59,14 @@ else in either repo has a comparable check.
 Two consequences, and they decide everything below:
 
 1. **The merge cannot break working software, because almost none is running.**
-   The real risk is **contradiction accumulation** — pulling two bodies of
+   The risk that replaces it, on the reasoning above, is **contradiction
+   accumulation** — pulling two bodies of
    claims into one repo, then later having to decide which was right with no
    evidence either way.
 2. **Assessment means running things, not reading them.** Reading cannot tell a
-   working skill from one that only names an intent. In a sample of four
-   crispy-couscous skills read closely, two were shells — a description, a list
+   working skill from one that only names an intent. Of four crispy-couscous
+   skills read closely — chosen because the repo's own routing prompt lists
+   them as dispatch targets, not sampled at random — two were shells — a description, a list
    of trigger phrases, no logic — while the repo's README listed both as
    complete and working on all three agents.
 
@@ -86,7 +101,8 @@ shallow clone once the full one is confirmed to have complete history — `git
 log --oneline main | wc -l` returning more than a handful of commits is enough
 to confirm it.
 
-**From each session that did work on either repo** — what git cannot know.
+**[OWNER] From each session that did work on either repo** — what git cannot
+know.
 A "session" here means a chat session in Claude Code or Mistral Vibe that did
 work on one of these repos. **The project owner contacts these by hand through
 each app; there is no programmatic way to enumerate or address them.** This
@@ -101,8 +117,10 @@ Ask each session to **close its own loop, not to review this plan.** A session
 holds its own state; it does not hold the full picture, since no session can
 currently see both repositories at once.
 
-Also collect each session's branch name and current commit, so its work can be
-matched against the git inventory.
+A session has closed its loop when it has reported, in plain prose: its branch
+name and current commit; the four items above or an explicit "nothing" for each;
+and anything it left uncommitted. There is no template — a session that names
+its branch and says "nothing beyond what is committed" is done.
 
 ### 2b. Merge
 
@@ -110,9 +128,10 @@ matched against the git inventory.
 
 > **Record contradictions. Do not resolve them.**
 
-When the two repos disagree, do not pick a winner. There is no basis to pick
-one — nothing runs, so there is no evidence either version is correct.
-Preserve both and mark the disagreement.
+When the two repos disagree, do not pick a winner. Neither version has been
+invoked, so there is no evidence that either is correct. (The two exceptions
+noted at the top are a build step and a validator — neither adjudicates skill
+content.) Preserve both and mark the disagreement.
 
 **Preserve provenance.** Record which repo each artifact came from. Once
 merged, that information is no longer recoverable from the file tree, so it has
@@ -139,9 +158,10 @@ during phase 2 and sorted during phase 3. Nothing here is a task yet.
   rather than giving a verdict) is 52 lines in `skills-and-prompts-noteboook`
   and 26 in crispy-couscous. `skill-extractor` (turns a finished piece of work
   into a reusable skill file) is 210 lines and 54. **Line count is not a quality
-  measure** — the shorter copies may be deliberate condensations, and they are
-  the ones wired into crispy-couscous's build step. Neither version has been
-  invoked, so there is currently no basis for choosing
+  measure** — the shorter copies may be deliberate condensations. They are the
+  ones wired into crispy-couscous's build step, which makes them the ones
+  currently in use but says nothing about whether they are better. Neither
+  version has been invoked, so there is currently no basis for choosing
 - Whether three skills should be brought into the merged repo: `pilot-preset`,
   `karpathy-guidelines`, `solus-skill`. They currently live only in the owner's
   personal Claude Code directory (`~/.claude/skills/synced/`) on whichever
@@ -162,8 +182,9 @@ during phase 2 and sorted during phase 3. Nothing here is a task yet.
 
 Sorting the pile into **drop** is a valid outcome for any item.
 
-**One pile, not two.** The `notebook/foundation-harness-exercise` branch already
-holds the earlier design work in exactly this form. Post-merge, the pile is that
+**One pile, not two.** The `notebook/foundation-harness-exercise` branch — an
+earlier, deliberately inert design exercise about what this system should be
+like — already holds its unresolved questions in exactly this form. Post-merge, the pile is that
 branch plus whatever the merge surfaces — one location.
 
 ---
@@ -201,8 +222,9 @@ what can be observed in whatever tooling is available at the time.
 **Stability before expansion.** No new skills — including any third-party set
 waiting to be imported — until phase 3 has produced a baseline.
 
-Both agents load skills in two stages: every skill's description sits in the
-prompt on every turn, and only the body loads when the skill is invoked. So an
+Claude Code and Mistral Vibe both load skills in two stages: every installed
+skill's description sits in the agent's system prompt on every turn, and only
+the body loads when that skill is invoked. (Pi has not been checked.) So an
 unused skill is not free — it costs description tokens continuously and
 competes to be selected. Until phase 3 establishes which existing skills earn
 that cost, adding more makes the measurement harder rather than easier.
@@ -240,7 +262,8 @@ without asking the owner:**
 `claude/repo-vision-clarify-u3pays`,
 `claude/version-reconciliation-review-jvzxfw`.
 
-**Suggested, not decided — the owner's call, and there is a case either way.**
+**[OWNER] decision. Do not delete this branch. Do not delete any branch.**
+Recorded here as a question for the owner, with a case either way.
 `claude/repo-vision-debate-r1-ya1c00` holds the same material as
 `notebook/foundation-harness-exercise` in an earlier layout: the later branch
 was created by moving that content and correcting it, so the two overlap almost
@@ -272,9 +295,9 @@ clone and belongs to phase 2.
 - [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — a list of
   wrong or misleading claims found in crispy-couscous, each with the command
   that reproduced it, valid as of commit `4d2c23d`. **A record, not a task
-  list.** Open it when building the pile, to copy items across. Do not fix from
-  it — paths will move during the merge and several entries will need
-  re-verifying afterwards.
+  list. Do not fix anything from it during phase 2.** Open it when building the
+  pile, to copy items across, and nothing else. Paths will move during the merge
+  and several entries will need re-verifying afterwards.
 - [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) —
   background on what the project was originally trying to build and which parts
   already exist. **Optional**; nothing in this plan depends on it.
