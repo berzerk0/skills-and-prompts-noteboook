@@ -130,6 +130,18 @@ tracked, since sessions run in separate chats the owner is watching directly.
 The prompt for this step is
 [`prompt-collect-loose-ends.md`](prompt-collect-loose-ends.md).
 
+**A different case: no live session, only a local checkout.** The Mistral Vibe
+sessions that worked on crispy-couscous are not still open. The prompt above
+depends on conversational memory, so it does not apply — there is nothing to
+ask a fresh session to recall. What a fresh session run **on the same local
+machine** can still find is anything that landed on disk but was never
+committed or pushed: stashes, reflog entries, unpushed local branches,
+untracked files, and possibly local Vibe session transcripts, none of which
+survive in a remote clone. See
+[`prompt-local-archaeology-crispy-couscous.md`](prompt-local-archaeology-crispy-couscous.md),
+which checks its own premise first — a fresh sandbox with no local history
+reports that and stops, rather than fabricating findings.
+
 ### 2b. Merge
 
 **The rule for this phase:**
