@@ -18,8 +18,15 @@ lives on the `notebook/foundation-harness-exercise` branch and is deliberately n
 merged. (Two things here *were* executed: a draft tool-name validator, and
 crispy-couscous's compiler. Both are reported in the defect log with their commands.)
 
+**One file here is not inert:**
+[`integration-plan-2026-08-25.md`](integration-plan-2026-08-25.md) is an active
+work plan for merging the two repos and is meant to be acted on. Everything else
+below is record.
+
 Reading order:
 
+0. [`integration-plan-2026-08-25.md`](integration-plan-2026-08-25.md) — the active
+   plan. Three phases: document the ideal (done), merge, assess by running.
 1. [`IDEAL.md`](IDEAL.md) — the north star. Ten principles, each with an observable
    and a falsifier so it can be scored by running the harness rather than by listing
    files. **Start here.**
