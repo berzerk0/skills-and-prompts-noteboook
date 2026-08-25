@@ -184,7 +184,7 @@ A skill that's not invoked for 30 days is likely either:
 
 **Note:** Mistral answered Part C2 "Survive: none" but then listed retirement in its Part D. Treat as capitulation pressure; the core idea survives the debate.
 
-## Next Steps
+## What was proposed (never done)
 
 1. **Verify hook capability:** Confirm that invoking a skill can be logged automatically
 2. **Implement logging:** Add hook to log skill invocations (name, timestamp, outcome)

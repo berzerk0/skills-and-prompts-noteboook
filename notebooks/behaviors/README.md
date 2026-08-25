@@ -24,38 +24,31 @@ This directory contains the implementation of "behaviors" — always-on enforcem
 
 | Behavior | Status | Purpose | Enforcement |
 |----------|--------|---------|-------------|
-| **B1: Tool-Name Assertion** | ✅ Implemented | Prevent silent-drop failures (e.g., Vibe silently dropping unrecognized tool names) | Pre-commit hook + validation script |
-| **B2: Premise Re-Check** | 📋 Planned | Inject live tool list when tool-not-found error occurs | Hook on tool-error events |
-| **B3: Retirement Sweep** | 📋 Planned | Find and list zero-invocation skills every 30 days | Scheduled script |
+| **B1: Tool-Name Assertion** | ⚠️ Written, never run | Prevent silent-drop failures (e.g., Vibe silently dropping unrecognized tool names) | Pre-commit hook + validation script |
+| **B2: Premise Re-Check** | ⚠️ Speculative | Inject live tool list when tool-not-found error occurs | Hook on tool-error events |
+| **B3: Retirement Sweep** | ⚠️ Speculative | Find and list zero-invocation skills every 30 days | Scheduled script |
 
 ### Tier 2: Stronger Argument, Thin Support
 
 | Behavior | Status | Purpose | Notes |
 |----------|--------|---------|-------|
-| **B4: Null-First Expansion** | 📋 Planned | Default to not creating new skills | Upstream prevention of skill debt |
-| **B5: Lesson Admission** | 📋 Planned | Only accept lessons backed by hook-generated events | Prevents unfounded lessons |
-| **B6: Completion Verification** | 📋 Planned | Claims of success must point to evidence | Catches silent failures |
-| **B7: Non-Progress Alarm** | 📋 Planned | Flag loops and overruns instead of absorbing them | Loud failure for expensive mistakes |
+| **B4: Null-First Expansion** | ⚠️ Speculative | Default to not creating new skills | Upstream prevention of skill debt |
+| **B5: Lesson Admission** | ⚠️ Speculative | Only accept lessons backed by hook-generated events | Prevents unfounded lessons |
+| **B6: Completion Verification** | ⚠️ Speculative | Claims of success must point to evidence | Catches silent failures |
+| **B7: Non-Progress Alarm** | ⚠️ Speculative | Flag loops and overruns instead of absorbing them | Loud failure for expensive mistakes |
 
 ## B1: Tool-Name Assertion Before Commit
 
-**Status:** ✅ Implemented (validated against existing skills)
+**Status:** ⚠️ Written, never run (validated against existing skills)
 
-**Files:**
+**Files (draft, unpromoted):**
 - `notebooks/behaviors/tools-registry.yaml` — Registry of valid tool names per harness
 - `notebooks/behaviors/validate-tool-names.py` — Validation script (can run standalone or via hook)
 - `notebooks/behaviors/B1-tool-name-validation.md` — Full documentation
 - `notebooks/behaviors/B1-setup-hook.sh.txt` — Pre-commit hook template (optional)
 
 **Quick start:**
-```bash
-# Validate all skills
-python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harness vibe
-
-# Install optional pre-commit hook
-cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 **Issues found in this repo:**
 - `skills/skill-extractor/SKILL.md` declares tools (Read, Write, Glob, Grep, WebSearch, AskUserQuestion) that don't exist in Vibe and would be silently dropped

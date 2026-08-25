@@ -4,9 +4,9 @@
 # Prevents skills with invalid tool names from being committed.
 # Catches silent-drop failures (e.g., Vibe silently dropping unrecognized tools).
 #
-# Installation:
-#   cp notebooks/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
-#   chmod +x .git/hooks/pre-commit
+# STATUS: NEVER INSTALLED, NEVER RUN. Draft only, kept for reference.
+# Stored as .sh.txt deliberately so it is not mistaken for live tooling.
+# Do not install this without deciding the behavior is actually wanted.
 #
 # To bypass (emergency only):
 #   git commit --no-verify

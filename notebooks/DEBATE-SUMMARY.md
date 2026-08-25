@@ -8,11 +8,13 @@
 
 ---
 
-# Foundation Harness Vision Debate: Summary & Next Steps
+# Foundation Harness Vision Debate: Summary
+
+*(Originally titled "Summary & Next Steps". The next-steps sections below were written before verification and are kept as a record of what was believed at the time.)*
 
 **Completed:** Two-round structured model debate with 8 models  
 **Date:** 2026-08-24 to 2026-08-25  
-**Outcome:** Extracted 7 candidate behaviors (Tier 1 & 2), implemented B1, documented B2-B3
+**Outcome:** Extracted 7 candidate behaviors (Tier 1 & 2). None has been run in anger; see [`IDEAL.md`](IDEAL.md) for what survived verification.
 
 ---
 
@@ -93,26 +95,26 @@ All 8 models agreed (after correction) that these are shipped and working:
 
 | Behavior | Status | Panel | Evidence |
 |----------|--------|-------|----------|
-| **B1: Tool-Name Assertion** | ✅ Implemented | 7/8 | Real session error (tool-name mismatch, silent drop) |
-| **B2: Premise Re-Check** | 📋 Documented | 5/8 | Real session error (elaborate wrong theory instead of re-check) |
-| **B3: Retirement Sweep** | 📋 Documented | 4/8 (7/8 with Part C) | Skill debt accumulation, two-stage loading residency cost |
+| **B1: Tool-Name Assertion** | ⚠️ Written, never run | 7/8 | Real session error (tool-name mismatch, silent drop) |
+| **B2: Premise Re-Check** | ⚠️ Written, never run | 5/8 | Real session error (elaborate wrong theory instead of re-check) |
+| **B3: Retirement Sweep** | ⚠️ Written, never run | 4/8 (7/8 with Part C) | Skill debt accumulation, two-stage loading residency cost |
 
 ### Tier 2: Strong Argument, Thin Support
 
 | Behavior | Status | Panel | Rationale |
 |----------|--------|-------|-----------|
-| **B4: Null-First Expansion** | 📋 Planned | 3/8 | Upstream prevention: taxonomy generates debt |
-| **B5: Lesson Admission** | 📋 Planned | 1/8 | Separates event record (ground truth) from lesson (unfounded) |
-| **B6: Completion Verification** | 📋 Planned | 3/8 | Catches silent failures (claim without evidence) |
-| **B7: Non-Progress Alarm** | 📋 Planned | 3/8 | Converts expensive silent failure to loud one |
+| **B4: Null-First Expansion** | ⚠️ Speculative | 3/8 | Upstream prevention: taxonomy generates debt |
+| **B5: Lesson Admission** | ⚠️ Speculative | 1/8 | Separates event record (ground truth) from lesson (unfounded) |
+| **B6: Completion Verification** | ⚠️ Speculative | 3/8 | Catches silent failures (claim without evidence) |
+| **B7: Non-Progress Alarm** | ⚠️ Speculative | 3/8 | Converts expensive silent failure to loud one |
 
 ---
 
-## Implementation Status
+## What had been written at the time (none of it run)
 
 ### B1: Tool-Name Assertion Before Commit ✅
 
-**Files created:**
+**Files written (draft, unpromoted):**
 - `notebooks/behaviors/tools-registry.yaml` — Registry of valid tools per harness
 - `notebooks/behaviors/validate-tool-names.py` — Validation script (7 of 8 models consensus)
 - `notebooks/behaviors/B1-tool-name-validation.md` — Full documentation
@@ -121,10 +123,8 @@ All 8 models agreed (after correction) that these are shipped and working:
 **Validation against existing skills found:**
 - `skills/skill-extractor/SKILL.md` — Declares tools not available in Vibe (Read, Write, Glob, Grep, WebSearch, AskUserQuestion); would be silently dropped
 
-**Quick start:**
-```bash
-python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harness vibe
-```
+The validator does run, and did find one real issue (below). It is unpromoted
+draft tooling kept in `notebooks/behaviors/`, not part of any workflow.
 
 ### B2: Premise Re-Check on Unknown-Tool Error 📋
 
@@ -145,7 +145,7 @@ python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harne
 - Human reviews list; deletion is human decision
 
 **Files:**
-- the retirement-sweep script (removed -- see `notebooks/verified-defects-2026-08-25.md` D5) — Template script
+- A retirement-sweep script was drafted and then **deleted** — it reported every skill as unused. See `verified-defects-2026-08-25.md` D5.
 - `notebooks/behaviors/B3-retirement-sweep.md` — Full documentation
 
 ---
@@ -228,9 +228,9 @@ Build the override log first. One line per incident. Comparable measurement with
 
 ---
 
-## Next Steps (Priority Order)
+## What was proposed as next steps (superseded, kept as a record)
 
-### Immediate (This Session)
+### Believed immediate at the time
 
 - Run round 1 + 2 debates
 - Extract 7 candidate behaviors
@@ -282,9 +282,7 @@ Build the override log first. One line per incident. Comparable measurement with
 **Question:** Should the pre-commit hook be mandatory, optional, or documented-but-not-installed?
 
 **Recommendation:** Start optional (skip instructions). Users can install via:
-```bash
-cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 Run the validation script manually first to find issues, then decide.
 

@@ -11,8 +11,11 @@
 # Foundation Harness Vision: Strategic Assessment
 
 **Date:** 2026-08-25  
-**Based on:** Two-round model debate (8 models), repo inspection, crispycouscous context  
-**Status:** High-level strategy for moving from vision to shipping reality
+**Based on:** the two-round model debate only. **The "crispycouscous context" this
+originally claimed was never consulted** — crispy-couscous was not read until after
+this document was written, and doing so contradicted several claims below.  
+**Status:** Superseded by [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md).
+Retained as a record of reasoning that went wrong, not as guidance.
 
 ---
 
@@ -125,11 +128,11 @@ Your repo already connects MCP servers. Question: what should live in MCP vs inl
 
 | Behavior | Status | Why Build It | Effort |
 |----------|--------|--------------|--------|
-| **B1: Tool-Name Validation** | ✅ Done | Cross-harness drift is real; silent drops happen | ✅ Low (done) |
-| **B2: Premise Re-Check** | 📋 Ready | Prevents expensive false hypotheses | Medium (hook integration) |
-| **B3: Retirement Sweep** | 📋 Ready | Dead skills cost tokens; need regular cleanup | Low (template done) |
+| **B1: Tool-Name Validation** | ⚠️ Written, never run | Cross-harness drift is real; silent drops happen | Unknown — never run |
+| **B2: Premise Re-Check** | ⚠️ Speculative | Prevents expensive false hypotheses | Medium (hook integration) |
+| **B3: Retirement Sweep** | ⚠️ Speculative | Dead skills cost tokens; need regular cleanup | Low (template done) |
 
-**Build these.** Panel consensus: 7-1 or stronger.
+*Original text said "build these." Panel consensus was 7-1 or stronger — but the panel never saw either repo, and B1's premise was later found to be partly already solved.*
 
 ### 2. Classification Framework Refinement
 
@@ -313,7 +316,7 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ---
 
-## Next Steps to Make This Shipping Reality
+## What this document proposed (superseded — the phases and timelines below were invented)
 
 ### Phase 1: Validation & Integration (3-5 Days)
 
@@ -476,7 +479,7 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ---
 
-## Recommendation
+## What this document recommended at the time (do not follow)
 
 **Do Phase 1 this week.** It's 3-5 days:
 1. Check hook capability (1 day)

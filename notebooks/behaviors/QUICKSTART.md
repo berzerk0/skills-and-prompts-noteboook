@@ -8,7 +8,9 @@
 
 ---
 
-# Behaviors: Quick Start Guide
+# Behaviors: draft walkthrough
+
+*(Originally written as a "Quick Start Guide" for behaviors that were never adopted. Retained as a record of the intended design, not as setup instructions.)*
 
 Welcome to the foundation harness behaviors. This page helps you get started quickly.
 
@@ -29,18 +31,11 @@ These have the strongest panel support and lowest implementation cost. Start her
 **Why it matters:** Mistral Vibe silently drops unrecognized tool names. A skill works in Claude Code but fails silently in Vibe.
 
 **Quick start:**
-```bash
-# Check all skills
-python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harness vibe
-
-# Install pre-commit hook (optional)
-cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 **Documentation:** `notebooks/behaviors/B1-tool-name-validation.md`
 
-**Status:** ✅ Implemented and tested
+**Status:** ⚠️ Written, never run and tested
 
 ---
 
@@ -53,75 +48,7 @@ chmod +x .git/hooks/pre-commit
 **Real example from this repo:** Model tried to call `search_replace` (doesn't exist in Vibe), then invented a multi-tier architecture explanation instead of re-checking available tools.
 
 **Quick start:**
-```bash
-# Verification needed first
-# Check: Can Claude Code PreToolUse hook access tool-error events?
-# Check: Can Vibe PRE_TOOL hook modify error messages before model sees them?
-```
-
-**Documentation:** `notebooks/behaviors/B2-premise-recheck.md`
-
-**Status:** 📋 Documented, awaiting hook capability verification
-
----
-
-### 3️⃣ B3: Retirement Sweep
-
-**What it does:** Finds skills that haven't been invoked in 30 days, so you can decide whether to keep, archive, or delete them.
-
-**Why it matters:** Dead skills consume tokens (their descriptions are always resident in your prompt). At n=1, removing dead weight saves real tokens.
-
-**Quick start:**
-```bash
-# Check for unused skills (currently a template)
-python3 (removed, see verified-defects D5)
-
-# Full automation awaits hook-based logging
-```
-
-**Documentation:** `notebooks/behaviors/B3-retirement-sweep.md`
-
-**Status:** 📋 Template implementation, awaiting hook logging
-
----
-
-## Setup Instructions
-
-### Minimum Setup (Recommended)
-
-1. **Read the overview:**
-   ```bash
-   # Understand what behaviors do
-   cat notebooks/behaviors/README.md
-   ```
-
-2. **Validate existing skills:**
-   ```bash
-   # Check your skills for tool-name issues
-   python3 notebooks/behaviors/validate-tool-names.py --show-valid
-   ```
-
-3. **Fix any issues found:**
-   - Edit skill files to use correct tool names
-   - Reference: `docs/cross-tool-notes.md` for tool translations
-
-4. **Review documentation:**
-   - `notebooks/behaviors/B1-tool-name-validation.md` — Full B1 guide
-   - `notebooks/behaviors/README.md` — Overview of all behaviors
-
-### Optional: Install Pre-Commit Hook
-
-For B1 enforcement at commit time:
-
-```bash
-cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-
-# Test it
-git add notebooks/behaviors/B1-tool-name-validation.md
-git commit -m "test: verify pre-commit hook works"
-# Hook should run and pass
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 ### Optional: Start Override Log
 
@@ -327,7 +254,7 @@ A: B2 needs hook capability verification. B3 needs hook-based invocation logging
 
 ---
 
-## What's Next?
+## What was imagined as next (never done)
 
 1. **Run B1 validation:** `python3 notebooks/behaviors/validate-tool-names.py --show-valid`
 2. **Fix any issues found** (if any)

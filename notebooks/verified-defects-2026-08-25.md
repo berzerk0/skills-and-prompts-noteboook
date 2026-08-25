@@ -100,7 +100,7 @@ distinguished them.
 
 ---
 
-## D5 — `scripts/find-unused-skills.py` (this branch) emits false findings
+## D5 — a drafted retirement-sweep script emitted false findings *(fixed)*
 
 **Severity: high.** Mine, and worse than D4.
 
@@ -131,7 +131,7 @@ detection.
 
 ---
 
-## D6 — `docs/behaviors/` (this branch) violates the repo's own promotion rule
+## D6 — unrun material was placed in `docs/`, violating the repo's promotion rule *(fixed)*
 
 **Severity: medium, process.** Also mine.
 
@@ -147,6 +147,7 @@ having been derived from a committee that never saw either repo. `QUICKSTART.md`
 instructs the reader — including any agent reading it — to install a git hook:
 
 ```
+# QUOTED AS EVIDENCE OF THE DEFECT -- DO NOT RUN. This instruction has been removed.
 cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
@@ -165,11 +166,64 @@ banner.
 
 ---
 
+## D7 — banners were added on top of content that still contradicted them *(fixed)*
+
+**Severity: medium.** Mine, third instance of the same class.
+
+The first containment pass added a "not a work queue" banner to eight files and
+stopped there. A cold read afterwards found the documents still asserted, below their
+own banners:
+
+- `✅ Implemented` / `✅ Done` status cells in six places across three files
+- `**Status:** Implemented (validation script + hook template)`
+- section headers reading `## Quick Start`, `## Next Steps`, `## Setup Instructions`
+- four working `cp … .git/hooks/pre-commit && chmod +x` install recipes — renaming the
+  script to `.sh.txt` changed the path inside the command but `cp` does not care about
+  extensions, so every one of them still worked
+- `**Based on:** … crispycouscous context` in `VISION-ASSESSMENT.md`, which was false
+  when written: crispy-couscous was not read until afterwards
+
+A skimming agent reads tables and headers, not block quotes. **A disclaimer above
+contradictory content loses to the content.** This is D1's mechanism exactly — the
+authoritative-looking claim wins — reproduced by the person who catalogued D1.
+
+**Resolved 2026-08-25:** status markers rewritten to "Written, never run" /
+"Speculative"; imperative headers retitled to past tense; all four install recipes
+replaced with prose; the false provenance line corrected in place.
+
+---
+
+## D8 — a blind `sed` silently changed program behavior *(fixed)*
+
+**Severity: low, but instructive.** Also mine.
+
+The path-rewrite pass during containment used `sed` across `*.md`, `*.sh` **and
+`*.py`**. In `validate-tool-names.py` it rewrote a Python string constant, changing
+the registry lookup from a filename walked up the tree to a fixed relative path. The
+script kept working from the repo root — which is where it was tested — and broke
+everywhere else.
+
+Evidence:
+
+```
+$ cd /tmp && python3 …/validate-tool-names.py
+Error: notebooks/behaviors/tools-registry.yaml not found. Are you in the repo root?
+```
+
+A find-and-replace intended for documentation reached into code, and the single smoke
+test was run from the one directory where the breakage was invisible.
+
+**Resolved 2026-08-25:** the registry now resolves via `Path(__file__).parent`.
+Verified from the repo root, from a subdirectory, and from outside the repo.
+
+---
+
 ## Cross-cutting note
 
-D1, D4, D5 and D6 are the same mistake made by three different authors — the
-crispy-couscous author, and me, twice, in the same session in which I diagnosed it in
-someone else's repo. That is worth more than any individual entry above: **the defect
+D1, D4, D5, D6 and D7 are the same mistake made by three different authors — the
+crispy-couscous author, and me, **three times**, in the same session in which I
+diagnosed it in someone else's repo. Each of my three was caught only by re-reading
+cold or by running the thing, never by writing more carefully. That is worth more than any individual entry above: **the defect
 is not rare, not anyone's carelessness, and not caught by review-as-usual.** It is
 caught by running the thing.
 
