@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # B3: Retirement Sweep
 
 **Status:** Documented + Template Implementation
@@ -33,7 +43,7 @@ A scheduled script (B3) that:
 ### Trigger
 
 - Scheduled: every 30 days (configurable)
-- Manual: `python3 scripts/find-unused-skills.py`
+- Manual: `python3 (removed, see verified-defects D5)`
 
 ### Falsifier
 
@@ -51,17 +61,17 @@ A skill that meets the zero-invocation criterion still exists after a sweep runs
 
 ### Check for unused skills
 ```bash
-python3 scripts/find-unused-skills.py
+python3 (removed, see verified-defects D5)
 ```
 
 ### Check for skills unused in last 90 days
 ```bash
-python3 scripts/find-unused-skills.py --days 90
+python3 (removed, see verified-defects D5) --days 90
 ```
 
 ### Show invocation counts for all skills
 ```bash
-python3 scripts/find-unused-skills.py --show-all --verbose
+python3 (removed, see verified-defects D5) --show-all --verbose
 ```
 
 ## Workflow
@@ -98,7 +108,7 @@ Together they prevent skill debt accumulation.
 Run the script monthly as a reminder:
 ```bash
 # In CLAUDE.md or workflow:
-# "Run scripts/find-unused-skills.py monthly to audit dead skills"
+# "Run (removed, see verified-defects D5) monthly to audit dead skills"
 ```
 
 ### Option B: Scheduled Trigger (Automated)
@@ -111,7 +121,7 @@ python3 -c "from datetime import datetime, timedelta; print((datetime.now() + ti
 ### Option C: Git Hook (On-Demand)
 Add to pre-push or post-merge hook:
 ```bash
-python3 scripts/find-unused-skills.py
+python3 (removed, see verified-defects D5)
 ```
 
 ## Related Behaviors
@@ -184,7 +194,7 @@ A skill that's not invoked for 30 days is likely either:
 
 ## Related Documentation
 
-- `docs/behaviors/B1-tool-name-validation.md` — Validation of skills at creation
-- `docs/behaviors/B4-null-first-expansion.md` — Prevention at creation time
+- `notebooks/behaviors/B1-tool-name-validation.md` — Validation of skills at creation
+- `notebooks/behaviors/B4-null-first-expansion.md` — Prevention at creation time
 - `notebooks/foundation-harness-behavior-spec-2026-08-25.md` — Full debate context
 - `archive/README.md` — Where to move retired skills

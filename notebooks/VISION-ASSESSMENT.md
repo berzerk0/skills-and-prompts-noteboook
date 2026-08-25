@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`IDEAL.md`](IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md).
+
+---
+
 # Foundation Harness Vision: Strategic Assessment
 
 **Date:** 2026-08-25  
@@ -66,10 +76,10 @@ The brain dump describes a harness that can:
 **Where to get it:** Already in Claude Code (PreToolUse, Stop hooks) and Mistral Vibe (PRE_TOOL, POST_TOOL in hooks.toml).
 
 **What you need:** Verify that hooks can:
-- [ ] Access tool-error events (for B2: Premise Re-Check)
-- [ ] Modify error messages before model sees them
-- [ ] Log invocations with timestamps (for B3: Retirement Sweep)
-- [ ] Validate metadata before file load (for B1: Tool-Name Assertion)
+- Access tool-error events (for B2: Premise Re-Check)
+- Modify error messages before model sees them
+- Log invocations with timestamps (for B3: Retirement Sweep)
+- Validate metadata before file load (for B1: Tool-Name Assertion)
 
 **Effort:** Inspection + integration testing. Not research.
 
@@ -85,9 +95,9 @@ The brain dump describes a harness that can:
 ### 3. Session Checkpointing Behavior
 
 **Where to get it:** Both harnesses support it natively. You just need to:
-- [ ] Verify breadcrumb completeness (what gets logged when session dies?)
-- [ ] Test recovery from cold start
-- [ ] Document what's sufficient for hand-off (same model? different model?)
+- Verify breadcrumb completeness (what gets logged when session dies?)
+- Test recovery from cold start
+- Document what's sufficient for hand-off (same model? different model?)
 
 **Effort:** Testing + documentation.
 
@@ -128,9 +138,9 @@ Your repo already connects MCP servers. Question: what should live in MCP vs inl
 **What the panel said:** Use **properties** (needs isolation? needs determinism? must fail loudly?) as decision axis. Output the label (prompt/script/skill/subagent/MCP) as a *compiled result*, not a primary choice.
 
 **Add to framework:**
-- [ ] Decision matrix (property → label mapping)
-- [ ] Null branch (default: don't create anything)
-- [ ] Cost column (tokens, review burden)
+- Decision matrix (property → label mapping)
+- Null branch (default: don't create anything)
+- Cost column (tokens, review burden)
 
 **Effort:** Medium (design + testing against real routing decisions).
 
@@ -310,61 +320,61 @@ When asked to audit citations generically, all models rubber-stamped each other.
 **Goal:** Prove behaviors work, establish measurement baseline.
 
 1. **Verify hook capabilities:** (1 day)
-   - [ ] Check Claude Code docs: can `PreToolUse` hook access tool-error events?
-   - [ ] Check Vibe source: can `PRE_TOOL` hook modify error messages?
-   - [ ] If yes to both: B2 is unblocked. If no: design alternative.
+   - Check Claude Code docs: can `PreToolUse` hook access tool-error events?
+   - Check Vibe source: can `PRE_TOOL` hook modify error messages?
+   - If yes to both: B2 is unblocked. If no: design alternative.
 
 2. **Run B1 validation:** (1 day)
-   - [ ] Execute against all existing skills
-   - [ ] Fix flagged issues (skill-extractor tool names)
-   - [ ] Validate fixes
-   - [ ] Install pre-commit hook (optional but recommended)
+   - Execute against all existing skills
+   - Fix flagged issues (skill-extractor tool names)
+   - Validate fixes
+   - Install pre-commit hook (optional but recommended)
 
 3. **Start override log:** (same day)
-   - [ ] Create `docs/override-log.md`
-   - [ ] Establish measurement baseline
+   - Create `docs/override-log.md`
+   - Establish measurement baseline
 
 4. **Merge crispycouscous & audit:** (1-2 days)
-   - [ ] Run B1 validation on new skills
-   - [ ] Spot-check for duplicates
-   - [ ] Document any tool-name issues
+   - Run B1 validation on new skills
+   - Spot-check for duplicates
+   - Document any tool-name issues
 
 ### Phase 2: Hook Integration & B2/B3 (1-2 Weeks)
 
 **Goal:** Implement B2 and B3 with full harness integration.
 
 1. **Implement B2 (Premise Re-Check):** (3-5 days)
-   - [ ] Hook integration for tool-error events
-   - [ ] Inject available tool list into error message
-   - [ ] Test against real tool-not-found scenarios
+   - Hook integration for tool-error events
+   - Inject available tool list into error message
+   - Test against real tool-not-found scenarios
 
 2. **Implement B3 (Retirement Sweep):** (2-3 days)
-   - [ ] Hook-based invocation logging (if Phase 1 verified hook capability)
-   - [ ] B3 script queries invocation logs
-   - [ ] Schedule monthly sweep
+   - Hook-based invocation logging (if Phase 1 verified hook capability)
+   - B3 script queries invocation logs
+   - Schedule monthly sweep
 
 3. **Quick docs for B4-B7:** (1 day)
-   - [ ] One-pager per behavior (not full docs)
-   - [ ] Implementation checklist
-   - [ ] Defer detailed design
+   - One-pager per behavior (not full docs)
+   - Implementation checklist
+   - Defer detailed design
 
 ### Phase 3: Classification Framework (1 Week)
 
 **Goal:** Replace five-category taxonomy with property-based routing.
 
 1. **Build decision matrix:** (2-3 days)
-   - [ ] Map properties (isolation? determinism?) to artifact types
-   - [ ] Test against 10 recent real decisions from this repo
-   - [ ] Document edge cases (compound tasks)
+   - Map properties (isolation? determinism?) to artifact types
+   - Test against 10 recent real decisions from this repo
+   - Document edge cases (compound tasks)
 
 2. **Add framework elements:** (1-2 days)
-   - [ ] Null branch (default: don't create)
-   - [ ] Cost column (rough estimates)
-   - [ ] Document in AGENTS.md
+   - Null branch (default: don't create)
+   - Cost column (rough estimates)
+   - Document in AGENTS.md
 
 3. **Create routing skill:** (1 day)
-   - [ ] Skill that teaches property-based routing
-   - [ ] Test a few times with models
+   - Skill that teaches property-based routing
+   - Test a few times with models
 
 ### Phase 4: Portability Layer (2-4 Weeks)
 
@@ -373,41 +383,41 @@ When asked to audit citations generically, all models rubber-stamped each other.
 **This is the real work.** The phases above are validation. This is implementation.
 
 1. **Build compilation infrastructure:** (1-2 weeks)
-   - [ ] YAML schema for single-source skill
-   - [ ] Compiler: YAML → claude-code/SKILL.md + vibe/SKILL.md
-   - [ ] Tool name translation (Read → read_file)
-   - [ ] Frontmatter adaptation (allowed-tools, user-invocable)
-   - [ ] Validation & CI checks
+   - YAML schema for single-source skill
+   - Compiler: YAML → claude-code/SKILL.md + vibe/SKILL.md
+   - Tool name translation (Read → read_file)
+   - Frontmatter adaptation (allowed-tools, user-invocable)
+   - Validation & CI checks
 
 2. **Pilot with 5 skills:** (1-2 weeks)
-   - [ ] Convert 5 existing skills to single-source format
-   - [ ] Test both outputs in both harnesses
-   - [ ] Fix compiler bugs
-   - [ ] Document conventions
+   - Convert 5 existing skills to single-source format
+   - Test both outputs in both harnesses
+   - Fix compiler bugs
+   - Document conventions
 
 3. **Optional: Migrate remaining skills:** (1-2 weeks, defer)
-   - [ ] Convert 13 remaining skills
-   - [ ] Consolidate duplicates discovered in process
-   - [ ] Update documentation
+   - Convert 13 remaining skills
+   - Consolidate duplicates discovered in process
+   - Update documentation
 
 ### Phase 5: Measurement & Optimization (Runs Parallel to Phases 2-4)
 
 **Goal:** Prove the substrate helps or identify what needs change.
 
 1. **Run experiment design (after 4 weeks):**
-   - [ ] 10 standardized tasks
-   - [ ] Coin-flip assign to arm A (with substrate) vs B (without)
-   - [ ] Measure time, errors, tokens, expansions
+   - 10 standardized tasks
+   - Coin-flip assign to arm A (with substrate) vs B (without)
+   - Measure time, errors, tokens, expansions
 
 2. **Monitor override log:**
-   - [ ] Track calibration (override rate trend)
-   - [ ] Identify patterns (which behaviors get overridden most?)
-   - [ ] Adjust thresholds/criteria
+   - Track calibration (override rate trend)
+   - Identify patterns (which behaviors get overridden most?)
+   - Adjust thresholds/criteria
 
 3. **Quarterly review:**
-   - [ ] Is the substrate net positive?
-   - [ ] Which behaviors provide value?
-   - [ ] Which should be removed or redesigned?
+   - Is the substrate net positive?
+   - Which behaviors provide value?
+   - Which should be removed or redesigned?
 
 ---
 

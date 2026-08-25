@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # Behaviors: Foundation Harness Implementation
 
 This directory contains the implementation of "behaviors" — always-on enforcement mechanisms extracted from the two-round model debate on the foundation harness vision.
@@ -32,18 +42,18 @@ This directory contains the implementation of "behaviors" — always-on enforcem
 **Status:** ✅ Implemented (validated against existing skills)
 
 **Files:**
-- `.tools-registry.yaml` — Registry of valid tool names per harness
-- `scripts/validate-tool-names.py` — Validation script (can run standalone or via hook)
-- `docs/behaviors/B1-tool-name-validation.md` — Full documentation
-- `docs/behaviors/B1-setup-hook.sh` — Pre-commit hook template (optional)
+- `notebooks/behaviors/tools-registry.yaml` — Registry of valid tool names per harness
+- `notebooks/behaviors/validate-tool-names.py` — Validation script (can run standalone or via hook)
+- `notebooks/behaviors/B1-tool-name-validation.md` — Full documentation
+- `notebooks/behaviors/B1-setup-hook.sh.txt` — Pre-commit hook template (optional)
 
 **Quick start:**
 ```bash
 # Validate all skills
-python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
+python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harness vibe
 
 # Install optional pre-commit hook
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
+cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
@@ -67,7 +77,7 @@ See `notebooks/foundation-harness-behavior-spec-2026-08-25.md` section "How to t
 ## How Behaviors Differ From Skills
 
 - **Skills** (in `.claude/skills/`) are reusable procedural knowledge for the agent
-- **Behaviors** (in `docs/behaviors/`) are always-on enforcement mechanisms that constrain what the agent can do
+- **Behaviors** (in `notebooks/behaviors/`) are always-on enforcement mechanisms that constrain what the agent can do
 - **Skills** are invoked; **behaviors** run automatically on events or schedules
 - **Skills** can be disabled; **behaviors** (especially Tier 1) should be hard to bypass
 

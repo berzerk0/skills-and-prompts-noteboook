@@ -8,3 +8,29 @@ One file per topic or session is fine; loosely dated if that's useful, but
 don't force a rigid structure on something meant to stay low-friction to
 add to. If a notebook entry turns out to hold up, promote it into `docs/`
 explicitly rather than quietly treating it as authoritative in place.
+
+## Foundation harness exercise (2026-08-24 / 25)
+
+A wants-elicitation exercise: an unedited brain dump, an 8-model committee run over
+two rounds, and a verification pass against `berzerk0/crispy-couscous`. **Inert by
+design — none of it is a plan and none of it has been run.** It lives on the
+`notebook/foundation-harness-exercise` branch and is deliberately not merged.
+
+Reading order:
+
+1. [`IDEAL.md`](IDEAL.md) — the north star. Ten principles, each with an observable
+   and a falsifier so it can be scored by running the harness rather than by listing
+   files. **Start here.**
+2. [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — six defects
+   that were actually reproduced, with the commands. Carry into any merge.
+3. [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) — what
+   the dump was really asking for, and which parts already exist.
+4. [`foundation-harness-vision-2026-08-25.md`](foundation-harness-vision-2026-08-25.md)
+   — the original dump. The source.
+
+Lower confidence, kept as a record rather than as guidance:
+[`DEBATE-SUMMARY.md`](DEBATE-SUMMARY.md),
+[`foundation-harness-behavior-spec-2026-08-25.md`](foundation-harness-behavior-spec-2026-08-25.md),
+[`behaviors/`](behaviors/), and
+[`VISION-ASSESSMENT.md`](VISION-ASSESSMENT.md) — the last of which is superseded and
+retained only to show where the reasoning went wrong.

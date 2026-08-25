@@ -125,6 +125,10 @@ and could propose deleting all of them.
 A stub that returns nothing is safe. A stub that returns plausible wrong answers is
 not. Delete or gut it — do not leave it in `scripts/`.
 
+**Resolved 2026-08-25:** deleted. Recoverable from git history if the approach is ever
+wanted; the working parts were the file walk and the CLI scaffolding, not the
+detection.
+
 ---
 
 ## D6 — `docs/behaviors/` (this branch) violates the repo's own promotion rule
@@ -150,8 +154,14 @@ chmod +x .git/hooks/pre-commit
 Placement is doing the same work as a false claim here. A file in `docs/` asserts
 "checked" by location, regardless of what its text says.
 
-Related: `.tools-registry.yaml` sits at repo root, where dotfiles read as live
+Related: `.tools-registry.yaml` sat at repo root, where dotfiles read as live
 configuration.
+
+**Resolved 2026-08-25:** the whole tree moved to `notebooks/behaviors/`, the registry
+moved with it as `tools-registry.yaml` (no leading dot), `B1-setup-hook.sh` was
+renamed `.sh.txt` so it does not read as runnable, GitHub task-list syntax was
+stripped repo-wide on this branch, and every entry point carries a "not a work queue"
+banner.
 
 ---
 

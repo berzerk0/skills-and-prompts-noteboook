@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # Behaviors: Quick Start Guide
 
 Welcome to the foundation harness behaviors. This page helps you get started quickly.
@@ -21,14 +31,14 @@ These have the strongest panel support and lowest implementation cost. Start her
 **Quick start:**
 ```bash
 # Check all skills
-python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
+python3 notebooks/behaviors/validate-tool-names.py --harness claude-code --harness vibe
 
 # Install pre-commit hook (optional)
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
+cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 ```
 
-**Documentation:** `docs/behaviors/B1-tool-name-validation.md`
+**Documentation:** `notebooks/behaviors/B1-tool-name-validation.md`
 
 **Status:** ✅ Implemented and tested
 
@@ -49,7 +59,7 @@ chmod +x .git/hooks/pre-commit
 # Check: Can Vibe PRE_TOOL hook modify error messages before model sees them?
 ```
 
-**Documentation:** `docs/behaviors/B2-premise-recheck.md`
+**Documentation:** `notebooks/behaviors/B2-premise-recheck.md`
 
 **Status:** 📋 Documented, awaiting hook capability verification
 
@@ -64,12 +74,12 @@ chmod +x .git/hooks/pre-commit
 **Quick start:**
 ```bash
 # Check for unused skills (currently a template)
-python3 scripts/find-unused-skills.py
+python3 (removed, see verified-defects D5)
 
 # Full automation awaits hook-based logging
 ```
 
-**Documentation:** `docs/behaviors/B3-retirement-sweep.md`
+**Documentation:** `notebooks/behaviors/B3-retirement-sweep.md`
 
 **Status:** 📋 Template implementation, awaiting hook logging
 
@@ -82,13 +92,13 @@ python3 scripts/find-unused-skills.py
 1. **Read the overview:**
    ```bash
    # Understand what behaviors do
-   cat docs/behaviors/README.md
+   cat notebooks/behaviors/README.md
    ```
 
 2. **Validate existing skills:**
    ```bash
    # Check your skills for tool-name issues
-   python3 scripts/validate-tool-names.py --show-valid
+   python3 notebooks/behaviors/validate-tool-names.py --show-valid
    ```
 
 3. **Fix any issues found:**
@@ -96,19 +106,19 @@ python3 scripts/find-unused-skills.py
    - Reference: `docs/cross-tool-notes.md` for tool translations
 
 4. **Review documentation:**
-   - `docs/behaviors/B1-tool-name-validation.md` — Full B1 guide
-   - `docs/behaviors/README.md` — Overview of all behaviors
+   - `notebooks/behaviors/B1-tool-name-validation.md` — Full B1 guide
+   - `notebooks/behaviors/README.md` — Overview of all behaviors
 
 ### Optional: Install Pre-Commit Hook
 
 For B1 enforcement at commit time:
 
 ```bash
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
+cp notebooks/behaviors/B1-setup-hook.sh.txt .git/hooks/pre-commit
 chmod +x .git/hooks/pre-commit
 
 # Test it
-git add docs/behaviors/B1-tool-name-validation.md
+git add notebooks/behaviors/B1-tool-name-validation.md
 git commit -m "test: verify pre-commit hook works"
 # Hook should run and pass
 ```
@@ -173,7 +183,7 @@ allowed-tools:
 3. [ ] If multi-harness: Use tool names from BOTH harnesses (or only shared tools)
 4. [ ] If single-harness: Add comment `# Portable to: claude-code only`
 5. [ ] Create skill file in `skills/my-skill/SKILL.md`
-6. [ ] Run validation: `python3 scripts/validate-tool-names.py skills/my-skill/SKILL.md`
+6. [ ] Run validation: `python3 notebooks/behaviors/validate-tool-names.py skills/my-skill/SKILL.md`
 7. [ ] Commit (hook will validate again if installed)
 
 ### I Want to Fix Tool-Name Issues in My Skills
@@ -181,7 +191,7 @@ allowed-tools:
 **Workflow:**
 1. Run validation with verbose output:
    ```bash
-   python3 scripts/validate-tool-names.py --show-valid --harness claude-code --harness vibe
+   python3 notebooks/behaviors/validate-tool-names.py --show-valid --harness claude-code --harness vibe
    ```
 
 2. For each error, check the translation:
@@ -199,7 +209,7 @@ allowed-tools:
 
 4. Re-validate:
    ```bash
-   python3 scripts/validate-tool-names.py skills/skill-name/SKILL.md --harness vibe
+   python3 notebooks/behaviors/validate-tool-names.py skills/skill-name/SKILL.md --harness vibe
    ```
 
 5. Commit when clean:
@@ -242,21 +252,21 @@ After setup, read these for context:
 
 ### Understanding a Specific Behavior
 
-- B1 (Tool-Name Validation): `docs/behaviors/B1-tool-name-validation.md`
-- B2 (Premise Re-Check): `docs/behaviors/B2-premise-recheck.md`
-- B3 (Retirement Sweep): `docs/behaviors/B3-retirement-sweep.md`
+- B1 (Tool-Name Validation): `notebooks/behaviors/B1-tool-name-validation.md`
+- B2 (Premise Re-Check): `notebooks/behaviors/B2-premise-recheck.md`
+- B3 (Retirement Sweep): `notebooks/behaviors/B3-retirement-sweep.md`
 
 ### Tool Translations
 
 - `docs/cross-tool-notes.md` — Complete translation table (Claude Code ↔ Vibe)
-- `.tools-registry.yaml` — Machine-readable tool registry
+- `notebooks/behaviors/tools-registry.yaml` — Machine-readable tool registry
 
 ### Running Scripts
 
 ```bash
 # See all options
-python3 scripts/validate-tool-names.py --help
-python3 scripts/find-unused-skills.py --help
+python3 notebooks/behaviors/validate-tool-names.py --help
+python3 (removed, see verified-defects D5) --help
 ```
 
 ### Understanding the Debate
@@ -319,9 +329,9 @@ A: B2 needs hook capability verification. B3 needs hook-based invocation logging
 
 ## What's Next?
 
-1. **Run B1 validation:** `python3 scripts/validate-tool-names.py --show-valid`
+1. **Run B1 validation:** `python3 notebooks/behaviors/validate-tool-names.py --show-valid`
 2. **Fix any issues found** (if any)
 3. **Read the full summary:** `notebooks/DEBATE-SUMMARY.md`
 4. **Wait for B2/B3 implementation:** Both depend on hook integration
 
-Questions? See `docs/behaviors/README.md` or individual behavior docs.
+Questions? See `notebooks/behaviors/README.md` or individual behavior docs.

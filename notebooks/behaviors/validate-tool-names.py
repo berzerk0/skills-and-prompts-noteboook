@@ -7,9 +7,9 @@ are valid for the target harnesses. It catches silent-drop failures (e.g.,
 Vibe silently dropping unrecognized tool names) before the skill is committed.
 
 Usage:
-  python scripts/validate-tool-names.py                    # check all skills
-  python scripts/validate-tool-names.py skills/*/SKILL.md  # check specific skills
-  python scripts/validate-tool-names.py --harness vibe     # check for Vibe only
+  python notebooks/behaviors/validate-tool-names.py                    # check all skills
+  python notebooks/behaviors/validate-tool-names.py skills/*/SKILL.md  # check specific skills
+  python notebooks/behaviors/validate-tool-names.py --harness vibe     # check for Vibe only
 """
 
 import sys
@@ -21,8 +21,8 @@ from pathlib import Path
 from typing import List, Dict, Set, Tuple
 
 def load_registry(repo_root: Path) -> Dict:
-    """Load the tool registry from .tools-registry.yaml"""
-    registry_path = repo_root / ".tools-registry.yaml"
+    """Load the tool registry from notebooks/behaviors/tools-registry.yaml"""
+    registry_path = repo_root / "notebooks/behaviors/tools-registry.yaml"
     if not registry_path.exists():
         raise FileNotFoundError(f"Tool registry not found at {registry_path}")
 
@@ -157,12 +157,12 @@ def main():
     # Determine repo root
     repo_root = Path.cwd()
     while repo_root.parent != repo_root:
-        if (repo_root / ".tools-registry.yaml").exists():
+        if (repo_root / "notebooks/behaviors/tools-registry.yaml").exists():
             break
         repo_root = repo_root.parent
 
-    if not (repo_root / ".tools-registry.yaml").exists():
-        print("Error: .tools-registry.yaml not found. Are you in the repo root?")
+    if not (repo_root / "notebooks/behaviors/tools-registry.yaml").exists():
+        print("Error: notebooks/behaviors/tools-registry.yaml not found. Are you in the repo root?")
         sys.exit(1)
 
     # Load registry
