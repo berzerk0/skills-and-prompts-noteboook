@@ -10,8 +10,24 @@ verification pass recorded in
 
 **Each principle below has an observable and a falsifier.** That is deliberate. The
 ideal has to be scoreable by *running* the harness, because a file listing cannot
-distinguish a working skill from a trigger-phrase stub — a mistake made twice while
-writing these documents.
+distinguish a working skill from a trigger-phrase stub — a mistake made three times
+while writing these documents, each caught by re-reading cold or by running the thing,
+never by writing more carefully.
+
+## Where the evidence lives — read this before chasing a filename
+
+Most artifacts cited below are **in the other repo, not this one**:
+
+> `berzerk0/crispy-couscous` @ `4d2c23d` — https://github.com/berzerk0/crispy-couscous
+
+Present only there: `script-it`, `escalate`, `napkin`, `repo-auditor`,
+`skill-validator`, `prompts/router.md`, `meta/generate_all.py`, `agents/*.yaml`.
+Searching *this* repo for them returns nothing; that is expected, not a broken
+reference.
+
+One name exists in **both** repos and they are not the same file:
+`skills/planning-with-files`. Every citation below means the crispy-couscous copy
+unless it says otherwise.
 
 ---
 
@@ -126,10 +142,15 @@ One canonical source per artifact; harness-specific files are generated from it.
 - **Falsifier:** a harness-specific file with no parent, or one that has been
   hand-edited since generation.
 
-*Committee voted 7-1 for this and the working compiler agrees. Currently violated by
-six orchestration agents — `router`, `architect`, `implementer`, `reviewer`,
-`escalation-fixer`, `transcription` — which exist only under `.vibe/`. The component
-implementing principle 1 is the least portable thing in the repo.*
+*Committee voted 7-1 for this, and crispy-couscous's compiler meets this exact
+falsifier: `python3 meta/generate_all.py --all` followed by `git status` produces
+**zero changed files**, so nothing generated has been hand-edited since. That is the
+strongest verified result on this branch.*
+
+*Violated only by six orchestration agents — `router`, `architect`, `implementer`,
+`reviewer`, `escalation-fixer`, `transcription` — which exist under `.vibe/` with no
+canonical parent, and which regeneration therefore neither creates nor checks. The
+component implementing principle 1 is the least portable thing in the repo.*
 
 ---
 

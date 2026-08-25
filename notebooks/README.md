@@ -13,16 +13,20 @@ explicitly rather than quietly treating it as authoritative in place.
 
 A wants-elicitation exercise: an unedited brain dump, an 8-model committee run over
 two rounds, and a verification pass against `berzerk0/crispy-couscous`. **Inert by
-design — none of it is a plan and none of it has been run.** It lives on the
-`notebook/foundation-harness-exercise` branch and is deliberately not merged.
+design — none of it is a plan, and nothing here is wired into any workflow.** It
+lives on the `notebook/foundation-harness-exercise` branch and is deliberately not
+merged. (Two things here *were* executed: a draft tool-name validator, and
+crispy-couscous's compiler. Both are reported in the defect log with their commands.)
 
 Reading order:
 
 1. [`IDEAL.md`](IDEAL.md) — the north star. Ten principles, each with an observable
    and a falsifier so it can be scored by running the harness rather than by listing
    files. **Start here.**
-2. [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — six defects
-   that were actually reproduced, with the commands. Carry into any merge.
+2. [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — eight
+   defects that were actually reproduced, each with the command. Four are in
+   crispy-couscous and still open; four were introduced while writing this branch and
+   are fixed. Carry the open ones into any merge.
 3. [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) — what
    the dump was really asking for, and which parts already exist.
 4. [`foundation-harness-vision-2026-08-25.md`](foundation-harness-vision-2026-08-25.md)

@@ -35,7 +35,7 @@ These have the strongest panel support and lowest implementation cost. Start her
 
 **Documentation:** `notebooks/behaviors/B1-tool-name-validation.md`
 
-**Status:** ⚠️ Written, never run and tested
+**Status:** ⚠️ Written, never run
 
 ---
 

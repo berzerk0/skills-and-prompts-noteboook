@@ -234,8 +234,11 @@ rather than inventory.
 
 ## Not checked
 
-- Whether `meta/generate_*.py` produces *correct* output (only that `--validate`
-  passes on input).
+- ~~Whether `meta/generate_*.py` produces *correct* output~~ — **checked
+  2026-08-25:** `python3 meta/generate_all.py --all` then `git status` reports zero
+  changed files. The compiler is idempotent and no generated file has been
+  hand-edited. This is the strongest verified result on the branch, and it is a pass
+  against IDEAL principle 7's own falsifier.
 - Whether the router has ever been run.
 - The other 9 crispy-couscous skills, at body level.
 - **This repo's own 18 skills against the D4 standard.** Likely to find the same

@@ -39,7 +39,7 @@ This directory contains the implementation of "behaviors" — always-on enforcem
 
 ## B1: Tool-Name Assertion Before Commit
 
-**Status:** ⚠️ Written, never run (validated against existing skills)
+**Status:** ⚠️ Written, never run
 
 **Files (draft, unpromoted):**
 - `notebooks/behaviors/tools-registry.yaml` — Registry of valid tool names per harness
