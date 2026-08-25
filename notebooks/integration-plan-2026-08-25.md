@@ -122,6 +122,12 @@ name and current commit; the four items above or an explicit "nothing" for each;
 and anything it left uncommitted. There is no template — a session that names
 its branch and says "nothing beyond what is committed" is done.
 
+Each session writes its report to `loose-ends/<its-branch-name>.md` on its own
+branch, slashes replaced with dashes, and pushes. After the merge, `ls
+loose-ends/` shows which sessions reported; anyone absent did not answer. A
+session that cannot push reports in chat instead. The prompt for this step is
+[`prompt-collect-loose-ends.md`](prompt-collect-loose-ends.md).
+
 ### 2b. Merge
 
 **The rule for this phase:**
