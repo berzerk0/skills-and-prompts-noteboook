@@ -1,25 +1,3 @@
-# Prompt — collect loose ends from a working session
-
-Paste-ready. Everything below the line goes to a session that did work on either
-repository.
-
-**How to use it.** Send it to one session at a time. Expect questions back before
-you get a file — that is the intended behaviour, not a failure. Answer them, then
-let the session write its report.
-
-**Why questions come first.** These sessions have real context but no idea a merge
-is coming. A session that writes a report without asking will guess at what you
-want, and guessing is the failure mode this whole exercise exists to prevent.
-
-**If a session cannot push** (no write access, or a sandbox that cannot reach the
-remote), have it paste the report in chat instead and hand it to your driving
-session. Same content, slower path.
-
-**Track who has responded.** After the merge, `ls loose-ends/` shows who reported.
-Anyone missing did not answer, and you will not otherwise notice.
-
----
-
 Two repositories — `berzerk0/skills-and-prompts-noteboook` and
 `berzerk0/crispy-couscous` — are about to be merged into one. I am asking every
 session that may have worked on either of them for anything it knows that is not
@@ -97,20 +75,43 @@ replacing any `/` in the branch name with `-`. For example, a session on
 Plain prose under the headings above. No template, no formatting requirements.
 
 Commit it to **your own branch** — do not switch branches, do not merge, do not
-push anywhere else — and push. Then tell me the file path and the commit hash.
+push anywhere else — and push.
 
-If you cannot push, paste the whole report to me in chat and say that pushing
-failed.
+If you cannot push, paste the whole report here in chat instead and say that
+pushing failed.
+
+## Step 5 — Post a status line
+
+Once step 4 is done, post exactly one line, on its own, as your last message:
+
+```
+LOOSE-ENDS DONE — <repo> — <branch> — <what happened>
+```
+
+`<what happened>` is one of: `no work found`, `loose-ends/<file>.md pushed`,
+`push failed, reported in chat above`.
+
+Examples:
+
+```
+LOOSE-ENDS DONE — crispy-couscous — vibe/implementation-roadmap-4105aff — no work found
+LOOSE-ENDS DONE — skills-and-prompts-noteboook — vibe/errors-2026-08-24 — loose-ends/vibe-errors-2026-08-24.md pushed
+```
+
+This line is how the person running this exercise tracks which sessions have
+finished, across many open chats. Post it even if step 1 ended the task early.
 
 ## Done means
 
 Either:
 
-- You checked, found you did no work in either repository, and said so. **Done.**
+- You checked, found you did no work in either repository, said so, and posted
+  the status line. **Done.**
 
 Or:
 
 - You checked where you are and reported it; you asked your questions and had
-  them answered, or explicitly said you had none; and there is a file on your
+  them answered, or explicitly said you had none; there is a file on your
   branch — or a report in chat — covering the mechanical facts and the four
-  questions, with "nothing" where that is the honest answer.
+  questions, with "nothing" where that is the honest answer; and you posted the
+  status line.

@@ -123,9 +123,11 @@ and anything it left uncommitted. There is no template — a session that names
 its branch and says "nothing beyond what is committed" is done.
 
 Each session writes its report to `loose-ends/<its-branch-name>.md` on its own
-branch, slashes replaced with dashes, and pushes. After the merge, `ls
-loose-ends/` shows which sessions reported; anyone absent did not answer. A
-session that cannot push reports in chat instead. The prompt for this step is
+branch, slashes replaced with dashes, and pushes. A session that cannot push
+reports in chat instead. Either way, each session ends by posting a one-line
+status in its own chat — that line, not the file tree, is how completion is
+tracked, since sessions run in separate chats the owner is watching directly.
+The prompt for this step is
 [`prompt-collect-loose-ends.md`](prompt-collect-loose-ends.md).
 
 ### 2b. Merge
