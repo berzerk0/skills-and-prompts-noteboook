@@ -25,9 +25,15 @@ Present only there: `script-it`, `escalate`, `napkin`, `repo-auditor`,
 Searching *this* repo for them returns nothing; that is expected, not a broken
 reference.
 
-One name exists in **both** repos and they are not the same file:
-`skills/planning-with-files`. Every citation below means the crispy-couscous copy
-unless it says otherwise.
+Three skill names exist in **both** repos. Checked 2026-08-25 with `diff`:
+`planning-with-files` is **byte-identical** in both; `challenge-my-thinking` and
+`skill-extractor` differ (the notebook copies are substantially longer). An earlier
+version of this file claimed `planning-with-files` differed — that was asserted
+without running `diff`, and was wrong. Citations below mean the crispy-couscous copy
+unless stated.
+
+Sorting out which version of a differing skill wins is **post-merge work**, not a
+reason to compare repos now.
 
 ---
 
