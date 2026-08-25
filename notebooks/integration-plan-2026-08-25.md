@@ -1,203 +1,207 @@
 # Integration plan — 2026-08-25
 
-> **This file is different from its neighbours. It IS a work plan.**
-> Everything else on this branch is an inert thought exercise carrying a "do not
-> act on this" banner. This one is meant to be acted on. If you are a session
-> that was pointed here, read this file and the two it links; do not go
-> exploring the rest of the branch for instructions.
+**What this is:** the plan for merging two repositories into one and finding out
+where the result actually stands.
 
-**Scope:** merging `berzerk0/skills-and-prompts-noteboook` and
-`berzerk0/crispy-couscous` into one repo, and finding out where the result
-actually stands.
+**Repositories:**
+- `berzerk0/skills-and-prompts-noteboook` — a library of skills and prompts
+- `berzerk0/crispy-couscous` — a multi-agent skill repo with a working
+  build step that compiles one canonical source into per-agent files
+  (Claude Code, Pi, Mistral Vibe)
 
 **Owner:** the human. Sessions contribute retrieval, not decisions.
 
+> **This file is meant to be acted on.** Other files in this directory are an
+> exploratory record and carry a "do not act on this" banner. If you were
+> pointed here, work from this file and the ones it links.
+
 ---
 
-## The one fact this plan is built on
+## The fact this plan is built on
 
-**Almost nothing has ever been run.**
+**Almost nothing in either repository has ever been run.**
 
-Not the router. Not most skills. The work has been half-implemented across Vibe
-and Claude Code web sessions and never deployed into a repo where it executes.
-Pi has never been touched. There is also no visibility from the UI into when a
-skill is invoked.
+The work was built across web sessions and never deployed anywhere it executes.
+Most skills have never been invoked. One repo's agent-routing prompt has never
+been used. The third target agent, Pi, has never been touched at all.
 
-Two consequences, and they drive every choice below:
+Two consequences, and they decide everything below:
 
 1. **The merge cannot break working software, because there isn't any.** The
-   risk is not breakage. It is **contradiction accumulation** — pulling two
-   bodies of claims into one repo and later having to decide which was right,
-   with no way to tell.
-2. **Assessment has to mean running things.** Reading cannot distinguish a
-   working skill from a stub that names an intent. That was established the hard
-   way — see [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md),
-   where four of eight defects are exactly that mistake, three of them made
-   while writing these very documents.
+   real risk is **contradiction accumulation** — pulling two bodies of claims
+   into one repo, then later having to decide which was right with no evidence
+   either way.
+2. **Assessment means running things, not reading them.** Reading cannot tell a
+   working skill from one that only names an intent. In a sample of four skills
+   read closely, two were shells: a description, a list of trigger phrases, and
+   no logic — while a README table listed both as complete and working on all
+   three agents.
 
 ---
 
 ## Phase 1 — Document the ideal ✅ done
 
 **Output:** [`IDEAL.md`](IDEAL.md) — ten principles, each with an observable and
-a falsifier so phase 3 can score by running rather than by listing.
+a falsifier, written so phase 3 can score against them by running the system
+rather than by listing its files.
 
-Not a spec, not a commitment. The thing to measure against.
+Not a spec and not a commitment. The thing to measure against.
 
 ---
 
 ## Phase 2 — Merge
 
-### 2a. Collect dangling bits *(precondition)*
+### 2a. Collect loose ends *(precondition)*
 
-Two sources, different answerers. **Do not ask a session for what git already
-knows.**
+Two sources, and they answer different questions. **Don't ask a session for
+what git already knows.**
 
-**Git-answerable — mostly already gathered, see appendix.**
-Branches, unmerged commits, stale refs, uncommitted work.
+**From git** — branches, unmerged commits, stale refs, uncommitted work.
+Gathered for one repo already; see the appendix.
 
-**Session-only — needs the paste prompt.**
-What was decided but never written down. What was started and abandoned, and
-why. What was learned that isn't in any file. Anything the session did that a
-later reader would misread.
+**From each session that did work on either repo** — what git cannot know:
 
-Sessions are asked to **close their own loop, not to judge this plan.** They
-hold state; they do not hold the full picture — no session can currently see
-both repos at once, which is itself part of why the merge comes first.
+- What was decided but never written down
+- What was started and abandoned, and why
+- What was learned that isn't in any file
+- Anything it did that a later reader would misread
+
+Ask each session to **close its own loop, not to review this plan.** A session
+holds its own state; it does not hold the full picture, since no session can
+currently see both repositories at once.
+
+Also collect each session's branch name and current commit, so its work can be
+matched against the git inventory.
 
 ### 2b. Merge
 
-**Discipline, and it is the whole point of this phase:**
+**The rule for this phase:**
 
 > **Record contradictions. Do not resolve them.**
 
-When the two repos disagree, the merge does not pick a winner. There is no
-basis to pick one — nothing runs, so there is no evidence either version is
-correct. Preserve both, mark the disagreement, move on. Resolving on a hunch
-is how a contradiction becomes a false claim that outlives the person who
-guessed.
+When the two repos disagree, do not pick a winner. There is no basis to pick
+one — nothing runs, so there is no evidence either version is correct.
+Preserve both and mark the disagreement.
 
-**Preserve provenance.** Which repo did each artifact come from? That is
-cheapest to record now and is evidence later when the pile gets sorted.
+**Preserve provenance.** Record which repo each artifact came from. It is
+cheapest to capture during the merge and becomes evidence later.
 
 ### 2c. Build the pile
 
-The pile is the second output of this phase, not an afterthought. Everything
-unresolved goes in **one place**, in the merged repo.
+A single place in the merged repo holding everything unresolved. This is an
+output of phase 2, not an afterthought.
 
-**What goes on the pile:** contradictions found during the merge; the open
-defects (D1–D4); which version of a differing skill wins; whether
-`karpathy-guidelines` / `solus-skill` / `pilot-preset` come back in; whether
-`clarify` and `ask-questions-if-underspecified` are one skill or two; every
-"we'll figure this out later" from a session.
+**On the pile:**
 
-**What does NOT go on the pile — this distinction matters:**
+- Contradictions found during the merge
+- Known defects in the crispy-couscous repo, carried forward unfixed
+  (see [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md))
+- Which copy wins where a skill exists in both repos with different content —
+  currently `challenge-my-thinking` and `skill-extractor`
+- Whether the three skills kept outside both repos, in the user-level
+  `~/.claude/skills/synced/` directory, come back in
+- Whether `clarify` and `ask-questions-if-underspecified` are one skill or two
+- Every "we'll figure this out later" a session reports
+
+**Not on the pile:**
 
 | Kind | Example | Fate |
 |---|---|---|
-| **Evidence** | the defect log, `IDEAL.md` | Stays as reference. It's what you adjudicate *with*. Needs a "valid as of `<sha>`" stamp, not a queue position. |
-| **Task** | fix D1's prose, pick a skill version | Goes on the pile. |
+| **Evidence** — a record of what was true | the defect log, `IDEAL.md` | Stays as reference. It's what you adjudicate *with*. Needs a "valid as of `<commit>`" stamp, not a queue position. |
+| **Task** — a thing to do | pick a skill version, fix a wrong claim | Goes on the pile. |
 
-The pile is allowed to sort into **drop**. Most of it probably should.
+Sorting the pile into **drop** is a valid outcome for any item.
 
-**Do not build a second container.** The
-`notebook/foundation-harness-exercise` branch is already an inert pile with the
-committee material in it. Post-merge the pile is that branch plus whatever the
-merge surfaces — one place, not two.
+**One pile, not two.** The `notebook/foundation-harness-exercise` branch already
+holds the earlier design work in exactly this form. Post-merge, the pile is that
+branch plus whatever the merge surfaces — one location.
 
 ---
 
 ## Phase 3 — Assess the merged repo against the ideal
 
-**The method is exercise, not inventory.** Inventory is fast and lies. A
-directory listing and a README compatibility table both presented
-`skill-validator` as complete; it is 25 lines of trigger phrases that validate
-nothing.
+**The method is exercise, not inventory.** A file listing is fast and
+misleading; it cannot separate a working component from a named one.
 
-**Minimum viable:** invoke every skill once, on a real ask, and record what came
-back. Anything that cannot be invoked, or that returns only its own
-description, is a stub regardless of what any table says.
+**Minimum viable pass:** invoke every skill once, on a real request, and record
+what came back. Anything that cannot be invoked, or that returns only its own
+description, is a shell regardless of what any table claims.
 
-**Known limit — half of principle 0 is not testable right now:**
+Score the result against [`IDEAL.md`](IDEAL.md). Then sort the pile, which is
+now possible because there is finally evidence to sort it with.
 
-- *Does it work when called?* Testable. Invoke it, read the response.
-- *Does it get called when it should?* **Not observable.** Skills fire on
-  description match and the UI shows no invocation events. This is also why
-  principle 8 (retirement) has no data to work from.
-
-A hook could log invocations. That is the highest-value thing that does not
-exist. **Do not build it during this plan** — note it and move on.
-
-Phase 3 is also where the pile gets sorted, because that is when there is
-finally evidence to sort it with.
+**Worth knowing before designing the pass:** invoking a skill by hand and
+reading the result is straightforward. Confirming that a skill *fires on its own
+when it should* is harder, since agents select skills by matching their
+descriptions and that selection is not always visible. Design the pass around
+what can be observed in whatever tooling is available at the time.
 
 ---
 
 ## After phase 3, and only then
 
-**Stability before expansion.** No new skills — including the third-party set
-on deck — until phase 3 has produced a baseline.
+**Stability before expansion.** No new skills — including any third-party set
+waiting to be imported — until phase 3 has produced a baseline.
 
-Three reasons, in order of how much they cost: imported skills are
-indistinguishable from your own by inventory; they add description residency
-from the moment they land; and without invocation visibility there is no way to
-tell whether any of them work.
+Imported skills are indistinguishable from local ones by inspection, and every
+skill's description consumes context on every turn whether or not it is ever
+used. Without a baseline there is no way to tell what any of them contribute.
 
 ---
 
-## Decided, and not to be relitigated
+## Decided — do not relitigate
 
-| Question | Decision | Why |
+| Question | Decision | Reason |
 |---|---|---|
-| Fix crispy-couscous defects before or after the merge? | **After.** | D1–D4 are not four defects; they are four samples of one condition — written, never run. Fixing the two found by reading patches the visible instances of a pervasive, unmeasured class. |
-| Hunt contradictions before or after the merge? | **After.** | Cross-repo comparison is what the merge exists to make tractable. No session can see both repos today. |
-| Merge two repos or three sources? | **Open.** | `~/.claude/skills/synced/` holds `pilot-preset`, `karpathy-guidelines`, `solus-skill`. On the pile. |
-| Single-agent first or cross-agent? | **Cross-agent is the goal.** | crispy-couscous is already tri-agent with a working compiler. Going single-agent would give up capability, not avoid work. |
+| Fix the known defects before or after the merge? | **After** | They are not separate defects but samples of one condition: written, never run. Fixing only the ones found by reading patches the visible instances of an unmeasured class. |
+| Look for contradictions between the repos before or after the merge? | **After** | Cross-repo comparison is what the merge exists to make possible. |
+| Merge two sources or three? | **Open** | The user-level `~/.claude/skills/synced/` directory holds three skills excluded from both repos. On the pile. |
+| Target one agent first, or stay cross-agent? | **Stay cross-agent** | crispy-couscous already targets three agents and its build step works. Narrowing would give up capability, not avoid work. |
 
 ---
 
-## Appendix — git-answerable dangling bits, gathered 2026-08-25
+## Appendix — git inventory, gathered 2026-08-25
 
 ### `skills-and-prompts-noteboook`
 
-**Unmerged branches:**
+Working tree clean. Four branches unmerged:
 
-| Branch | Size | Contents | Disposition |
-|---|---|---|---|
-| `notebook/foundation-harness-exercise` | 20 commits | The committee exercise + this plan | Keep unmerged, deliberately |
-| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | **Superseded predecessor of the above.** Still contains `docs/behaviors/`, `scripts/`, root `.tools-registry.yaml` — the layout deliberately abandoned | **Delete.** Live contradiction source: it holds working git-hook install instructions in `docs/` |
-| `claude/validate-mistral-patches-ipuxh1` | 3 commits, 1 file | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` | Needs a decision |
-| `vibe/errors-2026-08-24` | 3 commits, 3 files | Tool-version inconsistency audit + two version-reconciliation self-checks | Needs a decision |
+| Branch | Size | Contents |
+|---|---|---|
+| `notebook/foundation-harness-exercise` | 20 commits | The design exercise and this plan |
+| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | An earlier version of the branch above, in a layout since abandoned |
+| `claude/validate-mistral-patches-ipuxh1` | 3 commits, 1 file | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` |
+| `vibe/errors-2026-08-24` | 3 commits, 3 files | A tool-version inconsistency audit and two version-reconciliation self-checks |
 
-**Merged, safe to delete (4):** `claude/agent-external-comms-guardrails-gjrjl4`,
-`claude/log-attribution-todo`, `claude/repo-vision-clarify-u3pays`,
-`claude/version-reconciliation-review-jvzxfw`
+Four branches already merged and safe to delete:
+`claude/agent-external-comms-guardrails-gjrjl4`, `claude/log-attribution-todo`,
+`claude/repo-vision-clarify-u3pays`,
+`claude/version-reconciliation-review-jvzxfw`.
 
-Working tree clean.
+**Suggested, not decided:** delete `claude/repo-vision-debate-r1-ya1c00`. It is
+superseded by `notebook/foundation-harness-exercise` and still contains a
+`docs/` directory with working instructions for installing a git hook — a
+contradiction source if anyone finds it after the merge.
 
-### `crispy-couscous` — **not assessed**
+### `crispy-couscous` — not assessed
 
-Three non-main branches exist: `fix/generator-symlink-bug`,
+Three branches exist besides `main`: `fix/generator-symlink-bug`,
 `fix/readme-remove-codeberg-and-stale-refs`,
 `vibe/implementation-roadmap-4105aff`.
 
-Their merge status **was not determined.** The available clone is `--depth 1`,
-and the ahead-counts a shallow clone produces are artifacts, not facts. Assessing
-these needs a full clone and belongs to phase 2.
-
-`vibe/implementation-roadmap-4105aff` is worth looking at first — a roadmap
-branch is where undocumented intent hides.
+**Their merge status was not determined.** The clone available at the time was
+shallow, and commit counts from a shallow clone are artifacts rather than facts.
+Assessing these needs a full clone and belongs to phase 2.
 
 ---
 
 ## Reference
 
-- [`IDEAL.md`](IDEAL.md) — what we are aiming at. Start here.
-- [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — eight
-  defects reproduced with commands, valid as of `crispy-couscous@4d2c23d`.
-  Paths will move in the merge; re-verify after.
+- [`IDEAL.md`](IDEAL.md) — the ten principles this is measured against. Start here.
+- [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — defects
+  reproduced with the commands that produced them, valid as of
+  `crispy-couscous@4d2c23d`. Paths will move during the merge; re-verify after.
 - [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) —
-  what the original brain dump was really asking for, and which parts already
-  exist.
+  what the project was originally trying to build, and which parts already exist.
 
-Everything else in `notebooks/` is lower-confidence record, not guidance.
+Everything else in this directory is lower-confidence record, not guidance.
