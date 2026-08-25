@@ -303,130 +303,75 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ---
 
-## Next Steps to Make This Shipping Reality
+## Next Steps: The Weekend Plan
 
-### Phase 1: Validation & Integration (3-5 Days)
+This is cobbling together things that already exist (hooks, deny rules, a translation
+table you already wrote) plus a handful of small scripts. That's a weekend, not a
+quarter. Below is a two-day plan sized for that.
 
-**Goal:** Prove behaviors work, establish measurement baseline.
+### Saturday Morning (2-3 hrs) — Verify + Clean Up What Exists
 
-1. **Verify hook capabilities:** (1 day)
-   - [ ] Check Claude Code docs: can `PreToolUse` hook access tool-error events?
-   - [ ] Check Vibe source: can `PRE_TOOL` hook modify error messages?
-   - [ ] If yes to both: B2 is unblocked. If no: design alternative.
+- [ ] Check: does Claude Code's `PreToolUse` hook see tool-not-found errors? (grep the
+      docs/source, or just test it — call a bogus tool name and see what the hook
+      receives)
+- [ ] Check: does Vibe's `PRE_TOOL` hook do the same? (same test, or read
+      `mistral-vibe` source per `docs/cross-tool-notes.md`'s method)
+- [ ] Run `scripts/validate-tool-names.py` against everything, fix what it flags
+      (skill-extractor is the known one)
+- [ ] Merge crispycouscous, re-run the validator against whatever it brings in
 
-2. **Run B1 validation:** (1 day)
-   - [ ] Execute against all existing skills
-   - [ ] Fix flagged issues (skill-extractor tool names)
-   - [ ] Validate fixes
-   - [ ] Install pre-commit hook (optional but recommended)
+If hooks don't expose tool-error events, B2 becomes "skill text asks the model to
+re-check the tool list" (rung 3, not rung 2) — downgrade and move on, don't block the
+weekend on it.
 
-3. **Start override log:** (same day)
-   - [ ] Create `docs/override-log.md`
-   - [ ] Establish measurement baseline
+### Saturday Afternoon (2-3 hrs) — Wire Up B2 and B3
 
-4. **Merge crispycouscous & audit:** (1-2 days)
-   - [ ] Run B1 validation on new skills
-   - [ ] Spot-check for duplicates
-   - [ ] Document any tool-name issues
+- [ ] B2: if hooks support it, wire the tool-error hook to inject the live tool list
+      into the error message. If not, add the re-check instruction to relevant skill
+      text instead.
+- [ ] B3: point `scripts/find-unused-skills.py` at whatever invocation signal you
+      actually have (git log mentions, session history, or just skip automated
+      detection this weekend and do one manual pass by eye)
+- [ ] One-line note in each B-doc on what got built vs. deferred
 
-### Phase 2: Hook Integration & B2/B3 (1-2 Weeks)
+### Sunday Morning (2-3 hrs) — Framework Cleanup
 
-**Goal:** Implement B2 and B3 with full harness integration.
+- [ ] Turn the property-based routing idea (`notebooks/foundation-harness-behavior-spec-2026-08-25.md`,
+      "What this implies for the classification framework") into a short table in
+      AGENTS.md: property → artifact type, plus a null-branch row ("nothing needed" is
+      a valid answer)
+- [ ] Sanity-check it against 5-10 real decisions you've already made in this repo —
+      does the table give the same answer you actually chose?
 
-1. **Implement B2 (Premise Re-Check):** (3-5 days)
-   - [ ] Hook integration for tool-error events
-   - [ ] Inject available tool list into error message
-   - [ ] Test against real tool-not-found scenarios
+### Sunday Afternoon (2-4 hrs) — Portability Pilot
 
-2. **Implement B3 (Retirement Sweep):** (2-3 days)
-   - [ ] Hook-based invocation logging (if Phase 1 verified hook capability)
-   - [ ] B3 script queries invocation logs
-   - [ ] Schedule monthly sweep
+Skip building a compiler. The translation table already exists in
+`docs/cross-tool-notes.md` — use it directly.
 
-3. **Quick docs for B4-B7:** (1 day)
-   - [ ] One-pager per behavior (not full docs)
-   - [ ] Implementation checklist
-   - [ ] Defer detailed design
+- [ ] Pick 3 skills you actually want portable
+- [ ] Hand-translate their `allowed-tools` for Vibe using the existing table (this is
+      find-and-replace, not engineering)
+- [ ] Save as a second frontmatter block or a `.vibe/skills/` copy — whichever your
+      repo convention prefers
+- [ ] Validate both versions with the B1 script
 
-### Phase 3: Classification Framework (1 Week)
-
-**Goal:** Replace five-category taxonomy with property-based routing.
-
-1. **Build decision matrix:** (2-3 days)
-   - [ ] Map properties (isolation? determinism?) to artifact types
-   - [ ] Test against 10 recent real decisions from this repo
-   - [ ] Document edge cases (compound tasks)
-
-2. **Add framework elements:** (1-2 days)
-   - [ ] Null branch (default: don't create)
-   - [ ] Cost column (rough estimates)
-   - [ ] Document in AGENTS.md
-
-3. **Create routing skill:** (1 day)
-   - [ ] Skill that teaches property-based routing
-   - [ ] Test a few times with models
-
-### Phase 4: Portability Layer (2-4 Weeks)
-
-**Goal:** Single-source skills that work in both Claude Code and Vibe.
-
-**This is the real work.** The phases above are validation. This is implementation.
-
-1. **Build compilation infrastructure:** (1-2 weeks)
-   - [ ] YAML schema for single-source skill
-   - [ ] Compiler: YAML → claude-code/SKILL.md + vibe/SKILL.md
-   - [ ] Tool name translation (Read → read_file)
-   - [ ] Frontmatter adaptation (allowed-tools, user-invocable)
-   - [ ] Validation & CI checks
-
-2. **Pilot with 5 skills:** (1-2 weeks)
-   - [ ] Convert 5 existing skills to single-source format
-   - [ ] Test both outputs in both harnesses
-   - [ ] Fix compiler bugs
-   - [ ] Document conventions
-
-3. **Optional: Migrate remaining skills:** (1-2 weeks, defer)
-   - [ ] Convert 13 remaining skills
-   - [ ] Consolidate duplicates discovered in process
-   - [ ] Update documentation
-
-### Phase 5: Measurement & Optimization (Runs Parallel to Phases 2-4)
-
-**Goal:** Prove the substrate helps or identify what needs change.
-
-1. **Run experiment design (after 4 weeks):**
-   - [ ] 10 standardized tasks
-   - [ ] Coin-flip assign to arm A (with substrate) vs B (without)
-   - [ ] Measure time, errors, tokens, expansions
-
-2. **Monitor override log:**
-   - [ ] Track calibration (override rate trend)
-   - [ ] Identify patterns (which behaviors get overridden most?)
-   - [ ] Adjust thresholds/criteria
-
-3. **Quarterly review:**
-   - [ ] Is the substrate net positive?
-   - [ ] Which behaviors provide value?
-   - [ ] Which should be removed or redesigned?
+**Defer to later (not this weekend):** a general compiler, migrating all 18 skills,
+the 4-week controlled experiment, quarterly reviews. None of that blocks having a
+working substrate by Sunday night.
 
 ---
 
-## Success Criteria (How to Know This Worked)
+## Success Criteria (How to Know the Weekend Worked)
 
-### Minimum Viable (After Phase 1)
+✅ B1 runs clean against every skill in the repo (post-merge)  
+✅ You know, concretely, whether B2 can sit on a hook or has to sit on skill text  
+✅ 3 skills are verified working in both harnesses  
+✅ AGENTS.md has the property-based routing table with a null branch  
+✅ `docs/override-log.md` exists, even with zero entries — the hook for measuring later
+   is in place
 
-✅ B1 (tool-name validation) prevents at least one real tool-name issue from being committed  
-✅ No silent failures from unrecognized tool names in Vibe  
-✅ Skills are portable (work in both harnesses or clearly marked single-harness)  
-✅ Override log shows calibrated substrate (constant or falling override rate)
-
-### Full Vision (After Phase 5)
-
-✅ Behaviors prevent measurable classes of errors (tool-name drift, premise mismatches, skill debt)  
-✅ Cross-harness portability is solved (single source, compiled outputs)  
-✅ Classification framework routes accurately (property-based, not category-based)  
-✅ Weak models produce reasonable output with the right harness design  
-✅ Experiment shows substrate improves or maintains both speed and accuracy  
+Everything past that (B4-B7, full skill migration, the 4-week experiment) is
+follow-up, not blocker.
 
 ---
 
@@ -434,9 +379,9 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ### High Risk (Address Now)
 
-🔴 **Hook capability gap:** If Claude Code `PreToolUse` can't access tool-error events, B2 becomes impossible (blocks Phase 2).
+🔴 **Hook capability gap:** If Claude Code `PreToolUse` can't access tool-error events, B2 can't sit on a hook. This is found out Saturday morning, first thing — cheap to check, and the fallback (skill text) is a 10-minute downgrade, not a blocker.
 
-**Mitigation:** Verify hook capabilities immediately. Design alternative for B2 if needed.
+**Mitigation:** Verify hook capabilities first thing. Fall back to skill-text enforcement for B2 if hooks don't expose it.
 
 🔴 **Crispycouscous integration:** Unknown surface area. Could introduce incompatible assumptions.
 
@@ -454,35 +399,31 @@ When asked to audit citations generically, all models rubber-stamped each other.
 
 ### Low Risk (Understand)
 
-🟢 **Over-engineering:** Building too much infrastructure before validating that behaviors help.
+🟢 **Over-engineering:** Building too much infrastructure before validating that behaviors help. The weekend plan already guards against this by scoping Phase 4 to a 3-skill pilot instead of a general compiler.
 
-**Mitigation:** Run override log + cheap proxy measurement first. Full experiment design after 4 weeks. Build only what's proven valuable.
+**Mitigation:** Start the override log this weekend even with zero entries. Let it accumulate before deciding whether the full 4-week experiment is worth running at all.
 
 ---
 
 ## In One Sentence
 
-**Your vision is 80% implemented (harness provides infrastructure). Your job is 20% (build the 7 behaviors and solve cross-harness portability). The key blocker is hook capability verification (3-5 days to Phase 1 complete). The key insight is that weak models are fine; the harness design matters more than the model.**
+**Your vision is 80% implemented (the harness already provides the infrastructure). Your job is cobbling together the remaining 20% from things that already exist — a translation table you already wrote, hooks both harnesses already ship, a validation script that's already built. That's a weekend, not a quarter.**
 
 ---
 
 ## Recommendation
 
-**Do Phase 1 this week.** It's 3-5 days:
-1. Check hook capability (1 day)
-2. Run B1 validation + fix issues (1 day)
-3. Start override log (same day)
-4. Merge crispycouscous and audit (1-2 days)
+**Block off one weekend.** Saturday: verify hook capability, clean up what B1 already
+found. Sunday: framework table + a 3-skill portability pilot using the translation
+table that's already sitting in `docs/cross-tool-notes.md`. See "Next Steps: The
+Weekend Plan" above for the hour-by-hour breakdown.
 
-Then decide whether to proceed to Phases 2-5 based on what you learn.
-
-**If hooks support what you need:** Phase 2 (B2/B3 implementation) is another 1-2 weeks. Then Phase 3 (framework) is 1 week. Then Phase 4 (portability layer) is 2-4 weeks of real work.
-
-**Total realistic timeline:** 1-2 weeks validation → 1 week hook integration → 1 week framework → 2-4 weeks portability = **5-8 weeks to shipping** (not 4+ months).
+Everything beyond that — B4-B7, migrating all 18 skills, the 4-week controlled
+experiment — is real but not urgent. Do it opportunistically once the weekend proves
+the core idea holds up.
 
 ---
 
 **Status:** Ready to move forward  
-**Immediate action:** Phase 1 (this week)  
-**Decision point:** Hook capability verification results  
-**Check-in:** After Phase 1 (end of week)
+**Immediate action:** the weekend plan above  
+**Decision point:** whether hooks expose tool-error events (found out Saturday morning)
