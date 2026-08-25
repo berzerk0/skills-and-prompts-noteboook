@@ -17,8 +17,9 @@ the decisions. This is a choice about how the work is run, not a claim about
 what sessions are capable of.
 
 > **This file is meant to be acted on.** Other files in this directory are an
-> exploratory record and carry a "do not act on this" banner. If you were
-> pointed here, work from this file and the ones it links.
+> exploratory record and carry a "do not act on this" banner. Three of them are
+> linked below and each says whether you need to open it — the links are
+> references, not an instruction to go work through them.
 
 ---
 
@@ -35,7 +36,11 @@ alongside Claude Code and Mistral Vibe — has never been targeted at all.
 **Two exceptions, both verified by running them on 2026-08-25.** The
 crispy-couscous build step works: `python3 meta/generate_all.py --all` followed
 by `git status` reports zero changed files, so it is idempotent and nothing it
-generates has been hand-edited. A draft skill-name validator also runs. Nothing
+generates has been hand-edited. A draft validator that checks skill files for tool names invalid on a target
+agent also runs; it lives at
+`notebooks/behaviors/validate-tool-names.py` on the
+`notebook/foundation-harness-exercise` branch and is unpromoted draft tooling,
+not part of any workflow. Nothing
 else in either repo has a comparable check.
 
 Two consequences, and they decide everything below:
@@ -70,9 +75,16 @@ Two sources, and they answer different questions. **Don't ask a session for
 what git already knows.**
 
 **From git** — branches, unmerged commits, stale refs, uncommitted work.
-Gathered for `skills-and-prompts-noteboook` already; see the appendix. The
-crispy-couscous side is still outstanding and needs a full (non-shallow) clone;
-whoever performs the merge does this first.
+Gathered for `skills-and-prompts-noteboook` already; see the appendix.
+
+The crispy-couscous side is outstanding. The clone used for the appendix was
+shallow and cannot answer it. Clone that repo again at full depth, to a fresh
+directory rather than reusing or repairing the shallow one (`git clone
+https://github.com/berzerk0/crispy-couscous`, no `--depth`), then for each
+branch record whether it is merged into `main` and what it changes. Discard the
+shallow clone once the full one is confirmed to have complete history — `git
+log --oneline main | wc -l` returning more than a handful of commits is enough
+to confirm it.
 
 **From each session that did work on either repo** — what git cannot know.
 A "session" here means a chat session in Claude Code or Mistral Vibe that did
@@ -116,21 +128,25 @@ Each entry records three things: what is unresolved, where it came from (which
 repo, branch, or session), and why it could not be settled during the merge.
 That third field is what makes an entry sortable later.
 
-**On the pile:**
+**On the pile.** Every item below is *recorded*, not worked — the pile is built
+during phase 2 and sorted during phase 3. Nothing here is a task yet.
 
 - Contradictions found during the merge
-- Known defects in the crispy-couscous repo, carried forward **unfixed** — see
-  [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md), which is a
-  record of what was true at a specific commit, not a task list. Do not start
-  fixing from it
-- Which copy wins where a skill exists in both repos with different content:
-  `challenge-my-thinking` (52 lines in one repo, 26 in the other) and
-  `skill-extractor` (210 lines vs 54). The longer copies are in
-  `skills-and-prompts-noteboook`; the shorter ones are wired into
-  crispy-couscous's build step
-- Whether three skills kept outside both repos, in the user-level
-  `~/.claude/skills/synced/` directory, come back in: `pilot-preset`,
-  `karpathy-guidelines`, `solus-skill`
+- Known defects in the crispy-couscous repo, copied across **unfixed** from
+  [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md)
+- Which copy wins where a skill exists in both repos with different content.
+  `challenge-my-thinking` (stress-tests a plan by asking pointed questions
+  rather than giving a verdict) is 52 lines in `skills-and-prompts-noteboook`
+  and 26 in crispy-couscous. `skill-extractor` (turns a finished piece of work
+  into a reusable skill file) is 210 lines and 54. **Line count is not a quality
+  measure** — the shorter copies may be deliberate condensations, and they are
+  the ones wired into crispy-couscous's build step. Neither version has been
+  invoked, so there is currently no basis for choosing
+- Whether three skills should be brought into the merged repo: `pilot-preset`,
+  `karpathy-guidelines`, `solus-skill`. They currently live only in the owner's
+  personal Claude Code directory (`~/.claude/skills/synced/`) on whichever
+  machines that directory is synced to, so they are in neither repo and travel
+  with the user rather than the project
 - Whether `clarify` (crispy-couscous) and `ask-questions-if-underspecified`
   (skills-and-prompts-noteboook) are one skill under two names or genuinely two
   — both describe asking the user to clarify an underspecified request, so
@@ -159,8 +175,11 @@ branch plus whatever the merge surfaces — one location.
 > merge is done. It depends on the merge: assessing the two repos separately
 > produces two partial pictures and no single session can currently see both.
 
-**The method is exercise, not inventory.** A file listing is fast and
-misleading; it cannot separate a working component from a named one.
+**The method is exercise, not inventory.** Close reading does catch some
+shells — that is how the four-skill sample above was found — but it is slow, it
+does not scale to a whole repo, and it cannot establish the two things that
+matter most: that a skill does what it claims when invoked, and that it fires
+when it should. A file listing catches none of it.
 
 **Minimum viable pass:** invoke every skill once, on a real request, and record
 what came back. Anything that cannot be invoked, or that returns only its own
@@ -194,10 +213,10 @@ that cost, adding more makes the measurement harder rather than easier.
 
 | Question | Decision | Reason |
 |---|---|---|
-| Fix the known defects before or after the merge? | **After** | Two reasons. The merge moves paths and changes counts, so several of the recorded defects are about to be invalidated or restated — fixing them now means fixing them twice. And they are not independent bugs but samples of one condition (written, never run), so patching the few found by reading would leave the class unmeasured either way. |
-| Look for contradictions between the repos before or after the merge? | **After** | Cross-repo comparison is what the merge exists to make possible. |
+| Fix the known defects before or after the merge? | **After** | Two reasons, both inference rather than measurement. The merge is expected to move paths and change counts, which would invalidate or restate several recorded defects — fixing them now would likely mean fixing them twice. And they are not independent bugs but samples of one condition (written, never run), so patching the few found by reading would leave the class unmeasured either way. |
+| Look for contradictions between the repos before or after the merge? | **After** | One of the reasons for merging at all is to make cross-repo comparison tractable — currently no session can see both repos at once. Doing the comparison first would mean doing it under exactly the conditions the merge is meant to remove. |
 | Merge two sources or three? | **Open** | The user-level `~/.claude/skills/synced/` directory holds three skills excluded from both repos. On the pile. |
-| Target one agent first, or stay cross-agent? | **Stay cross-agent** | crispy-couscous already targets three agents, and its build step is one of the two things verified to run (see the top of this document). Narrowing would give up working capability, not avoid work. |
+| Target one agent first, or stay cross-agent? | **Stay cross-agent** | crispy-couscous already targets three agents, and its build step is one of the two things verified to run (see the top of this document). Narrowing would discard that build step, which works. It would not avoid work — and note the skills the build step produces are themselves unverified, so this is a decision about keeping working machinery, not working skills. |
 
 ---
 
@@ -210,7 +229,7 @@ Working tree clean. Four branches unmerged:
 | Branch | Size | Contents |
 |---|---|---|
 | `notebook/foundation-harness-exercise` | 20 commits | The design exercise and this plan |
-| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | An earlier version of the branch above, in a layout since abandoned. Its `docs/behaviors/QUICKSTART.md` gives working copy-paste instructions for installing a git pre-commit hook that was never tested |
+| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | An earlier version of the branch above, in a layout since abandoned. Its `docs/behaviors/QUICKSTART.md` gives copy-paste `cp` and `chmod` commands that would successfully install a git pre-commit hook. The hook itself was never installed or run, so what it does when it fires is unknown |
 | `claude/validate-mistral-patches-ipuxh1` | 3 commits, 1 file | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` |
 | `vibe/errors-2026-08-24` | 3 commits, 3 files | A tool-version inconsistency audit and two version-reconciliation self-checks |
 
@@ -221,10 +240,14 @@ without asking the owner:**
 `claude/repo-vision-clarify-u3pays`,
 `claude/version-reconciliation-review-jvzxfw`.
 
-**Suggested, not decided:** delete `claude/repo-vision-debate-r1-ya1c00`. It is
-superseded by `notebook/foundation-harness-exercise` and still contains a
-`docs/` directory with working instructions for installing a git hook — a
-contradiction source if anyone finds it after the merge.
+**Suggested, not decided — the owner's call, and there is a case either way.**
+`claude/repo-vision-debate-r1-ya1c00` holds the same material as
+`notebook/foundation-harness-exercise` in an earlier layout: the later branch
+was created by moving that content and correcting it, so the two overlap almost
+entirely. *For deleting:* its `docs/` directory presents unverified material as
+checked reference and includes hook-install commands. *For keeping:* it is
+history, and deleting it is not reversible from a clone. Do not act on this
+without asking.
 
 ### `crispy-couscous` — not assessed
 
@@ -242,11 +265,18 @@ clone and belongs to phase 2.
 
 ## Reference
 
-- [`IDEAL.md`](IDEAL.md) — the ten principles this is measured against. Start here.
-- [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — defects
-  reproduced with the commands that produced them, valid as of
-  `crispy-couscous@4d2c23d`. Paths will move during the merge; re-verify after.
+- [`IDEAL.md`](IDEAL.md) — ten principles describing what the merged system
+  should be like, each written so it can be tested by running something rather
+  than by reading. **Open it before phase 3**; it is the scoring sheet. You do
+  not need it for phase 2.
+- [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — a list of
+  wrong or misleading claims found in crispy-couscous, each with the command
+  that reproduced it, valid as of commit `4d2c23d`. **A record, not a task
+  list.** Open it when building the pile, to copy items across. Do not fix from
+  it — paths will move during the merge and several entries will need
+  re-verifying afterwards.
 - [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) —
-  what the project was originally trying to build, and which parts already exist.
+  background on what the project was originally trying to build and which parts
+  already exist. **Optional**; nothing in this plan depends on it.
 
 Everything else in this directory is lower-confidence record, not guidance.
