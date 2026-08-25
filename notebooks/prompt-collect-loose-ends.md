@@ -68,14 +68,19 @@ padded one. Do not invent items to fill the list.
 
 ## Step 4 — Write it to a file
 
-Create `loose-ends/<your-branch-name>.md` in the repository you worked in,
-replacing any `/` in the branch name with `-`. For example, a session on
-`vibe/errors-2026-08-24` writes `loose-ends/vibe-errors-2026-08-24.md`.
+Create `loose-ends/<your-branch-name>.md`, replacing any `/` in the branch name
+with `-`. For example, a session on `vibe/errors-2026-08-24` writes
+`loose-ends/vibe-errors-2026-08-24.md`.
 
 Plain prose under the headings above. No template, no formatting requirements.
 
-Commit it to **your own branch** — do not switch branches, do not merge, do not
-push anywhere else — and push.
+**If the branch you found yourself on in step 1 is `main` (or the repository's
+default branch), do not commit there.** Create a new branch first:
+`git checkout -b report/loose-ends-<today's-date>`, and use that name — with
+slashes replaced by dashes — as `<your-branch-name>` above instead of `main`.
+
+Otherwise, commit it to **your own branch** — the one you were already on — and
+push. Don't switch to a different existing branch, don't merge.
 
 If you cannot push, paste the whole report here in chat instead and say that
 pushing failed.

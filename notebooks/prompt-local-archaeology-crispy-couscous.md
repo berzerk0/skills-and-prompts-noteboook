@@ -99,8 +99,16 @@ Create `loose-ends/local-archaeology-<today's-date>.md` (e.g.
 "Nothing found" is a complete and correct answer for any section — do not
 invent findings to fill it out.
 
-Commit it to whatever branch you're currently on and push. If push fails,
-paste the full report here in chat instead and say that pushing failed.
+**Do not commit this to `main` or whatever the repository's default branch
+is.** Create a new branch first:
+
+```bash
+git checkout -b report/local-archaeology-<today's-date>
+```
+
+Commit the file there and push that branch (not `main`). If push fails, paste
+the full report here in chat instead and say that pushing failed, and name the
+branch you tried to push.
 
 ## Step 6 — Post a status line
 
