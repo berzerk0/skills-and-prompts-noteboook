@@ -10,6 +10,14 @@ than trusting a summary, including this one.
 Plan first, get sign-off, then execute. Do not skip the sign-off step because
 the plan seems obvious to you.**
 
+**Where the line actually is:** reading files, cloning repositories to local
+disk, and writing a local plan file are all safe and expected before sign-off
+— do them, that's Steps 1 through 3. **The line is anything that changes the
+real repositories on GitHub:** creating a branch there, pushing a commit,
+opening a PR, merging anything. None of that happens until Step 4, and Step 4
+does not start until the owner has confirmed your Step 3 plan. Cloning is not
+execution. Pushing is.
+
 ## Step 1 — Read the primary sources, not a summary of them
 
 In `skills-and-prompts-noteboook`, on branch `notebook/foundation-harness-exercise`:
@@ -30,21 +38,35 @@ In `skills-and-prompts-noteboook`, on branch `notebook/foundation-harness-exerci
     specifically, and any `report/…` branches
   - **This list may be incomplete by the time you run. Search for `loose-ends/`
     across every branch of both repositories yourself; do not rely on this
-    enumeration.**
+    enumeration.** For each repository: `git branch -a` to list every branch,
+    then for each one `git ls-tree -r <branch> --name-only | grep loose-ends`
+    to check whether it has a report. Do this after Step 2's clone.
+  - A "local-archaeology pass" (mentioned above) is the same kind of report,
+    produced by a session with no memory of prior work in the repo, checking
+    for anything left on local disk that a remote clone can't see. Read it the
+    same way as any other `loose-ends/` file — the label just tells you how it
+    was produced, not that it should be treated differently.
 
 Do **not** open `notebooks/IDEAL.md` for this task — it is the scoring sheet
 for the phase after this one, not an input to the merge itself.
 
-## Step 2 — Get the real repository state yourself
+## Step 2 — Get the real repository state yourself (local, read-only, safe before sign-off)
 
-**Shallow clones lie about history. This is not hypothetical — it happened
-during the planning for this exact merge:** a `--depth 1` clone of
-crispy-couscous reported all three of its non-main branches as 40-50 commits
-ahead and unmerged. A full clone showed two were already merged and the third
-had exactly one unmerged commit. `git merge-base`, ahead/behind counts, and
-anything else that depends on history are **meaningless against a shallow
-clone** — it doesn't just under-report, it fabricates plausible-looking wrong
-numbers.
+A `git clone` only writes to your own local disk. It does not touch either
+repository on GitHub and there is nothing to undo. Do this now, before
+planning — you cannot write a sound plan in Step 3 without seeing the real
+branches first.
+
+**A general fact about git, with a concrete local instance of it:** a shallow
+clone (`--depth N`) truncates history, so `git merge-base`, ahead/behind
+counts, and anything else that depends on full history are unreliable against
+it — not just incomplete, but capable of reporting plausible-looking wrong
+numbers, because the truncation point can look like a fork point that never
+existed. This actually happened during the planning for this merge: a
+`--depth 1` clone of crispy-couscous reported all three of its non-main
+branches as 40-50 commits ahead and unmerged. A full clone of the same
+repository, same moment, showed two were already merged and the third had
+exactly one unmerged commit.
 
 Clone both repositories fresh, with no `--depth` flag. For each:
 
@@ -71,19 +93,31 @@ answer:
    for others yourself, do not assume the list is complete. Per the plan: do
    not resolve which version wins. Keep both, record the conflict.
 3. **What happens to crispy-couscous's build tooling** (`meta/generate_*.py`,
-   the `agents/` YAML directory, `.claude/`, `.vibe/`, `.pi/`)? This is the
-   only working, verified piece of infrastructure either repo has — regenerating
-   from `agents/*.yaml` currently produces zero diff against checked-in output.
-   Whatever layout you choose, that property should still hold afterward, or
-   you should say clearly that it doesn't and why.
-4. **What happens to `vibe/implementation-roadmap-4105aff`?** It is real,
-   finished work, not a stale branch. It cannot simply be left behind or
-   silently overwritten by whatever the merge does to `.vibe/agents/`.
+   the `agents/` YAML directory, and its compiled output in `.claude/`,
+   `.vibe/`, and `.pi/` — `.pi/` is the third coding agent this project
+   targets, alongside Claude Code and Mistral Vibe)? Per the integration
+   plan's verification pass, this is the only piece of infrastructure in
+   either repo confirmed to work by actually running it: `python3
+   meta/generate_all.py --all` followed by `git status` currently reports zero
+   changed files, meaning nothing generated has been hand-edited since. Run
+   that same check yourself after cloning — confirm it still holds before you
+   rely on it. Whatever layout you choose, that property should still hold
+   afterward, or you should say clearly that it doesn't and why — this is a
+   soft constraint, not an absolute: preserve it if you can, but never break
+   it silently.
+4. **What happens to `vibe/implementation-roadmap-4105aff`?** (A real branch
+   name on crispy-couscous — `vibe/` prefix, then a descriptive slug, not a
+   hash.) Per the loose-ends findings in Step 1, it contains real, finished
+   work — a router agent, five agents made directly callable, tool-profile
+   standardization — not an abandoned branch. Because it's finished work, not
+   scaffolding, losing it silently would be a real loss, not cleanup: it
+   cannot simply be left behind or silently overwritten by whatever the merge
+   does to `.vibe/agents/`.
 5. **Git history: preserved, or a fresh start with provenance recorded in
    files instead?** Either is defensible. State which and why — this is
    effectively permanent once done.
 6. **Where does the pile live?** One markdown file, per the plan — pick its
-   path.
+   path. (Step 4 below specifies what each entry in it needs to contain.)
 
 Write this as a short plan file (anywhere sensible — your call), covering all
 six points with your reasoning, not just your conclusion.
