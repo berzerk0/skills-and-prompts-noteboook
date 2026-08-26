@@ -2,9 +2,11 @@ You are merging two GitHub repositories into one: `berzerk0/skills-and-prompts-n
 and `berzerk0/crispy-couscous`. Nobody has decided the target layout yet — that
 is part of your job, not something to infer from what follows.
 
-You have no memory of any prior session on either repository. That is
-intended. Everything you need is in the files below; read them yourself rather
-than trusting a summary, including this one.
+You have no memory of any prior session on either repository — "session" here
+just means an earlier instance of an AI assistant, in a separate conversation,
+that did work here. That absence of memory is intended. Everything you need is
+in the files below; read them yourself rather than trusting a summary,
+including this one.
 
 **This is a consequential, partly irreversible action on real repositories.
 Plan first, get sign-off, then execute. Do not skip the sign-off step because
@@ -18,12 +20,27 @@ opening a PR, merging anything. None of that happens until Step 4, and Step 4
 does not start until the owner has confirmed your Step 3 plan. Cloning is not
 execution. Pushing is.
 
+**Be clear about what kind of stop this is.** This document is text; it has no
+way to technically prevent you from continuing past Step 3. The stop only
+works if you choose to honor it. If the owner running this can control your
+credentials separately, the actual safeguard is not granting push access to
+either repository until the Step 3 plan is approved — that stops it whether or
+not the text is followed. If that's not controllable here, honoring the stop
+is the only mechanism there is, so treat it as a hard rule, not a suggestion.
+
 ## Step 1 — Read the primary sources, not a summary of them
+
+Reading these means having a checkout. If you don't have one yet, clone
+`skills-and-prompts-noteboook` now — that's a safe, local, read-only action;
+see Step 2 for why it's fine to do before planning, and for the fuller
+clone-both-repositories-and-check-branches pass that comes next.
 
 In `skills-and-prompts-noteboook`, on branch `notebook/foundation-harness-exercise`:
 
 - `notebooks/integration-plan-2026-08-25.md` — the plan this task is phase 2
-  of. Read it in full, including the appendix.
+  of. (Phase 1 was writing `IDEAL.md`, described below — you don't need its
+  content for this task, just that it happened first.) Read the plan in full,
+  including the appendix.
 - `notebooks/verified-defects-2026-08-25.md` — defects to carry forward
   **unfixed**, not to fix now.
 - Every file under `loose-ends/` in both repositories, on every branch that has
@@ -47,8 +64,8 @@ In `skills-and-prompts-noteboook`, on branch `notebook/foundation-harness-exerci
     same way as any other `loose-ends/` file — the label just tells you how it
     was produced, not that it should be treated differently.
 
-Do **not** open `notebooks/IDEAL.md` for this task — it is the scoring sheet
-for the phase after this one, not an input to the merge itself.
+Do **not** open `notebooks/IDEAL.md` for this task — phase 3, after this one,
+checks the merged result against it; this merge doesn't need it.
 
 ## Step 2 — Get the real repository state yourself (local, read-only, safe before sign-off)
 
@@ -94,8 +111,8 @@ answer:
    not resolve which version wins. Keep both, record the conflict.
 3. **What happens to crispy-couscous's build tooling** (`meta/generate_*.py`,
    the `agents/` YAML directory, and its compiled output in `.claude/`,
-   `.vibe/`, and `.pi/` — `.pi/` is the third coding agent this project
-   targets, alongside Claude Code and Mistral Vibe)? Per the integration
+   `.vibe/`, and `.pi/` — `.pi/` is for Pi Agent, the third coding tool this
+   project targets, alongside Claude Code and Mistral Vibe)? Per the integration
    plan's verification pass, this is the only piece of infrastructure in
    either repo confirmed to work by actually running it: `python3
    meta/generate_all.py --all` followed by `git status` currently reports zero
@@ -108,11 +125,12 @@ answer:
 4. **What happens to `vibe/implementation-roadmap-4105aff`?** (A real branch
    name on crispy-couscous — `vibe/` prefix, then a descriptive slug, not a
    hash.) Per the loose-ends findings in Step 1, it contains real, finished
-   work — a router agent, five agents made directly callable, tool-profile
-   standardization — not an abandoned branch. Because it's finished work, not
-   scaffolding, losing it silently would be a real loss, not cleanup: it
-   cannot simply be left behind or silently overwritten by whatever the merge
-   does to `.vibe/agents/`.
+   work on crispy-couscous's internals — a router agent, five agents made
+   directly callable, tool-profile standardization. You don't need to
+   understand what those terms mean to do this correctly, only that this is
+   finished work, not an abandoned branch: losing it silently would be a real
+   loss, not cleanup. It cannot simply be left behind or silently overwritten
+   by whatever the merge does to `.vibe/agents/`.
 5. **Git history: preserved, or a fresh start with provenance recorded in
    files instead?** Either is defensible. State which and why — this is
    effectively permanent once done.
