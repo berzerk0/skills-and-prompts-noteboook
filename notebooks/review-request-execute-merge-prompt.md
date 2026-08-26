@@ -59,8 +59,8 @@ that makes continuing past that point difficult. Read the document as
 something that might be handed to a session with no other guardrails and a
 strong bias toward finishing tasks. At what exact point, if any, would such a
 session plausibly keep going anyway? Is there anything earlier in the document
-— before its own stop point — that already reads as permission to act (e.g.
-"clone both repositories," which happens before the document's sign-off gate)?
+— before its own stop point — that already reads as permission to act, even if
+the document says elsewhere that it isn't?
 
 ## Do not tell me any of the following
 
