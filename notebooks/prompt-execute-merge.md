@@ -85,7 +85,14 @@ branches as 40-50 commits ahead and unmerged. A full clone of the same
 repository, same moment, showed two were already merged and the third had
 exactly one unmerged commit.
 
-Clone both repositories fresh, with no `--depth` flag. For each:
+Clone both repositories fresh, with no `--depth` flag:
+
+```bash
+git clone https://github.com/berzerk0/skills-and-prompts-noteboook
+git clone https://github.com/berzerk0/crispy-couscous
+```
+
+For each:
 
 ```bash
 git remote -v
@@ -100,37 +107,46 @@ false report in the first place.
 
 ## Step 3 — Decide the shape of the merge, and write it down before touching anything
 
-Nothing has settled these. You are deciding them, not discovering a pre-made
-answer:
+Items 1 and 3–6 are undecided — you are deciding them, not discovering a
+pre-made answer. Item 2 is different: it has a rule already, from
+`notebooks/integration-plan-2026-08-25.md`, and you're applying that rule, not
+choosing whether to follow it.
 
 1. **Which repository is the base, or is this a new repository?** State which,
    and why.
 2. **What happens to skills that exist in both repos with different content?**
-   `challenge-my-thinking` and `skill-extractor` are the known cases — check
-   for others yourself, do not assume the list is complete. Per the plan: do
-   not resolve which version wins. Keep both, record the conflict.
+   Diffing the two repos directly turned up `challenge-my-thinking` and
+   `skill-extractor` as the known cases — check for others yourself with the
+   same method, do not assume this list is complete. The plan's rule: do not
+   resolve which version wins. Keep both, record the conflict. This item has
+   no decision to make; note that you followed it.
 3. **What happens to crispy-couscous's build tooling** (`meta/generate_*.py`,
    the `agents/` YAML directory, and its compiled output in `.claude/`,
    `.vibe/`, and `.pi/` — `.pi/` is for Pi Agent, the third coding tool this
    project targets, alongside Claude Code and Mistral Vibe)? Per the integration
    plan's verification pass, this is the only piece of infrastructure in
    either repo confirmed to work by actually running it: `python3
-   meta/generate_all.py --all` followed by `git status` currently reports zero
-   changed files, meaning nothing generated has been hand-edited since. Run
-   that same check yourself after cloning — confirm it still holds before you
-   rely on it. Whatever layout you choose, that property should still hold
-   afterward, or you should say clearly that it doesn't and why — this is a
-   soft constraint, not an absolute: preserve it if you can, but never break
-   it silently.
+   meta/generate_all.py --all` followed by `git status` reported zero changed
+   files at that time, meaning nothing generated had been hand-edited since.
+   That's why it matters. Separately: **run that same check yourself, now,
+   after cloning** — the verification above is a past result, not a current
+   guarantee, and time has passed since it was recorded. Confirm it still
+   holds before you rely on it. Whatever layout you choose, that property
+   should still hold afterward, or you should say clearly that it doesn't and
+   why — this is a soft constraint, not an absolute: preserve it if you can,
+   but never break it silently.
 4. **What happens to `vibe/implementation-roadmap-4105aff`?** (A real branch
    name on crispy-couscous — `vibe/` prefix, then a descriptive slug, not a
    hash.) Per the loose-ends findings in Step 1, it contains real, finished
    work on crispy-couscous's internals — a router agent, five agents made
    directly callable, tool-profile standardization. You don't need to
-   understand what those terms mean to do this correctly, only that this is
-   finished work, not an abandoned branch: losing it silently would be a real
-   loss, not cleanup. It cannot simply be left behind or silently overwritten
-   by whatever the merge does to `.vibe/agents/`.
+   understand what those terms mean just to know this is finished work, not an
+   abandoned branch, and that losing it silently would be a real loss, not
+   cleanup. You do need to look at the branch's actual commits and diffs
+   (not just this summary) if you're checking whether its changes conflict
+   with anything from the other repo — that's a Step 4 task, and this summary
+   isn't detailed enough to make that call. It cannot simply be left behind or
+   silently overwritten by whatever the merge does to `.vibe/agents/`.
 5. **Git history: preserved, or a fresh start with provenance recorded in
    files instead?** Either is defensible. State which and why — this is
    effectively permanent once done.
@@ -144,6 +160,13 @@ six points with your reasoning, not just your conclusion.
 executing anything in Step 4.** If the owner asks you to change something,
 update the plan and confirm again before proceeding — do not treat a partial
 answer as approval for the rest.
+
+**What counts as confirmation:** an explicit, unambiguous instruction to
+proceed, said after seeing this specific plan. Silence does not count. A
+message that doesn't address the plan does not count. Your own judgment that
+the plan looks solid does not count — that judgment is not the owner's. If
+you're unsure whether something said to you was approval, it wasn't — ask
+directly instead of proceeding on an inference.
 
 ## Step 4 — Execute, once approved
 
