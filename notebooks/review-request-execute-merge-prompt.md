@@ -36,12 +36,17 @@ not been — where would you get stuck first?**
 Walk through it in order. Say where you'd hit the first point where you
 wouldn't know what to do next, and what information was missing.
 
-**4. Where is opinion presented as fact or as a settled decision?**
-The document contains both firm rules and open decisions it explicitly leaves
-to whoever executes it. Flag anywhere those two are blurred — including any
-instruction whose stated reason doesn't actually support it. You cannot judge
-whether a decision is *correct* (you lack the context) and I am not asking you
-to. You can judge whether a reason holds up on its own terms.
+**4. Where does a stated reason fail to support its own rule, or something get
+treated as settled in one place and open in another?**
+This document is instructions, and instructions stating their rules firmly
+("do X," "the line is Y") is normal, not a defect — do not flag a rule just
+for being stated as a rule. What's actually worth flagging: a rule whose given
+reason doesn't logically get you to that rule, or a claim treated as
+already-decided in one place while the document itself treats the same thing
+as open elsewhere (compare against Step 3, which explicitly lists decisions
+nobody has made yet — does anything earlier quietly assume one of those
+answers?). You cannot judge whether a decision is *correct* — you lack the
+context — and I am not asking you to.
 
 **5. What would you do that the document does not want you to do?**
 The document tries to force a stop-and-report point before anything
