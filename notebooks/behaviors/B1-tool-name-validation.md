@@ -1,6 +1,16 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # B1: Tool-Name Assertion Before Commit
 
-**Status:** Implemented (validation script + hook template)
+**Status:** Draft. The validation script runs and finds one real issue; the hook was never installed and none of this is part of any workflow.
 
 ## Overview
 
@@ -18,62 +28,11 @@ Every tool name written into a skill's frontmatter is checked against a per-harn
 
 ## Implementation
 
-### 1. Tool Registry (`.tools-registry.yaml`)
+### 1. Tool Registry (`notebooks/behaviors/tools-registry.yaml`)
 
 A YAML file listing valid tool names for each harness:
 
-```yaml
-harnesses:
-  claude-code:
-    name: "Claude Code"
-    tools: [Read, Write, Edit, Grep, Glob, Bash, Task, ...]
-  
-  vibe:
-    name: "Mistral Vibe Code"
-    tools: [read_file, write_file, edit, grep, bash, task, ...]
-
-translation:
-  claude-code-to-vibe:
-    Read: read_file
-    Write: write_file
-    # ... etc
-```
-
-Location: `./.tools-registry.yaml`
-
-### 2. Validation Script (`scripts/validate-tool-names.py`)
-
-A Python script that:
-- Reads skill files and extracts `allowed-tools` from frontmatter
-- Checks each tool against the registry for target harness(es)
-- Reports violations with clear error messages
-- Can be run manually or via pre-commit hook
-
-Usage:
-```bash
-# Check all skills for both Claude Code and Vibe
-python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
-
-# Check specific skills
-python3 scripts/validate-tool-names.py skills/my-skill/SKILL.md
-
-# Show both valid and invalid
-python3 scripts/validate-tool-names.py --show-valid
-
-# Fail if any errors (useful for CI)
-python3 scripts/validate-tool-names.py --fail-on-error
-```
-
-### 3. Pre-Commit Hook (Optional but Recommended)
-
-**Template:** See `docs/behaviors/B1-setup-hook.sh`
-
-To install the pre-commit hook:
-```bash
-# Copy hook template to .git/hooks
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 The hook runs the validation script on any skill files staged for commit, preventing invalid tool names from being committed.
 
@@ -85,7 +44,7 @@ The hook runs the validation script on any skill files staged for commit, preven
 
 **Tertiary (Runtime):** Hook-enforced error injection at tool-invocation time (future enhancement).
 
-## Quick Start
+## How it was meant to work (draft, never adopted)
 
 ### For single-harness skills (Claude Code only):
 ```yaml
@@ -160,10 +119,10 @@ Running the validator against existing skills found:
 
 ```bash
 # Full validation
-python3 scripts/validate-tool-names.py --show-valid --fail-on-error
+python3 notebooks/behaviors/validate-tool-names.py --show-valid --fail-on-error
 
 # Test a specific skill
-python3 scripts/validate-tool-names.py skills/skill-extractor/SKILL.md --harness vibe
+python3 notebooks/behaviors/validate-tool-names.py skills/skill-extractor/SKILL.md --harness vibe
 ```
 
 ## Related Behaviors

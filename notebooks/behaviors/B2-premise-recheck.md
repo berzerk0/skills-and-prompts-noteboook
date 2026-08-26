@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # B2: Premise Re-Check on Unknown-Tool Error
 
 **Status:** Documented (awaiting hook integration)
@@ -77,11 +87,11 @@ This behavior depends on:
 
 ### Hook Integration Checklist
 
-- [ ] Claude Code: Verify `PreToolUse` hook can access tool error results
-- [ ] Vibe: Verify `PRE_TOOL` hook (if it exists) fires on tool-not-found
-- [ ] Vibe: Confirm error message can be modified before model ingestion
-- [ ] Registry: Move `.tools-registry.yaml` to location readable by hooks
-- [ ] Testing: Create test case with deliberately wrong tool name
+- Claude Code: Verify `PreToolUse` hook can access tool error results
+- Vibe: Verify `PRE_TOOL` hook (if it exists) fires on tool-not-found
+- Vibe: Confirm error message can be modified before model ingestion
+- Registry: Move `notebooks/behaviors/tools-registry.yaml` to location readable by hooks
+- Testing: Create test case with deliberately wrong tool name
 
 ## Related Behaviors
 
@@ -138,7 +148,7 @@ B2 is the runtime safety net for these cases.
 
 ## Related Documentation
 
-- `docs/behaviors/B1-tool-name-validation.md` — Upstream prevention via validation
+- `notebooks/behaviors/B1-tool-name-validation.md` — Upstream prevention via validation
 - `docs/cross-tool-notes.md` — Tool name differences between harnesses
 - `notebooks/foundation-harness-behavior-spec-2026-08-25.md` — Original debate and panel consensus
 

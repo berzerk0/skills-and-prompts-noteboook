@@ -1,8 +1,20 @@
-# Foundation Harness Vision Debate: Summary & Next Steps
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`IDEAL.md`](IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md).
+
+---
+
+# Foundation Harness Vision Debate: Summary
+
+*(Originally titled "Summary & Next Steps". The next-steps sections below were written before verification and are kept as a record of what was believed at the time.)*
 
 **Completed:** Two-round structured model debate with 8 models  
 **Date:** 2026-08-24 to 2026-08-25  
-**Outcome:** Extracted 7 candidate behaviors (Tier 1 & 2), implemented B1, documented B2-B3
+**Outcome:** Extracted 7 candidate behaviors (Tier 1 & 2). None has been run in anger; see [`IDEAL.md`](IDEAL.md) for what survived verification.
 
 ---
 
@@ -83,38 +95,36 @@ All 8 models agreed (after correction) that these are shipped and working:
 
 | Behavior | Status | Panel | Evidence |
 |----------|--------|-------|----------|
-| **B1: Tool-Name Assertion** | ✅ Implemented | 7/8 | Real session error (tool-name mismatch, silent drop) |
-| **B2: Premise Re-Check** | 📋 Documented | 5/8 | Real session error (elaborate wrong theory instead of re-check) |
-| **B3: Retirement Sweep** | 📋 Documented | 4/8 (7/8 with Part C) | Skill debt accumulation, two-stage loading residency cost |
+| **B1: Tool-Name Assertion** | ⚠️ Written, never run | 7/8 | Real session error (tool-name mismatch, silent drop) |
+| **B2: Premise Re-Check** | ⚠️ Written, never run | 5/8 | Real session error (elaborate wrong theory instead of re-check) |
+| **B3: Retirement Sweep** | ⚠️ Written, never run | 4/8 (7/8 with Part C) | Skill debt accumulation, two-stage loading residency cost |
 
 ### Tier 2: Strong Argument, Thin Support
 
 | Behavior | Status | Panel | Rationale |
 |----------|--------|-------|-----------|
-| **B4: Null-First Expansion** | 📋 Planned | 3/8 | Upstream prevention: taxonomy generates debt |
-| **B5: Lesson Admission** | 📋 Planned | 1/8 | Separates event record (ground truth) from lesson (unfounded) |
-| **B6: Completion Verification** | 📋 Planned | 3/8 | Catches silent failures (claim without evidence) |
-| **B7: Non-Progress Alarm** | 📋 Planned | 3/8 | Converts expensive silent failure to loud one |
+| **B4: Null-First Expansion** | ⚠️ Speculative | 3/8 | Upstream prevention: taxonomy generates debt |
+| **B5: Lesson Admission** | ⚠️ Speculative | 1/8 | Separates event record (ground truth) from lesson (unfounded) |
+| **B6: Completion Verification** | ⚠️ Speculative | 3/8 | Catches silent failures (claim without evidence) |
+| **B7: Non-Progress Alarm** | ⚠️ Speculative | 3/8 | Converts expensive silent failure to loud one |
 
 ---
 
-## Implementation Status
+## What had been written at the time (none of it run)
 
 ### B1: Tool-Name Assertion Before Commit ✅
 
-**Files created:**
-- `.tools-registry.yaml` — Registry of valid tools per harness
-- `scripts/validate-tool-names.py` — Validation script (7 of 8 models consensus)
-- `docs/behaviors/B1-tool-name-validation.md` — Full documentation
-- `docs/behaviors/B1-setup-hook.sh` — Pre-commit hook template
+**Files written (draft, unpromoted):**
+- `notebooks/behaviors/tools-registry.yaml` — Registry of valid tools per harness
+- `notebooks/behaviors/validate-tool-names.py` — Validation script (7 of 8 models consensus)
+- `notebooks/behaviors/B1-tool-name-validation.md` — Full documentation
+- `notebooks/behaviors/B1-setup-hook.sh.txt` — Pre-commit hook template
 
 **Validation against existing skills found:**
 - `skills/skill-extractor/SKILL.md` — Declares tools not available in Vibe (Read, Write, Glob, Grep, WebSearch, AskUserQuestion); would be silently dropped
 
-**Quick start:**
-```bash
-python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
-```
+The validator does run, and did find one real issue (below). It is unpromoted
+draft tooling kept in `notebooks/behaviors/`, not part of any workflow.
 
 ### B2: Premise Re-Check on Unknown-Tool Error 📋
 
@@ -124,7 +134,7 @@ python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
 - Claude Code has `PreToolUse` hook; Vibe has `PRE_TOOL` hook
 - Unconfirmed: Can hooks modify error messages before model sees them?
 
-**File:** `docs/behaviors/B2-premise-recheck.md`
+**File:** `notebooks/behaviors/B2-premise-recheck.md`
 
 ### B3: Retirement Sweep 📋
 
@@ -135,8 +145,8 @@ python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
 - Human reviews list; deletion is human decision
 
 **Files:**
-- `scripts/find-unused-skills.py` — Template script
-- `docs/behaviors/B3-retirement-sweep.md` — Full documentation
+- A retirement-sweep script was drafted and then **deleted** — it reported every skill as unused. See `verified-defects-2026-08-25.md` D5.
+- `notebooks/behaviors/B3-retirement-sweep.md` — Full documentation
 
 ---
 
@@ -218,39 +228,39 @@ Build the override log first. One line per incident. Comparable measurement with
 
 ---
 
-## Next Steps (Priority Order)
+## What was proposed as next steps (superseded, kept as a record)
 
-### Immediate (This Session)
+### Believed immediate at the time
 
-- [x] Run round 1 + 2 debates
-- [x] Extract 7 candidate behaviors
-- [x] Implement B1 (tool-name validation)
-- [x] Document B2, B3 (template implementations)
-- [x] Commit and push to branch
+- Run round 1 + 2 debates
+- Extract 7 candidate behaviors
+- Implement B1 (tool-name validation)
+- Document B2, B3 (template implementations)
+- Commit and push to branch
 
 ### Short Term (Next 1-2 Weeks)
 
-- [ ] Verify hook capability: Can Claude Code and Vibe hooks access tool-error events?
-- [ ] Implement B2 (premise re-check) once hook capability is confirmed
-- [ ] Test B1 validation script against real skills (find and fix tool-name issues)
-- [ ] Integrate B1 pre-commit hook into project (optional for user; recommended)
-- [ ] Create override log template for B7 measurement
+- Verify hook capability: Can Claude Code and Vibe hooks access tool-error events?
+- Implement B2 (premise re-check) once hook capability is confirmed
+- Test B1 validation script against real skills (find and fix tool-name issues)
+- Integrate B1 pre-commit hook into project (optional for user; recommended)
+- Create override log template for B7 measurement
 
 ### Medium Term (Next Month)
 
-- [ ] Implement hook-based invocation logging (dependency for B3, B4)
-- [ ] Activate B3 (retirement sweep) on 30-day schedule
-- [ ] Document B4, B5, B6, B7 (Tier 2 behaviors)
-- [ ] Run first "override log" measurement (establish baseline)
-- [ ] Create test cases for tool-name mismatches
+- Implement hook-based invocation logging (dependency for B3, B4)
+- Activate B3 (retirement sweep) on 30-day schedule
+- Document B4, B5, B6, B7 (Tier 2 behaviors)
+- Run first "override log" measurement (establish baseline)
+- Create test cases for tool-name mismatches
 
 ### Long Term (Ongoing)
 
-- [ ] Run experiment design (arm A vs B with standardized tasks) after 4 weeks
-- [ ] Measure Human-to-Agent Edit Ratio (metrics section)
-- [ ] Refine classification framework (property-based decision matrix)
-- [ ] Decide on portability strategy (principles + compilation)
-- [ ] Build per-harness compilation layer once strategy is clear
+- Run experiment design (arm A vs B with standardized tasks) after 4 weeks
+- Measure Human-to-Agent Edit Ratio (metrics section)
+- Refine classification framework (property-based decision matrix)
+- Decide on portability strategy (principles + compilation)
+- Build per-harness compilation layer once strategy is clear
 
 ---
 
@@ -272,9 +282,7 @@ Build the override log first. One line per incident. Comparable measurement with
 **Question:** Should the pre-commit hook be mandatory, optional, or documented-but-not-installed?
 
 **Recommendation:** Start optional (skip instructions). Users can install via:
-```bash
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 Run the validation script manually first to find issues, then decide.
 
@@ -285,7 +293,7 @@ Run the validation script manually first to find issues, then decide.
 **Options:**
 - Monthly: Every 30 days (catches skill debt early)
 - Quarterly: Every 90 days (less overhead)
-- On-demand: Manual `python3 scripts/find-unused-skills.py` (zero overhead)
+- On-demand: Manual `python3 (removed, see verified-defects D5)` (zero overhead)
 
 **Recommendation:** Start on-demand. Add scheduled trigger once hook logging is in place.
 
@@ -305,7 +313,7 @@ Run the validation script manually first to find issues, then decide.
 ### Extracted Knowledge
 
 - `notebooks/foundation-harness-behavior-spec-2026-08-25.md` — Candidate behaviors (345 lines, organized by tier)
-- `docs/behaviors/` — Implementation guides (B1, B2, B3 documented; B4-B7 planned)
+- `notebooks/behaviors/` — Implementation guides (B1, B2, B3 documented; B4-B7 planned)
 - `docs/cross-tool-notes.md` — Tool name translation table (Claude Code ↔ Vibe)
 
 ### Harness Configuration

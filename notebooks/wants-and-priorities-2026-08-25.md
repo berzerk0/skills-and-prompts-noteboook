@@ -100,7 +100,7 @@ run, not inferred.
 - **`skill-validator` does not validate anything.** 25 lines: frontmatter, a restated
   description, and a list of trigger phrases. No spec definition, no checks, no logic.
   It names an intent. It is a routing shim, not an implementation. My earlier claim
-  that it duplicated `scripts/validate-tool-names.py` was wrong — those are not the
+  that it duplicated `notebooks/behaviors/validate-tool-names.py` was wrong — those are not the
   same kind of object.
 - **`repo-auditor` is the same shape.** 26 lines, trigger phrases only.
 - **"~85% built" was fabricated.** I inferred it from directory listings and two file

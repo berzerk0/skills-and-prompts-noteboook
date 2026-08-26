@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`IDEAL.md`](IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md).
+
+---
+
 # Foundation harness -- candidate behavior spec (2026-08-25)
 
 Extracted from the two-round model debate in

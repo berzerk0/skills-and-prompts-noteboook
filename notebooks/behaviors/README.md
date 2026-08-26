@@ -1,3 +1,13 @@
+> **⚠️ Thought exercise — not a work queue.**
+> Nothing in this file has been run, measured, or committed to. Status markers,
+> effort estimates, and "next steps" here were written *before* anything was
+> verified, and several are known to be wrong. **Do not act on this file, install
+> anything from it, or treat its statuses as current.**
+> Start at [`../IDEAL.md`](../IDEAL.md) for what actually holds up; known-wrong claims are
+> catalogued in [`../verified-defects-2026-08-25.md`](../verified-defects-2026-08-25.md).
+
+---
+
 # Behaviors: Foundation Harness Implementation
 
 This directory contains the implementation of "behaviors" — always-on enforcement mechanisms extracted from the two-round model debate on the foundation harness vision.
@@ -14,38 +24,31 @@ This directory contains the implementation of "behaviors" — always-on enforcem
 
 | Behavior | Status | Purpose | Enforcement |
 |----------|--------|---------|-------------|
-| **B1: Tool-Name Assertion** | ✅ Implemented | Prevent silent-drop failures (e.g., Vibe silently dropping unrecognized tool names) | Pre-commit hook + validation script |
-| **B2: Premise Re-Check** | 📋 Planned | Inject live tool list when tool-not-found error occurs | Hook on tool-error events |
-| **B3: Retirement Sweep** | 📋 Planned | Find and list zero-invocation skills every 30 days | Scheduled script |
+| **B1: Tool-Name Assertion** | ⚠️ Written, never run | Prevent silent-drop failures (e.g., Vibe silently dropping unrecognized tool names) | Pre-commit hook + validation script |
+| **B2: Premise Re-Check** | ⚠️ Speculative | Inject live tool list when tool-not-found error occurs | Hook on tool-error events |
+| **B3: Retirement Sweep** | ⚠️ Speculative | Find and list zero-invocation skills every 30 days | Scheduled script |
 
 ### Tier 2: Stronger Argument, Thin Support
 
 | Behavior | Status | Purpose | Notes |
 |----------|--------|---------|-------|
-| **B4: Null-First Expansion** | 📋 Planned | Default to not creating new skills | Upstream prevention of skill debt |
-| **B5: Lesson Admission** | 📋 Planned | Only accept lessons backed by hook-generated events | Prevents unfounded lessons |
-| **B6: Completion Verification** | 📋 Planned | Claims of success must point to evidence | Catches silent failures |
-| **B7: Non-Progress Alarm** | 📋 Planned | Flag loops and overruns instead of absorbing them | Loud failure for expensive mistakes |
+| **B4: Null-First Expansion** | ⚠️ Speculative | Default to not creating new skills | Upstream prevention of skill debt |
+| **B5: Lesson Admission** | ⚠️ Speculative | Only accept lessons backed by hook-generated events | Prevents unfounded lessons |
+| **B6: Completion Verification** | ⚠️ Speculative | Claims of success must point to evidence | Catches silent failures |
+| **B7: Non-Progress Alarm** | ⚠️ Speculative | Flag loops and overruns instead of absorbing them | Loud failure for expensive mistakes |
 
 ## B1: Tool-Name Assertion Before Commit
 
-**Status:** ✅ Implemented (validated against existing skills)
+**Status:** ⚠️ Written, never run
 
-**Files:**
-- `.tools-registry.yaml` — Registry of valid tool names per harness
-- `scripts/validate-tool-names.py` — Validation script (can run standalone or via hook)
-- `docs/behaviors/B1-tool-name-validation.md` — Full documentation
-- `docs/behaviors/B1-setup-hook.sh` — Pre-commit hook template (optional)
+**Files (draft, unpromoted):**
+- `notebooks/behaviors/tools-registry.yaml` — Registry of valid tool names per harness
+- `notebooks/behaviors/validate-tool-names.py` — Validation script (can run standalone or via hook)
+- `notebooks/behaviors/B1-tool-name-validation.md` — Full documentation
+- `notebooks/behaviors/B1-setup-hook.sh.txt` — Pre-commit hook template (optional)
 
 **Quick start:**
-```bash
-# Validate all skills
-python3 scripts/validate-tool-names.py --harness claude-code --harness vibe
-
-# Install optional pre-commit hook
-cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
+*(Install command deliberately removed. This hook was drafted, never installed, never run. If you ever decide the behavior is wanted, read `B1-setup-hook.sh.txt` first and install it by hand.)*
 
 **Issues found in this repo:**
 - `skills/skill-extractor/SKILL.md` declares tools (Read, Write, Glob, Grep, WebSearch, AskUserQuestion) that don't exist in Vibe and would be silently dropped
@@ -67,7 +70,7 @@ See `notebooks/foundation-harness-behavior-spec-2026-08-25.md` section "How to t
 ## How Behaviors Differ From Skills
 
 - **Skills** (in `.claude/skills/`) are reusable procedural knowledge for the agent
-- **Behaviors** (in `docs/behaviors/`) are always-on enforcement mechanisms that constrain what the agent can do
+- **Behaviors** (in `notebooks/behaviors/`) are always-on enforcement mechanisms that constrain what the agent can do
 - **Skills** are invoked; **behaviors** run automatically on events or schedules
 - **Skills** can be disabled; **behaviors** (especially Tier 1) should be hard to bypass
 

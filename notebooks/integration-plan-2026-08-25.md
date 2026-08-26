@@ -1,0 +1,348 @@
+# Integration plan — 2026-08-25
+
+Merge `berzerk0/skills-and-prompts-noteboook` and `berzerk0/crispy-couscous` into
+one repository, then assess the result against
+[`IDEAL.md`](IDEAL.md).
+
+**Repositories:**
+- `berzerk0/skills-and-prompts-noteboook` — a library of skills and prompts
+- `berzerk0/crispy-couscous` — a multi-agent skill repo whose build step
+  (`meta/generate_all.py`) compiles one canonical source, a directory of
+  per-skill YAML files in a directory named `agents/`, into per-agent output
+  for Claude Code, Pi, and Mistral Vibe
+
+**Words used precisely below.** *Agent* means one of the three coding tools:
+Claude Code, Mistral Vibe, Pi. *Skill* means a markdown file an agent can load
+to do a particular job. *Session* means one chat session with an agent. Note
+crispy-couscous has a directory literally named `agents/` that holds per-skill
+YAML, not agents — where that directory is meant, it is written as `agents/`.
+
+**Owner:** the project owner. **Policy for this effort:** sessions contribute
+retrieval — what they did, what they know, what they found — and the owner makes
+the decisions. This is a choice about how the work is run, not a claim about
+what sessions are capable of.
+
+> **Which role you have.** Some steps below can only be done by the project
+> owner, and are marked **[OWNER]**. If you are a session helping with this
+> work and you reach an [OWNER] step, stop and report what you would need —
+> do not improvise a way around it.
+>
+> **This file is meant to be acted on.** Other files in this directory are an
+> exploratory record and carry a "do not act on this" banner. Three of them are
+> linked below and each says whether you need to open it — the links are
+> references, not an instruction to go work through them.
+
+---
+
+## The fact this plan is built on
+
+**Almost nothing in either repository has been deployed or invoked.**
+
+The source for this is the project owner, who reports that the work was built
+across web chat sessions and never installed anywhere it runs: most skills have
+never been invoked, `crispy-couscous/prompts/router.md` (the prompt that routes
+requests to sub-agents) has never been used, and Pi — a third coding agent,
+alongside Claude Code and Mistral Vibe — has never been targeted at all.
+
+**Two exceptions, both executed on 2026-08-25.** The
+crispy-couscous build step works: `python3 meta/generate_all.py --all` followed
+by `git status` reports zero changed files, so it is idempotent and nothing it
+generates has been hand-edited. A draft validator that checks skill files for tool names invalid on a target
+agent **executes without error and produces plausible output** — that is all
+that was established; whether its findings are correct was not checked. It lives
+at
+`notebooks/behaviors/validate-tool-names.py` on the
+`notebook/foundation-harness-exercise` branch and is unpromoted draft tooling,
+not part of any workflow. Nothing
+else in either repo has a comparable check.
+
+Two consequences, and they decide everything below:
+
+1. **The merge cannot break working software, because almost none is running.**
+   The risk that replaces it, on the reasoning above, is **contradiction
+   accumulation** — pulling two bodies of
+   claims into one repo, then later having to decide which was right with no
+   evidence either way.
+2. **Assessment means running things, not reading them.** Reading cannot tell a
+   working skill from one that only names an intent. Of four crispy-couscous
+   skills read closely — chosen because the repo's own routing prompt lists
+   them as dispatch targets, not sampled at random — two were shells — a description, a list
+   of trigger phrases, no logic — while the repo's README listed both as
+   complete and working on all three agents.
+
+---
+
+## Phase 1 — Document the ideal ✅ done
+
+**Output:** [`IDEAL.md`](IDEAL.md) — ten principles, each with an observable and
+a falsifier, written so phase 3 can score against them by running the system
+rather than by listing its files.
+
+Not a spec and not a commitment. The thing to measure against.
+
+---
+
+## Phase 2 — Merge
+
+### 2a. Collect loose ends *(precondition)*
+
+Two sources, and they answer different questions. **Don't ask a session for
+what git already knows.**
+
+**From git** — branches, unmerged commits, stale refs, uncommitted work.
+Gathered for `skills-and-prompts-noteboook` already; see the appendix.
+
+The crispy-couscous side is outstanding. The clone used for the appendix was
+shallow and cannot answer it. Clone that repo again at full depth, to a fresh
+directory rather than reusing or repairing the shallow one (`git clone
+https://github.com/berzerk0/crispy-couscous`, no `--depth`), then for each
+branch record whether it is merged into `main` and what it changes. Discard the
+shallow clone once the full one is confirmed to have complete history — `git
+log --oneline main | wc -l` returning more than a handful of commits is enough
+to confirm it.
+
+**[OWNER] From each session that did work on either repo** — what git cannot
+know.
+A "session" here means a chat session in Claude Code or Mistral Vibe that did
+work on one of these repos. **The project owner contacts these by hand through
+each app; there is no programmatic way to enumerate or address them.** This
+step is the owner's to perform, not a session's.
+
+- What was decided but never written down
+- What was started and abandoned, and why
+- What was learned that isn't in any file
+- Anything it did that a later reader would misread
+
+Ask each session to **close its own loop, not to review this plan.** A session
+holds its own state; it does not hold the full picture, since no session can
+currently see both repositories at once.
+
+A session has closed its loop when it has reported, in plain prose: its branch
+name and current commit; the four items above or an explicit "nothing" for each;
+and anything it left uncommitted. There is no template — a session that names
+its branch and says "nothing beyond what is committed" is done.
+
+Each session writes its report to `loose-ends/<its-branch-name>.md` on its own
+branch, slashes replaced with dashes, and pushes. A session that cannot push
+reports in chat instead. Either way, each session ends by posting a one-line
+status in its own chat — that line, not the file tree, is how completion is
+tracked, since sessions run in separate chats the owner is watching directly.
+The prompt for this step is
+[`prompt-collect-loose-ends.md`](prompt-collect-loose-ends.md).
+
+**A different case: no live session, only a local checkout.** The Mistral Vibe
+sessions that worked on crispy-couscous are not still open. The prompt above
+depends on conversational memory, so it does not apply — there is nothing to
+ask a fresh session to recall. What a fresh session run **on the same local
+machine** can still find is anything that landed on disk but was never
+committed or pushed: stashes, reflog entries, unpushed local branches,
+untracked files, and possibly local Vibe session transcripts, none of which
+survive in a remote clone. See
+[`prompt-local-archaeology-crispy-couscous.md`](prompt-local-archaeology-crispy-couscous.md),
+which checks its own premise first — a fresh sandbox with no local history
+reports that and stops, rather than fabricating findings.
+
+### 2b. Merge
+
+**To be run by a fresh session with no history on this project** — the prompt
+is [`prompt-execute-merge.md`](prompt-execute-merge.md). It has the session
+read the primary sources itself (this plan, the defect log, every `loose-ends/`
+report on both repos), get real repository state from full clones rather than
+trusting the shallow-clone numbers this document originally had, propose the
+merge's shape, and stop for sign-off before executing.
+
+**The rule for this phase:**
+
+> **Record contradictions. Do not resolve them.**
+
+When the two repos disagree, do not pick a winner. Neither version has been
+invoked, so there is no evidence that either is correct. (The two exceptions
+noted at the top are a build step and a validator — neither adjudicates skill
+content.) Preserve both and mark the disagreement.
+
+**Preserve provenance.** Record which repo each artifact came from. Once
+merged, that information is no longer recoverable from the file tree, so it has
+to be captured while the two sides are still distinguishable.
+
+### 2c. Build the pile
+
+One markdown file in the merged repo holding everything unresolved — path
+chosen at merge time, but one file, not a directory and not scattered notes.
+This is an output of phase 2, not an afterthought.
+
+Each entry records three things: what is unresolved, where it came from (which
+repo, branch, or session), and why it could not be settled during the merge.
+That third field is what makes an entry sortable later.
+
+**On the pile.** Every item below is *recorded*, not worked — the pile is built
+during phase 2 and sorted during phase 3. Nothing here is a task yet.
+
+- Contradictions found during the merge
+- Known defects in the crispy-couscous repo, copied across **unfixed** from
+  [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md)
+- Which copy wins where a skill exists in both repos with different content.
+  `challenge-my-thinking` (stress-tests a plan by asking pointed questions
+  rather than giving a verdict) is 52 lines in `skills-and-prompts-noteboook`
+  and 26 in crispy-couscous. `skill-extractor` (turns a finished piece of work
+  into a reusable skill file) is 210 lines and 54. **Line count is not a quality
+  measure** — the shorter copies may be deliberate condensations. They are the
+  ones wired into crispy-couscous's build step, which makes them the ones
+  currently in use but says nothing about whether they are better. Neither
+  version has been invoked, so there is currently no basis for choosing
+- Whether three skills should be brought into the merged repo: `pilot-preset`,
+  `karpathy-guidelines`, `solus-skill`. They currently live only in the owner's
+  personal Claude Code directory (`~/.claude/skills/synced/`) on whichever
+  machines that directory is synced to, so they are in neither repo and travel
+  with the user rather than the project
+- Whether `clarify` (crispy-couscous) and `ask-questions-if-underspecified`
+  (skills-and-prompts-noteboook) are one skill under two names or genuinely two
+  — both describe asking the user to clarify an underspecified request, so
+  after the merge their descriptions compete for the same trigger
+- Every "we'll figure this out later" a session reports
+
+**Not on the pile:**
+
+| Kind | Example | Fate |
+|---|---|---|
+| **Evidence** — a record of what was true | the defect log, `IDEAL.md` | Stays as reference. It's what you adjudicate *with*. Needs a "valid as of `<commit>`" stamp, not a queue position. |
+| **Task** — a thing to do | pick a skill version, fix a wrong claim | Goes on the pile. |
+
+Sorting the pile into **drop** is a valid outcome for any item.
+
+**One pile, not two.** The `notebook/foundation-harness-exercise` branch — an
+earlier, deliberately inert design exercise about what this system should be
+like — already holds its unresolved questions in exactly this form. Post-merge, the pile is that
+branch plus whatever the merge surfaces — one location.
+
+---
+
+## Phase 3 — Assess the merged repo against the ideal
+
+> **Do not start this early.** What follows is the most concrete, immediately
+> runnable part of this document, which makes it tempting to begin before the
+> merge is done. It depends on the merge: assessing the two repos separately
+> produces two partial pictures and no single session can currently see both.
+
+**The method is exercise, not inventory.** Close reading does catch some
+shells — that is how the four-skill sample above was found — but it is slow, it
+does not scale to a whole repo, and it cannot establish the two things that
+matter most: that a skill does what it claims when invoked, and that it fires
+when it should. A file listing catches none of it.
+
+**Minimum viable pass:** invoke every skill once, on a real request, and record
+what came back. Anything that cannot be invoked, or that returns only its own
+description, is a shell regardless of what any table claims.
+
+Score the result against [`IDEAL.md`](IDEAL.md). Then sort the pile, which is
+now possible because there is finally evidence to sort it with.
+
+**Worth knowing before designing the pass:** invoking a skill by hand and
+reading the result is straightforward. Confirming that a skill *fires on its own
+when it should* is harder, since agents select skills by matching their
+descriptions and that selection is not always visible. Design the pass around
+what can be observed in whatever tooling is available at the time.
+
+---
+
+## After phase 3, and only then
+
+**Stability before expansion.** No new skills — including any third-party set
+waiting to be imported — until phase 3 has produced a baseline.
+
+Claude Code and Mistral Vibe both load skills in two stages: every installed
+skill's description sits in the agent's system prompt on every turn, and only
+the body loads when that skill is invoked. (Pi has not been checked.) So an
+unused skill is not free — it costs description tokens continuously and
+competes to be selected. Until phase 3 establishes which existing skills earn
+that cost, adding more makes the measurement harder rather than easier.
+
+---
+
+## Decided — do not relitigate
+
+| Question | Decision | Reason |
+|---|---|---|
+| Fix the known defects before or after the merge? | **After** | Two reasons, both inference rather than measurement. The merge is expected to move paths and change counts, which would invalidate or restate several recorded defects — fixing them now would likely mean fixing them twice. And they are not independent bugs but samples of one condition (written, never run), so patching the few found by reading would leave the class unmeasured either way. |
+| Look for contradictions between the repos before or after the merge? | **After** | One of the reasons for merging at all is to make cross-repo comparison tractable — currently no session can see both repos at once. Doing the comparison first would mean doing it under exactly the conditions the merge is meant to remove. |
+| Merge two sources or three? | **Open** | The user-level `~/.claude/skills/synced/` directory holds three skills excluded from both repos. On the pile. |
+| Target one agent first, or stay cross-agent? | **Stay cross-agent** | crispy-couscous already targets three agents, and its build step is one of the two things verified to run (see the top of this document). Narrowing would discard that build step, which works. It would not avoid work — and note the skills the build step produces are themselves unverified, so this is a decision about keeping working machinery, not working skills. |
+
+---
+
+## Appendix — git inventory, gathered 2026-08-25
+
+### `skills-and-prompts-noteboook`
+
+Working tree clean. Four branches unmerged:
+
+| Branch | Size | Contents |
+|---|---|---|
+| `notebook/foundation-harness-exercise` | 20 commits | The design exercise and this plan |
+| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | An earlier version of the branch above, in a layout since abandoned. Its `docs/behaviors/QUICKSTART.md` gives copy-paste `cp` and `chmod` commands that would successfully install a git pre-commit hook. The hook itself was never installed or run, so what it does when it fires is unknown |
+| `claude/validate-mistral-patches-ipuxh1` | 3 commits, 1 file | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` |
+| `vibe/errors-2026-08-24` | 3 commits, 3 files | A tool-version inconsistency audit and two version-reconciliation self-checks |
+
+Four branches fully merged into `main`, so nothing would be lost by deleting
+them. **Listed as inventory, not as an instruction — do not delete anything
+without asking the owner:**
+`claude/agent-external-comms-guardrails-gjrjl4`, `claude/log-attribution-todo`,
+`claude/repo-vision-clarify-u3pays`,
+`claude/version-reconciliation-review-jvzxfw`.
+
+**[OWNER] decision. Do not delete this branch. Do not delete any branch.**
+Recorded here as a question for the owner, with a case either way.
+`claude/repo-vision-debate-r1-ya1c00` holds the same material as
+`notebook/foundation-harness-exercise` in an earlier layout: the later branch
+was created by moving that content and correcting it, so the two overlap almost
+entirely. *For deleting:* its `docs/` directory presents unverified material as
+checked reference and includes hook-install commands. *For keeping:* it is
+history, and deleting it is not reversible from a clone. Do not act on this
+without asking.
+
+### `crispy-couscous` — assessed 2026-08-26, from a full (non-shallow) clone
+
+The first attempt at this used the shallow (`--depth 1`) clone from earlier in
+this document and reported all three branches as ~40-50 commits ahead of `main`
+and unmerged. **That was wrong** — a shallow clone truncates history, so `git`
+cannot compute a real merge base, and the numbers it reports are artifacts of
+the truncation, not facts. Re-run from a full clone before trusting any
+ahead/behind count against this repository.
+
+The real state:
+
+| Branch | Status |
+|---|---|
+| `fix/generator-symlink-bug` | **Merged** into `main` (PR #10) |
+| `fix/readme-remove-codeberg-and-stale-refs` | **Merged in substance** (PR #11). One commit remains unmerged — `47fd610`, a loose-ends report, not code — see below |
+| `vibe/implementation-roadmap-4105aff` | **Not merged, and not stale.** One substantial commit (`1a31cfc`) implementing router agent, five agents made directly callable, tool-profile standardization across 18 agents, and two new docs (`SUBAGENT_RETURN_CONVENTION.md`, `MODEL_SELECTION_STRATEGY.md`). **Do not let a merge silently drop this.** |
+
+**A loose-ends report already exists** at
+`loose-ends/fix-readme-remove-codeberg-and-stale-refs.md` on that branch,
+written before the branch-safety fix that later made `report/…` branches the
+default — it landed directly on the PR branch instead, which is fine, just
+non-obvious. It contains real findings worth pulling into the pile: a "planned,
+not yet implemented" claim in `docs/SKILL_DESIGN.md` that is false (the
+generators it describes as unbuilt already exist and run), a possible
+three-way duplication among `AGENTS.md`, `docs/AGENTS.md`, and
+`.vibe/AGENTS.md` that the merged PR only partially addressed, and a note that
+PR #11's CI was never independently observed to pass — only reproduced locally.
+
+---
+
+## Reference
+
+- [`IDEAL.md`](IDEAL.md) — ten principles describing what the merged system
+  should be like, each written so it can be tested by running something rather
+  than by reading. **Open it before phase 3**; it is the scoring sheet. You do
+  not need it for phase 2.
+- [`verified-defects-2026-08-25.md`](verified-defects-2026-08-25.md) — a list of
+  wrong or misleading claims found in crispy-couscous, each with the command
+  that reproduced it, valid as of commit `4d2c23d`. **A record, not a task
+  list. Do not fix anything from it during phase 2.** Open it when building the
+  pile, to copy items across, and nothing else. Paths will move during the merge
+  and several entries will need re-verifying afterwards.
+- [`wants-and-priorities-2026-08-25.md`](wants-and-priorities-2026-08-25.md) —
+  background on what the project was originally trying to build and which parts
+  already exist. **Optional**; nothing in this plan depends on it.
+
+Everything else in this directory is lower-confidence record, not guidance.

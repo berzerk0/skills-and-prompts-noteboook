@@ -4,19 +4,19 @@
 # Prevents skills with invalid tool names from being committed.
 # Catches silent-drop failures (e.g., Vibe silently dropping unrecognized tools).
 #
-# Installation:
-#   cp docs/behaviors/B1-setup-hook.sh .git/hooks/pre-commit
-#   chmod +x .git/hooks/pre-commit
+# STATUS: NEVER INSTALLED, NEVER RUN. Draft only, kept for reference.
+# Stored as .sh.txt deliberately so it is not mistaken for live tooling.
+# Do not install this without deciding the behavior is actually wanted.
 #
 # To bypass (emergency only):
 #   git commit --no-verify
 #
-# See docs/behaviors/B1-tool-name-validation.md for details.
+# See notebooks/behaviors/B1-tool-name-validation.md for details.
 
 set -e
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-VALIDATION_SCRIPT="$REPO_ROOT/scripts/validate-tool-names.py"
+VALIDATION_SCRIPT="$REPO_ROOT/notebooks/behaviors/validate-tool-names.py"
 
 if [ ! -f "$VALIDATION_SCRIPT" ]; then
     echo "Warning: Tool validation script not found at $VALIDATION_SCRIPT"
@@ -54,7 +54,7 @@ else
     echo "Quick fixes:"
     echo "  • For Vibe portability: Use read_file, write_file, bash, grep, edit, task, ask_user_question"
     echo "  • For Claude Code: Use Read, Write, Edit, Grep, Glob, Bash, Task, etc."
-    echo "  • See .tools-registry.yaml for the complete tool list per harness"
+    echo "  • See notebooks/behaviors/tools-registry.yaml for the complete tool list per harness"
     echo "  • See docs/cross-tool-notes.md for translation table"
     echo ""
     echo "Options:"
