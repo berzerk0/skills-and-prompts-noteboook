@@ -144,6 +144,13 @@ reports that and stops, rather than fabricating findings.
 
 ### 2b. Merge
 
+**To be run by a fresh session with no history on this project** — the prompt
+is [`prompt-execute-merge.md`](prompt-execute-merge.md). It has the session
+read the primary sources itself (this plan, the defect log, every `loose-ends/`
+report on both repos), get real repository state from full clones rather than
+trusting the shallow-clone numbers this document originally had, propose the
+merge's shape, and stop for sign-off before executing.
+
 **The rule for this phase:**
 
 > **Record contradictions. Do not resolve them.**
@@ -292,17 +299,33 @@ checked reference and includes hook-install commands. *For keeping:* it is
 history, and deleting it is not reversible from a clone. Do not act on this
 without asking.
 
-### `crispy-couscous` — not assessed
+### `crispy-couscous` — assessed 2026-08-26, from a full (non-shallow) clone
 
-Three branches exist besides `main`: `fix/generator-symlink-bug`,
-`fix/readme-remove-codeberg-and-stale-refs`,
-`vibe/implementation-roadmap-4105aff`.
+The first attempt at this used the shallow (`--depth 1`) clone from earlier in
+this document and reported all three branches as ~40-50 commits ahead of `main`
+and unmerged. **That was wrong** — a shallow clone truncates history, so `git`
+cannot compute a real merge base, and the numbers it reports are artifacts of
+the truncation, not facts. Re-run from a full clone before trusting any
+ahead/behind count against this repository.
 
-**Their merge status was not determined.** The clone available at the time was
-shallow (`--depth 1`), which truncates history — so `git` cannot compute a real
-merge base, and the ahead/behind counts it reports are artifacts of the
-truncation rather than facts about the branches. Assessing these needs a full
-clone and belongs to phase 2.
+The real state:
+
+| Branch | Status |
+|---|---|
+| `fix/generator-symlink-bug` | **Merged** into `main` (PR #10) |
+| `fix/readme-remove-codeberg-and-stale-refs` | **Merged in substance** (PR #11). One commit remains unmerged — `47fd610`, a loose-ends report, not code — see below |
+| `vibe/implementation-roadmap-4105aff` | **Not merged, and not stale.** One substantial commit (`1a31cfc`) implementing router agent, five agents made directly callable, tool-profile standardization across 18 agents, and two new docs (`SUBAGENT_RETURN_CONVENTION.md`, `MODEL_SELECTION_STRATEGY.md`). **Do not let a merge silently drop this.** |
+
+**A loose-ends report already exists** at
+`loose-ends/fix-readme-remove-codeberg-and-stale-refs.md` on that branch,
+written before the branch-safety fix that later made `report/…` branches the
+default — it landed directly on the PR branch instead, which is fine, just
+non-obvious. It contains real findings worth pulling into the pile: a "planned,
+not yet implemented" claim in `docs/SKILL_DESIGN.md` that is false (the
+generators it describes as unbuilt already exist and run), a possible
+three-way duplication among `AGENTS.md`, `docs/AGENTS.md`, and
+`.vibe/AGENTS.md` that the merged PR only partially addressed, and a note that
+PR #11's CI was never independently observed to pass — only reproduced locally.
 
 ---
 
