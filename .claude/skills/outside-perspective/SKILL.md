@@ -125,5 +125,10 @@ this technique exists for. Don't average it away.
 
 ## References
 
+- Related: `outside-perspective-session` — the same technique without a
+  subagent tool: a separate chat, session, or model/vendor instance you hand
+  the artifact to manually. Prefer it when your host has no subagent
+  dispatch, or when you specifically want the isolation to cross a
+  model/vendor boundary.
 - Related: `prompt-committee` — for feedback from an actual different AI
   model or vendor, copy-pasted manually, rather than an in-session subagent.
