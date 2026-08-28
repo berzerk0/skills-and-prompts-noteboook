@@ -107,9 +107,11 @@ harness in use already blocks these reliably.
 - pi walks up from cwd and concatenates every `AGENTS.md` it finds, plus the
   global `~/.pi/agent/AGENTS.md`. Nested files add to the root file; they do not
   replace it.
-- `AGENTS.override.md` in a directory replaces `AGENTS.md` and `CLAUDE.md` for
-  that directory only. It does not suppress the global file. Reach for it only
-  when a subdirectory must contradict the root, not to scope ordinary additions.
+- `AGENTS.override.md` is unconfirmed. It is described as replacing `AGENTS.md`
+  and `CLAUDE.md` for its own directory, but a later check found no
+  implementation. Verify against your pi version before relying on it, and do
+  not treat it as a way to suppress the global file -- nothing documented does
+  that.
 - pi also reads `CLAUDE.md`. Precedence between `AGENTS.md` and `CLAUDE.md` in
   the same directory is not documented in sources checked -- avoid keeping both
   in one directory until you have verified which wins.

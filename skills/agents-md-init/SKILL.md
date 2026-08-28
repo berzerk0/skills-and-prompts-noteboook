@@ -136,6 +136,7 @@ does not take effect on its own.
 - It does not write or edit `$HOME/.pi/agent/AGENTS.md`. That file is global to
   the container; changing it changes every project. Read it for the budget, and
   leave it alone.
-- It does not use `AGENTS.override.md`. That file replaces `AGENTS.md` and
-  `CLAUDE.md` for one directory, and it is the wrong tool for a first draft. It
-  suppresses nothing from the global layer.
+- It does not use `AGENTS.override.md`. Whether pi supports that filename at all
+  is unconfirmed -- one source describes it as loading instead of `AGENTS.md`
+  for a single directory, another finds no implementation. The Step 0 scan still
+  looks for it, since a file that might load should be counted. Do not write one.
