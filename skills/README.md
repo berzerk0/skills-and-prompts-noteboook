@@ -34,6 +34,7 @@ can be silently missing a capability.
 | `braindump-triage` | original, adapted from archive | none asserted | Convert a brain dump into an actionable list, triaged do-now/do-later/delegate/drop. Adapted from "Braindump Goblin" (`../archive/original-goblins.txt`) -- sharpened against real mind-sweep/ADHD brain-dump practice (GTD's mind sweep, action-bucket triage) rather than ported as-is: added explicit permission to drop trivial items and a destination step, replacing the original's topic-only tagging. |
 | `import-memory` | Anthropic example skill | Apache-2.0 ([shared copy](_third-party-licenses/apache-2.0-anthropic-examples.txt)) | Imports another assistant's memory export. |
 | `skill-creator` | Anthropic example skill | Apache-2.0 (bundled `LICENSE.txt`) | Create and iterate on skills; enables testing and refining skills in this repo. |
+| `agents-md-init` | original | none asserted | Interview-driven builder for a workspace `AGENTS.md`, targeting pi's context-file loading. Writes a non-loading `AGENTS.candidate.md` for review rather than the live file. |
 
 **Not included, on purpose:** `docx`, `pdf`, `pptx`, `xlsx`. These are
 Anthropic's proprietary built-in skills -- their license forbids extracting or
