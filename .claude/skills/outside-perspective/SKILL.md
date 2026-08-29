@@ -8,9 +8,10 @@ description: >-
   it communicates clearly to a reader with zero context; the user asks for
   "fresh eyes," "outside perspective," or "cold read"; or a repeat review
   round would be biased by earlier findings.
-author: Claude Code
-version: 1.0.0
-date: 2026-08-26
+metadata:
+  author: Claude Code
+  version: 1.0.0
+  date: 2026-08-26
 ---
 
 # Outside Perspective

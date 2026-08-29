@@ -8,9 +8,10 @@ description: >-
   "fresh eyes," "outside perspective," or "cold read"; a repeat review round
   would be biased by earlier findings; or you want a genuinely different
   model or vendor's read, not just a fresh window on the same one.
-author: Claude Code
-version: 1.0.0
-date: 2026-08-27
+metadata:
+  author: Claude Code
+  version: 1.0.0
+  date: 2026-08-27
 ---
 
 # Outside Perspective (Session)
