@@ -18,49 +18,49 @@ metadata:
 
 ## When to Use
 
-- You've been iterating on a document/prompt/plan across multiple turns and need to check whether it still reads clearly to someone who wasn't in this conversation
-- The user explicitly asks for "fresh eyes," "a cold read," "outside perspective," or "how would someone unfamiliar read this"
-- You're about to review something you wrote, edited, or have deep background context on, and the review's value depends on the reviewer *not* having that background
-- Running a second or later round of review on the same artifact, where round 1's findings are now things you "already know" and can no longer un-know
-- You have no way to spawn an in-process subagent (a chat product without that feature, a host that doesn't expose it) but do have a way to start a second, independent conversation -- a new chat tab, a separate session, a different model or vendor entirely
+- Iterating on a doc/prompt/plan across turns? Check it still reads clearly outside this conversation.
+- User asks "fresh eyes," "cold read," "outside perspective," "how would someone unfamiliar read this."
+- Reviewing something you wrote/edited/deeply know — review's value depends on the reviewer *not* sharing that background.
+- Round 2+ review of the same artifact — round 1's findings are now things you "already know," can't un-know.
+- No way to spawn an in-process subagent (chat product lacks it, host doesn't expose it) but can start a second, independent conversation — new chat tab, separate session, different model or vendor.
 
 ## When NOT to Use
 
-- The review doesn't depend on the reviewer being naive -- e.g. checking code compiles, running tests, verifying a fact against a source. Just do it directly.
-- The task requires the reviewer to already share your context (e.g. "does this match what we discussed") -- a fresh session can't do that by definition.
-- Your host supports spawning an in-process subagent and you have no reason to prefer a fully separate session (a different vendor, a human in the loop) -- dispatching a subagent gets you the same isolation with less manual handoff: it collects the result automatically instead of you copying text between two chats yourself.
+- Review doesn't need naivety — checking code compiles, running tests, verifying a fact. Just do it directly.
+- Reviewer needs to already share your context (e.g. "does this match what we discussed") — a fresh session can't, by definition.
+- Host supports in-process subagents and there's no reason to prefer a separate session (no different vendor, no human in the loop) — subagent dispatch gives the same isolation with less manual handoff: it collects the result automatically instead of you copying text between chats.
 
 ## Problem
 
-Self-review of your own artifact silently fails at exactly the thing it's supposed to catch. If you wrote or have been fixing a document across several turns, you already know what its undefined terms mean, what its citations point to, and which past round's finding to route around -- none of which a genuinely new reader has. Asking yourself to "read this as if you'd never seen it" doesn't work: you can't unlearn context already in your window. The review still looks thorough -- specific, quote-anchored, plausible -- and still misses the exact class of problem, "does this communicate to someone with nothing else to go on," that motivated running it in the first place.
+Self-review fails at exactly what it's meant to catch. Write or fix a doc across turns and you already know its undefined terms, its citations, which past round's finding to route around — none of which a genuinely new reader has. "Read this as if you'd never seen it" doesn't work: you can't unlearn context already in your window. The review still looks thorough — specific, quote-anchored, plausible — and still misses "does this communicate to someone with nothing else to go on."
 
-This skill covers the case where you can't (or don't want to) solve that with an in-process subagent: no subagent tool available, or you specifically want the isolation to also cross a model/vendor boundary.
+This skill covers the case you can't (or won't) solve with an in-process subagent: none available, or isolation needs to cross a model/vendor boundary too.
 
 ## Solution
 
-### Step 1: Recognize when a review's value depends on naivety
+### Step 1: Recognize when naivety matters
 
-Ask: does this review need the reviewer to *not* know what I know? Checking a document's clarity to an uninitiated reader, checking whether a plan communicates on its own, or repeating a cold-read review that's already had prior rounds -- yes. If not, skip this skill and do the check directly.
+Ask: does this review need the reviewer to *not* know what you know? Clarity to an uninitiated reader, whether a plan communicates alone, a repeat cold-read after prior rounds — yes. Otherwise skip this skill, check directly.
 
 ### Step 2: Start a genuinely separate session
 
-Any of these satisfy "separate" -- pick based on what's available and what kind of independence you want:
+Any of these count as "separate" — pick by availability and independence wanted:
 
-- A new chat/conversation in the same product, with no shared history
-- A different Claude Code session (new terminal, new session id)
-- A different model in the same family (e.g. a larger or smaller model than the one that produced the artifact)
-- A different vendor entirely (another AI product) -- useful when you want the review to not share even training-level blind spots with the author
+- New chat/conversation, same product, no shared history
+- Different Claude Code session (new terminal, new session id)
+- Different model, same family (larger or smaller than the one that produced the artifact)
+- Different vendor entirely — useful when the review shouldn't share even training-level blind spots with the author
 
-What makes it work is the same in every case: the reviewing session must start with nothing except what you deliberately give it.
+What makes it work: the reviewing session starts with nothing except what you deliberately give it.
 
 ### Step 3: Hand it an exclusion list, not just the artifact
 
-Two things make the handoff actually isolated instead of only nominally so:
+Two things make the handoff actually isolated:
 
-- **Don't paste your own analysis, summaries, or prior findings into the prompt.** Give the reviewing session the source file(s) or text and the review instructions, and let it work from those alone. Anything you summarize for it is context it wouldn't otherwise have -- and defeats the point.
-- **If the reviewing session can browse or has access reaching beyond the one artifact under review** (a repo, a shared drive, search), explicitly tell it not to go looking for background docs, prior review rounds, related design notes, or history. A capable reviewer left to wander will often go find the very things that would contaminate it, out of ordinary thoroughness. Naming what's off-limits is the only reliable guard -- "don't look at anything you don't need" is too vague to hold.
+- **Don't paste your own analysis, summaries, or findings into the prompt.** Give the session the source file(s)/text and review instructions, let it work from those alone. Anything you summarize is context it wouldn't otherwise have — defeats the point.
+- **If the session can browse beyond the one artifact** (repo, shared drive, search), tell it not to hunt for background docs, prior rounds, design notes, history. Left to wander, a capable reviewer often finds the very things that contaminate it, out of ordinary thoroughness. Naming what's off-limits is the only reliable guard.
 
-Example prompt shape, to paste into the fresh session:
+Example prompt shape, paste into the fresh session:
 
 ```
 You are being given exactly one task, with no other context on this project.
@@ -76,16 +76,16 @@ a real cold reader would: note it as undecodable, don't guess at it.
 [artifact under review]
 ```
 
-### Step 4: Bring the result back and treat it as the actual review
+### Step 4: Bring the result back, treat it as the real review
 
-Resist the urge to "clean up" or re-derive its findings using your own contaminated knowledge -- that reintroduces the bias you sought a separate session to avoid. If a finding recurs across independent rounds (different sessions, different models or vendors), that convergence is itself evidence the finding is real rather than one reviewer's blind spot.
+Resist "cleaning up" or re-deriving findings with your own contaminated knowledge — that reintroduces the bias you sought isolation to avoid. A finding recurring across independent rounds (different sessions, models, vendors) is itself evidence it's real.
 
-### Step 5: Report results plainly, including where they surprised you
+### Step 5: Report plainly, including surprises
 
-A finding an isolated session produces that you, with full context, would not have flagged (or would have argued yourself out of) is the actual signal this technique exists for. Don't average it away.
+A finding you, with full context, wouldn't have flagged (or would've argued away) — that's the actual signal this technique exists for. Don't average it away.
 
 ## Verification
 
-1. Spot-check one or two of the reviewing session's specific claims (quote, line reference) against the source -- a genuine cold read still has to be *accurate*, not just naive.
-2. If two independent sessions (different chats, different models, or a session and a prior human review) converge on the same finding without having seen each other's output, that's strong evidence the finding reflects the artifact, not the reviewer.
-3. For any exact count (chars, lines, words), run the actual command (`wc -c`, `wc -l`) -- don't eyeball or estimate it.
+1. Spot-check one or two session claims (quote, line reference) against the source — a cold read must be *accurate*, not just naive.
+2. Two independent sessions (different chats/models, or a session and a prior human review) converge without seeing each other's output? Strong evidence the finding's real.
+3. Exact counts (chars, lines, words): run the actual command (`wc -c`, `wc -l`) — don't eyeball.
