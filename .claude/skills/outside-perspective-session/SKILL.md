@@ -1,13 +1,13 @@
 ---
 name: outside-perspective-session
 description: >-
-  Get cold-read feedback on a document, prompt, plan, or design via a
-  separate session, chat, or model instance -- not an in-process subagent.
-  Use when: reviewing something this session wrote or iterated on; checking
-  whether it reads clearly to someone with zero context; the user asks for
-  "fresh eyes," "outside perspective," or "cold read"; a repeat review round
-  would be biased by earlier findings; or you want a genuinely different
-  model or vendor's read, not just a fresh window on the same one.
+  Gets cold-read feedback on a doc, prompt, plan, or design via a separate
+  session, chat, or model instance -- not an in-process subagent. Use when:
+  reviewing something this session wrote or iterated on; checking if it
+  reads clearly to a zero-context reader; user asks "fresh eyes," "outside
+  perspective," "cold read"; a repeat review round would be biased by
+  earlier findings; or you want a genuinely different model/vendor's read,
+  not just a fresh window on the same one.
 metadata:
   author: Claude Code
   version: 1.0.0
