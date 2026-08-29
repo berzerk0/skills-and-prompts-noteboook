@@ -119,6 +119,8 @@ this technique exists for. Don't average it away.
    round) converge on the same finding without having seen each other's
    output, that's strong evidence the finding reflects the artifact, not the
    reviewer.
+3. For any exact count (chars, lines, words), run the actual command (`wc
+   -c`, `wc -l`) — don't eyeball or estimate it.
 
 ## References
 
