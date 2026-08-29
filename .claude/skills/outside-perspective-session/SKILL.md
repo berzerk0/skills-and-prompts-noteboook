@@ -40,12 +40,11 @@ date: 2026-08-27
 - The task requires the reviewer to already share your context (e.g. "does
   this match what we discussed") -- a fresh session can't do that by
   definition.
-- Your host *does* support spawning an in-process subagent and you have no
-  reason to prefer a fully separate session (a different vendor, a human in
-  the loop, a product without subagent support) -- use `outside-perspective`
-  instead. It gets you the same isolation with less manual handoff: you
-  dispatch and read the result back automatically, instead of copying text
-  between two chats yourself.
+- Your host supports spawning an in-process subagent and you have no reason
+  to prefer a fully separate session (a different vendor, a human in the
+  loop) -- dispatching a subagent gets you the same isolation with less
+  manual handoff: it collects the result automatically instead of you
+  copying text between two chats yourself.
 
 ## Problem
 
@@ -143,12 +142,3 @@ this technique exists for. Don't average it away.
    session and a prior human review) converge on the same finding without
    having seen each other's output, that's strong evidence the finding
    reflects the artifact, not the reviewer.
-
-## References
-
-- Related: `outside-perspective` -- the same technique via an in-process
-  subagent (the `Agent` tool) instead of a manually-run separate session.
-  Prefer it when your host supports subagents and you don't specifically
-  need a different vendor or a human in the loop -- it dispatches and
-  collects the result automatically instead of requiring manual copy/paste
-  between sessions.

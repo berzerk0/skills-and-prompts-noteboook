@@ -2,15 +2,12 @@
 name: outside-perspective
 description: >-
   Dispatches an isolated subagent with no memory of the current conversation
-  to review a document, prompt, plan, or design for clarity and internal
-  consistency, producing genuine cold-read feedback instead of self-review.
-  Use when: (1) reviewing a prompt or plan this session authored or has been
-  iterating on, (2) checking whether a document communicates clearly to a
-  reader with zero prior context, (3) the user asks for "fresh eyes," "outside
-  perspective," "cold read," or "someone with no context" on something already
-  in this session's context, (4) running a repeated review round on the same
-  artifact where the session's own accumulated knowledge from earlier rounds
-  would bias the read.
+  to review a document, prompt, or plan for clarity and internal consistency,
+  producing genuine cold-read feedback instead of self-review. Use when:
+  reviewing something this session authored or iterated on; checking whether
+  it communicates clearly to a reader with zero context; the user asks for
+  "fresh eyes," "outside perspective," or "cold read"; or a repeat review
+  round would be biased by earlier findings.
 author: Claude Code
 version: 1.0.0
 date: 2026-08-26
