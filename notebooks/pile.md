@@ -779,6 +779,25 @@ are listed here; items already handled by a merge decision are not repeated.
      the mechanism that was supposed to help, and it has been quietly deleting
      exactly that.
 
+### E9. crispy's CI assumed every directory under `skills/` is a skill
+- **What:** `.github/workflows/pre-commit-check.yml` Check 2 walked `skills/*`
+  and failed any directory without a `SKILL.md`. True in crispy, where all 13
+  were skills. False after the merge: noteboook's `skills/_third-party-licenses/`
+  holds license texts and is indexed by `skills/README.md` and `NOTICE.md`. CI
+  went red on the PR with `Missing SKILL.md: skills/_third-party-licenses/`.
+- **From:** this merge. Caught by CI, **not** by the acceptance test — the
+  generator ran clean throughout, because the generator does not care whether a
+  directory is a skill, and the CI check does.
+- **Why not settled:** **fixed, not deferred.** Check 2 now skips `_`-prefixed
+  directories, which is the convention the repo already used to mark a
+  non-skill. The alternatives were worse: moving the directory would break the
+  README and NOTICE references, and adding a placeholder `SKILL.md` would make a
+  non-skill present as a skill — L2 and L3 exactly. Recorded because it is the
+  clearest instance of a lesson this merge produced: **infrastructure carries
+  assumptions about the repo it grew up in**, and merging moves it to a repo
+  where those assumptions are false. Six other crispy CI assertions survived the
+  move; this one did not, and only running it found out.
+
 ---
 
 ## F. Verified during this merge — evidence, not tasks
