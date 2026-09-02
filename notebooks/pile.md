@@ -94,6 +94,136 @@ backlog. It is a 7-item one with a research appendix.
 
 ---
 
+## SECOND AXIS — SORTED BY TRANSFERABLE LESSON
+
+The triage above answers *"what breaks a skill on one of the three agents."* It
+is the right sort for maintaining this repo, and the **wrong** sort for
+rebuilding from core principles — which is the owner's stated next step, with
+this repo's content standing in as steps 3-4 of that process.
+
+Under that reading the ranking inverts. Most Tier-1 blockers above are
+*this repo's* problems and do not transfer. Most of Tier 3 — the session
+archaeology I labelled "archive, don't work" — is where the transferable
+material actually is. **Tier 3 above is Tier 1 here.** Both sorts are kept
+because they answer different questions; neither supersedes the other.
+
+Ranked by how much each would change a rebuild done from scratch.
+
+### L1. Running it is the only test that distinguishes a skill from a description of one
+Close reading catches some shells and does not scale; a file listing catches
+none. Of four crispy skills read closely, two were shells while the README
+listed both as complete on all three agents. **Sources:** defect log D4 and its
+cross-cutting note; re-confirmed this session — line count identified 3 stubs,
+but only invocation could confirm them, and I did not invoke any.
+**Transfers as:** no skill counts as existing until it has been invoked once on
+a real request and the output recorded. Build that into the process, not the
+review.
+
+### L2. A stub that returns plausible wrong answers is far worse than one that returns nothing
+A drafted sweep script reported **all 18 skills unused** because its detector
+hard-coded `is_active = False`. The warning line sat above a formatted result
+list, and an agent summarizing it would reasonably have proposed deleting every
+skill in the repo. **Source:** D5. **Transfers as:** an unimplemented function
+must fail loudly, never return a well-formed default. Applies to every stub in
+the rebuild.
+
+### L3. Placement asserts status, whatever the text says
+Six files and ~1,000 unrun lines went into `docs/` — the directory the repo's
+own rule reserves for checked claims. **Source:** D6. **Transfers as:** decide
+what each directory *asserts* before putting anything in it, and treat moving a
+file between them as a status change requiring the same evidence as an edit.
+
+### L4. A disclaimer above contradictory content loses to the content
+A "not a work queue" banner was added to eight files; a cold read afterwards
+found `✅ Implemented` cells, `## Next Steps` headers, and four working
+`cp … .git/hooks/pre-commit` recipes still below those banners. Renaming the
+script `.sh.txt` did not help, because `cp` does not care about extensions.
+**Source:** D7. **Transfers as:** fix the content or delete it. A header is not
+a mitigation, because skimming readers — human and agent — read tables and
+headers, not block quotes.
+
+### L5. A clean exit code is not evidence of a correct result
+`git merge` auto-merged `AGENTS.md` with no conflict markers and produced a
+semantically wrong file: it stacked both guardrail additions, the one outcome
+the two authors had explicitly agreed against. **Source:** D12p. Applies
+directly to this merge's own 23 conflict resolutions. **Transfers as:** for any
+operation that can succeed and still be wrong, define what you will read
+afterwards to check — before you run it.
+
+### L6. The core defect class is a false claim an agent will act on — and handed-to-it beats invented
+An agent building on a wrong premise is expensive either way, but a premise
+handed to it by the repo is worse: it survives across sessions and looks
+authoritative. `router.md` claims every skill has a Python implementation;
+`find skills -name "*.py" | wc -l` returns 0. **Sources:** D1, and the defect
+log's own framing. **Transfers as:** every claim in an instruction file needs
+the command that verifies it, stored next to it.
+
+### L7. Resident instructions are not sufficient
+The tool-translation table (`Edit` → `edit`, no `search_replace`) was in
+`AGENTS.md`, which Vibe loads at session start and keeps resident every turn.
+The session that produced the error commits had it in the prompt the entire
+time and still called a tool that does not exist — then invented a three-tier
+architecture to explain the failure rather than re-checking the premise.
+**Source:** D18p, D17p. **Transfers as:** do not treat "it's in AGENTS.md" as a
+control. If it matters, enforce it below the model — hooks, permission rules,
+generation — not by telling the model twice.
+
+### L8. Safety rules end up in the file the responsible agent doesn't load
+Twice, independently: the External Communications Guardrail (written after a
+Vibe session filed unauthorized issues) exists only in the root `AGENTS.md`; the
+Symlink Safety Invariant (written after a Vibe session flattened 14 SKILL.md
+files) exists only in crispy's root — and `.vibe/AGENTS.md`, a near-strict
+subset, has it **removed**. **Source:** A6. **Transfers as:** establish which
+file each agent actually loads *before* writing rules into it, and put the rule
+where the agent that needs it will read it.
+
+### L9. Fixed output paths silently destroy the previous session's work
+`planning-with-files` names `task_plan.md`, `findings.md`, `progress.md` and
+says nothing about existing files. Three unrelated sessions across the two repos
+left three unrelated documents at those three paths. It promises "persistent
+working memory"; it is persistent until the next session. **Source:** E8, A8.
+**Transfers as:** any artifact a session writes gets a per-session identity, or
+it is a buffer rather than memory. This one is load-bearing for the whole
+project, whose phase 2a exists *because* session knowledge does not survive.
+
+### L10. Rising specificity without citations is a fabrication signal
+One document earned trust by citing a pinned commit and `file:line` for every
+claim; a later one made far more specific claims — exact paths, an
+`/opt/app/vibe_agents/` base, a `sandbox_dispatch.py` tuple — with zero
+citations, while the runtime version shifted v2.7.0 → v2.9.4 → v2.24.3 with
+rising confidence each time. **Source:** D13p / `claude-log-attribution-todo`.
+**Transfers as:** treat confidence that grows without evidence growing as the
+tell, and require citations for anything an agent will act on.
+
+### Also worth carrying, lower weight
+
+- **Blind find-and-replace reaches into code.** A `sed` pass over `*.md`, `*.sh`
+  **and `*.py`** rewrote a Python string constant; the script kept working from
+  the repo root — the one directory where the breakage was invisible — and broke
+  everywhere else. (D8)
+- **Shallow clones report plausible wrong numbers.** `--depth 1` reported all
+  three crispy branches 40-50 commits ahead and unmerged; a full clone at the
+  same moment showed two already merged and the third one commit ahead. The
+  truncation point looks like a fork point that never existed. (Integration
+  plan's appendix; re-confirmed this session.)
+- **Untracked means nonexistent.** `skills/openai-gh-fix-ci/` was left on disk,
+  never committed, and is therefore unrecoverable from git by this or any
+  session. (D6p)
+- **Verified-by-running and reported-as-done are different claims.** One
+  session's reported branch and commit did not exist on the remote when checked,
+  and appeared only on a later check. (`claude-github-repo-access-5p6zbx`)
+
+### What this axis says about the rebuild
+
+Nine of the ten lessons above are about **how claims and artifacts decay**, not
+about skills, agents, or any of the three harnesses. That is the strongest
+argument for the owner's plan: the content here is worth salvaging, but the
+durable output of this whole effort is a set of rules about writing things
+agents will act on — and those rules are agent-agnostic, so they survive a
+rebuild that discards every skill in the repo.
+
+---
+
 ## A. Contradictions between the two repos
 
 ### A1. `challenge-my-thinking` exists in both, with different content
