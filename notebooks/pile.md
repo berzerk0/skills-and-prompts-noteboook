@@ -74,6 +74,30 @@ Merge base `2fdbcae` (noteboook) + `4d2c23d` (crispy-couscous). Plan:
   noted its author never compared `.vibe/AGENTS.md` against the other two.
 - **Why not settled:** reconciling four instruction files is authoring, not
   merging, and getting it wrong changes agent behavior in every future session.
+- **Read 2026-09-02, and it is not the problem it looks like.** These are not
+  four competing versions of one document. They are four files with largely
+  **non-overlapping** content, and the safety-critical sections sit in exactly
+  one file each:
+  - root `AGENTS.md` (noteboook, 220 L) is the only one of the four containing
+    the **External Communications Guardrail** — the other three have zero
+    matching lines.
+  - `contested/crispy-couscous/AGENTS.md` (276 L) is the only one containing the
+    **Symlink Safety Invariant** (9 mentions).
+  - `.vibe/AGENTS.md` (49 L) is a near-strict subset of crispy's root — 29 shared
+    lines, 2 unique — **with the Symlink Safety Invariant removed**. Zero symlink
+    mentions.
+  - `docs/AGENTS.md` (71 L) is a different kind of document entirely: an "Agent
+    Manifest" describing structure and generation strategy, not conduct rules.
+
+  So the sortable question is not "which version wins" but **"why does the file
+  each agent actually loads omit the rule written because that agent caused an
+  incident?"** It happens twice, independently: the guardrail responding to a
+  Vibe external-posting incident is absent from `.vibe/AGENTS.md`, and so is the
+  invariant responding to a Vibe symlink incident. Whether Vibe reads root
+  `AGENTS.md`, `.vibe/AGENTS.md`, or both is **not established here** — and
+  **D18p** is the reason it matters: a session already failed to follow an
+  instruction believed to be resident. Establish the precedence before
+  reconciling anything.
 
 ### A7. Two `README.md` files
 - **What:** noteboook's (410 L) is live; crispy's (298 L) is at
@@ -223,8 +247,9 @@ are listed here; items already handled by a merge decision are not repeated.
   owner's `~/.claude/skills/synced/`. Merge two sources or three is listed
   **Open** in the plan's own decision table.
 - **From:** the integration plan; owner-held.
-- **Why not settled:** they are not in either repo, so this merge cannot reach
-  them. Requires the owner to decide and to supply them.
+- **Why not settled:** **closed 2026-09-02 — the owner reports these are from an
+  earlier version of this effort and are now obsolete.** The integration plan's
+  "merge two sources or three?" question is therefore answered: **two**. Drop.
 
 ### D6p. An unreviewed third-party skill draft sits on a branch
 - **What:** `skills/openai-gh-fix-ci/` — Apache-2.0 script and LICENSE copied
@@ -235,9 +260,12 @@ are listed here; items already handled by a merge decision are not repeated.
 - **From:** noteboook, `loose-ends/claude-skills-notebook-evaluation-6gkh2f.md`.
   Left **untracked on disk** in that session, so it is not in git and **this
   merge did not bring it across.**
-- **Why not settled:** it is not in any commit on any branch. If it is wanted, it
-  has to be re-created from upstream, and the licensing question below settled
-  first.
+- **Why not settled:** it is not in any commit on any branch, so the merge could
+  not carry it. **Owner decision 2026-09-02: not now — park it as a to-do.**
+  Reviving it means re-fetching from upstream (not from git), settling D7p's
+  licensing question first, and adding the `skills/README.md` and `NOTICE.md`
+  rows this repo's convention requires. Its own author's warning stands: it
+  looks finished and is not.
 
 ### D7p. CC-BY-SA licensing has no precedent in this repo
 - **What:** three other candidate skills (`writing-great-skills`, `goal-prompt`,
@@ -255,9 +283,33 @@ are listed here; items already handled by a merge decision are not repeated.
   file**. What was committed is the raw brain dump and a prompt template, not the
   framework.
 - **From:** noteboook, `loose-ends/claude-repo-vision-clarify-u3pays.md`.
-- **Why not settled:** it cannot be merged, because it does not exist as an
-  artifact. Recovering it means going back to that transcript. Its author notes
-  the committed files read as more decided than they are.
+- **Why not settled:** **read 2026-09-02 — the earlier "conversational only"
+  characterization was too pessimistic.** What is actually committed and durable:
+  the five categories as a named list, in the brain dump's own framing
+  (`notebooks/foundation-harness-vision-2026-08-25.md`); the operating conditions
+  they must hold under (`notebooks/foundation-harness-vision-round2-prompt-2026-08-25.md`,
+  the "fact you did not have" section — markdown deliverable, two named harnesses,
+  one person and one repo, divergent tool names, Vibe silently dropping unknown
+  ones); and two rounds of critique from eight-plus models in
+  `notebooks/foundation-harness-vision-debates/`, including the sharpest attack on
+  it — that the categories describe *how you solve* a problem rather than *what
+  problem you are solving* — with a stated falsifier.
+
+  What is **not** committed is the **decision procedure**: the axes as ordered
+  questions with a default (type it more than once? → fully deterministic? →
+  needs live external access? → needs isolated context or parallel execution? →
+  else it is a skill). That ordering and its else-branch are the operative part;
+  without them the repo has a taxonomy and a debate about the taxonomy, but no
+  way to decide. Also uncommitted: which parts were grounded in published
+  sources versus invented, and the provisional artifact list.
+
+  **This is principles, not a skill or an agent** — it is guidance a person
+  applies when deciding what shape a new capability should take, so writing it
+  as a skill would misfile it. The gap is a synthesis step, not a merge step:
+  one notebook document reconciling the categories with the debate that
+  attacked them. Deliberately not written during phase 2, because authoring the
+  synthesis is exactly the kind of "decide which version is right" this phase
+  defers.
 
 ### D9p. `self-checks/2026-08-24/MERGER_PLAN.md` reads as in-progress but is not started
 - **What:** an ordered four-PR plan (GAPS, STANDARDS, MAINTENANCE, COMPATIBILITY)
@@ -303,7 +355,28 @@ are listed here; items already handled by a merge decision are not repeated.
   relayed exchange; neither is reconstructible from any commit.
 - **From:** noteboook, `loose-ends/claude-agent-external-comms-guardrails-gjrjl4.md`.
 - **Why not settled:** the record is gone; only the owner can confirm it.
-  Relevant to A6, since `AGENTS.md` is contested four ways.
+- **Compared the two texts 2026-09-02 — most of the fold is self-documenting,
+  and one clause is genuinely missing.** Vibe's one-liner had four elements. The
+  surviving section carries three of them, two of them strengthened: the named
+  targets (`mistralai/mistral-vibe`, `mistralai/*`, third-party) appear verbatim;
+  "explicit permission first" became "explicit, **per-action**" plus "a prior
+  approval for one repo or one post does not carry over"; and "triple-confirmed"
+  was **operationalized** rather than merely dropped — it became "restate exactly
+  what will be posted, where, and as whom, then wait," which is a procedure an
+  agent can execute where an unquantifiable adjective is not. The section also
+  keeps the user's own words verbatim and states its own rationale, so decision
+  (a) is largely reconstructible from the artifact after all.
+
+  **The genuine loss is the fourth element:** Vibe's "*document that permission
+  in the commit message or change description*" did not survive. Verified —
+  `AGENTS.md` contains no such requirement. That was the only **audit-trail**
+  clause in either version: without it, a granted permission leaves no durable
+  record, so a later reader cannot tell an authorized external post from an
+  unauthorized one. Given that the whole section exists because of an incident
+  where a session **misread a leftover file as authorization**, a clause
+  requiring authorization to be recorded where it can be checked is the one most
+  worth restoring. Restoring it is editing, deferred with the other defects —
+  but it is a specific one-line fix, not an open question.
 
 ### D14p. An incident record underpinning a merged guardrail was never independently verified
 - **What:** `self-checks/2026-08-24/NEAR_INCIDENT_EXTERNAL_REPO_VIOLATION.md` is
