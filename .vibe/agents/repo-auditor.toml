@@ -1,0 +1,22 @@
+agent_type = "subagent"
+display_name = "repo-auditor"
+description = "Audit repository structure, skills, and cross-agent compatibility. Use when user requests repository analysis, skill inventory, structure validation, or compliance checking."
+active_model = "mistral-small"
+
+[python]
+enabled = true
+
+[bash]
+enabled = true
+
+[read_file]
+enabled = true
+
+[write_file]
+enabled = true
+
+[edit]
+enabled = true
+
+[grep]
+enabled = true

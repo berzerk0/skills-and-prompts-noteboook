@@ -1,0 +1,17 @@
+agent_type = "subagent"
+display_name = "writing-for-agents"
+description = "Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md, CLAUDE.md, or VIBE.md."
+active_model = "mistral-small"
+
+[tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
+enabled = true

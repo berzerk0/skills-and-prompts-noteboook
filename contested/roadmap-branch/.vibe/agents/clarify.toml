@@ -1,0 +1,19 @@
+agent_type = "subagent"
+display_name = "clarify"
+description = "Ask clarifying questions when task is underspecified. Use when user request is ambiguous or lacks constraints."
+active_model = "mistral-small"
+
+[tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
+enabled = true
+[tools.ask_user_question]
+enabled = true

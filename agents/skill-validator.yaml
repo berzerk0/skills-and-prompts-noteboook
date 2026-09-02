@@ -1,0 +1,9 @@
+name: skill-validator
+description: Validate SKILL.md files against Agent Skills specification and cross-agent
+  compatibility. Use when user requests skill validation, spec compliance checking,
+  or quality assurance.
+license: MIT
+compatibility:
+- claude
+- pi
+- vibe

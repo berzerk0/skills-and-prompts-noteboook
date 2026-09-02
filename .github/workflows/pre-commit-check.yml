@@ -1,0 +1,112 @@
+name: Pre-commit Symlink Safety Check
+
+on:
+  push:
+    branches: [ main, fix/** ]
+  pull_request:
+    branches: [ main ]
+
+# This workflow runs the same checks that should be in a pre-commit hook.
+# There is no standalone pre-commit-check.sh yet -- the checks below are
+# inline in this workflow. Extract them into a script under scripts/ if a
+# local pre-commit hook is wanted later.
+
+jobs:
+  pre-commit:
+    name: Pre-commit Safety Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Install pre-commit dependencies
+        run: |
+          pip install pyyaml toml
+      
+      - name: Run symlink safety pre-commit hook
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Running pre-commit symlink safety checks..."
+          
+          # Check 1: Verify all symlinks in skill farms are valid
+          echo "Check 1: Validating symlink farms..."
+          for farm in .claude/skills .pi/skills .vibe/skills; do
+            if [ -d "$farm" ]; then
+              for entry in "$farm"/*; do
+                if [ -L "$entry" ]; then
+                  # Verify symlink target exists
+                  target=$(readlink -f "$entry")
+                  if [ ! -e "$target" ]; then
+                    echo "::error:: Broken symlink: $entry -> $target"
+                    exit 1
+                  fi
+                  # Verify target is in skills/
+                  if [[ "$target" != */skills/* ]]; then
+                    echo "::error:: Symlink points outside skills/: $entry -> $target"
+                    exit 1
+                  fi
+                elif [ -e "$entry" ]; then
+                  echo "::error:: Non-symlink in symlink farm: $entry"
+                  exit 1
+                fi
+              done
+            fi
+          done
+          echo "  ✓ All symlinks in skill farms are valid"
+          
+          # Check 2: Verify skills/ directory structure
+          echo "Check 2: Validating skills/ directory structure..."
+          for skill_dir in skills/*; do
+            if [ ! -d "$skill_dir" ]; then
+              continue
+            fi
+            # Directories prefixed with "_" are support directories, not skills
+            # (e.g. skills/_third-party-licenses/, which holds license texts and
+            # is indexed by skills/README.md and NOTICE.md). They have no
+            # SKILL.md by design.
+            case "$(basename "$skill_dir")" in
+              _*) continue ;;
+            esac
+            if [ -L "$skill_dir" ]; then
+              echo "::error:: Skill directory is a symlink: $skill_dir"
+              exit 1
+            fi
+            if [ ! -f "$skill_dir/SKILL.md" ]; then
+              echo "::error:: Missing SKILL.md: $skill_dir/"
+              exit 1
+            fi
+            if [ -L "$skill_dir/SKILL.md" ]; then
+              echo "::error:: SKILL.md is a symlink: $skill_dir/SKILL.md"
+              exit 1
+            fi
+          done
+          echo "  ✓ Skills directory structure is valid"
+          
+          # Check 3: Verify generators have guardrails
+          echo "Check 3: Verifying generator guardrails..."
+          for gen in meta/generate_claude.py meta/generate_pi.py meta/generate_vibe.py; do
+            if [ -f "$gen" ]; then
+              if ! grep -q "Refusing to write.*symlink\|canonical_skills" "$gen"; then
+                echo "::error:: Missing guardrail in $gen"
+                exit 1
+              fi
+            fi
+          done
+          echo "  ✓ All generators have guardrails"
+          
+          # Check 4: Test generators don't modify skills/
+          echo "Check 4: Testing generator safety..."
+          find skills -name "SKILL.md" -type f | sort | xargs md5sum > /tmp/before.md5
+          python meta/generate_all.py --all > /dev/null 2>&1
+          find skills -name "SKILL.md" -type f | sort | xargs md5sum > /tmp/after.md5
+          if ! diff /tmp/before.md5 /tmp/after.md5; then
+            echo "::error:: Generators modified canonical skills!"
+            exit 1
+          fi
+          echo "  ✓ Generators do not modify canonical skills"
+          
+          echo "\n✅ All pre-commit checks passed"

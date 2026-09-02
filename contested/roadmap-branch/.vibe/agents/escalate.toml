@@ -1,0 +1,17 @@
+agent_type = "subagent"
+display_name = "escalate"
+description = "Create escalation brief when stuck. Use when 3-strike protocol fails or manual escalation needed."
+active_model = "mistral-medium"
+
+[tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
+enabled = true

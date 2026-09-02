@@ -1,0 +1,17 @@
+agent_type = "subagent"
+display_name = "vibe-reference"
+description = "Access verified Mistral Vibe Code reference documentation. Use when user requests Vibe-specific information, tool name translations, skill loading behavior, or subagent capabilities."
+active_model = "mistral-small"
+
+[tools.skill]
+enabled = true
+[tools.read_file]
+enabled = true
+[tools.write_file]
+enabled = true
+[tools.edit]
+enabled = true
+[tools.grep]
+enabled = true
+[tools.bash]
+enabled = true
