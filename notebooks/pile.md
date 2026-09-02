@@ -42,8 +42,10 @@ Merge base `2fdbcae` (noteboook) + `4d2c23d` (crispy-couscous). Plan:
 - **What:** present in both repos, **byte-identical across the entire
   directory** (confirmed by `diff -r`; it produced no merge conflict).
 - **From:** both repos' default branches.
-- **Why not settled:** nothing to settle — recorded so a later reader does not
-  re-investigate it as a third conflict. Safe to drop from the pile.
+- **Why not settled:** nothing to settle as a *conflict* — recorded so a later
+  reader does not re-investigate it as a third one. But do not drop it blindly:
+  this is the skill carrying **E8**, and because both copies are identical there
+  is no "other version" to fall back on.
 
 ### A4. `clarify` and `ask-questions-if-underspecified` compete for one trigger
 - **What:** `clarify` (45 L, crispy) and `ask-questions-if-underspecified`
@@ -81,17 +83,27 @@ Merge base `2fdbcae` (noteboook) + `4d2c23d` (crispy-couscous). Plan:
 - **Why not settled:** a merged README asserts a merged story about what works,
   and phase 3 has not run yet.
 
-### A8. Three `scratchpad/` files contested three ways
-- **What:** `findings.md`, `progress.md`, `task_plan.md` exist in both repos with
-  different content, **and** crispy's
-  `vibe/skill-invocation-analysis-3f722e` branch rewrites all three again
-  (+444/−379). noteboook's are live; crispy's are at
-  `contested/crispy-couscous/scratchpad/`; the branch's at
+### A8. Three `scratchpad/` files collide by filename, not by disagreement
+- **What:** `findings.md`, `progress.md` and `task_plan.md` exist at the same
+  three paths in both repos **and** are rewritten again on crispy's
+  `vibe/skill-invocation-analysis-3f722e`. **Read 2026-09-02: these are not
+  three versions of one document.** They are three unrelated work sessions:
+  - noteboook (2026-08-23, Mistral Vibe) — "Update Audit Logs & Process
+    Multi-Agent Drop"
+  - crispy `main` (2026-08-24) — "Execute Immediate Action Items"
+  - crispy branch — "Vibe Code Skill Invocation Analysis"
+
+  Pairwise overlap is 1-3 lines, all boilerplate. Nothing disagrees with
+  anything. All three sets are preserved: noteboook's live at `scratchpad/`,
+  crispy's at `contested/crispy-couscous/scratchpad/`, the branch's at
   `contested/skill-invocation-analysis/`.
 - **From:** both repos plus that branch.
-- **Why not settled:** I did not read the three versions closely enough to know
-  whether the branch supersedes or contradicts crispy `main`. Stated as a
-  known gap rather than guessed at.
+- **Why not settled:** **nothing to settle — this is not a contradiction.** The
+  earlier reading of it as one was wrong; corrected here after reading the
+  files. The real issue is the mechanism that caused the collision, which is a
+  live defect: see **E8**. These files are session records, so the sort question
+  is only whether to keep them at all, not which is right. Reclassify as
+  evidence, or **drop**.
 
 ---
 
@@ -376,9 +388,13 @@ are listed here; items already handled by a merge decision are not repeated.
   `meta/generate_all.py` exits 1 on the merged tree, verified. It is
   content-preserving and reversible. But whether those three were *meant* to be
   Claude-only is a genuine open question, and I had no evidence either way.
-  Approved by the owner at Gate 1 as the mechanical default, explicitly to be
-  revisited in phase 3. Note this is the same structural defect as D3 (harness
-  files without a canonical parent), on the other repo.
+  **Answered by the owner 2026-09-02: they were not meant to be Claude-only.**
+  The promotion is therefore correct on intent as well as necessary for the
+  build, and this entry is **closed** rather than deferred to phase 3. What
+  remains is the underlying condition, not this instance: three skills sat
+  outside the canonical library with nothing detecting it. That is the same
+  structural defect as D3 (harness files without a canonical parent) on the
+  other repo, and nothing yet guards against a fourth.
 
 ### E2. 23 of 33 skills have no canonical `agents/*.yaml`
 - **What:** `agents/` holds 13 YAMLs, all from crispy. The 20 skills from
@@ -453,6 +469,34 @@ are listed here; items already handled by a merge decision are not repeated.
   mostly noteboook content -- it was written for crispy's symlink-farm problem,
   and nobody chose it for this. Low stakes; noted so the diff noise is
   explained rather than mysterious. Likely a **drop**.
+
+### E8. `planning-with-files` silently overwrites the previous session's records
+- **What:** the skill names three fixed output files — `task_plan.md`,
+  `findings.md`, `progress.md` — and says nothing anywhere about existing files,
+  per-session scoping, uniqueness, or appending. Its rule 1 is "Never start a
+  complex task without task_plan.md." So **every session that invokes it writes
+  the same three paths**, and each one destroys the last session's plan,
+  findings and progress with no warning and nothing in git to flag it as a
+  clobber rather than an edit.
+- **From:** discovered 2026-09-02 while reading A8. The evidence is A8 itself:
+  three unrelated sessions across the two repos left three unrelated documents
+  at those three paths. On crispy, the branch session's records sit where
+  `main`'s "Execute Immediate Action Items" records used to be.
+- **Why not settled:** it is a defect in a skill's design, and fixing it means
+  editing the skill — deferred with every other defect per the plan's "fix after
+  the merge" decision. Three things make it worth a high position when the pile
+  is sorted:
+  1. `planning-with-files` is **A3** — byte-identical in both repos, so the merge
+     did not introduce the defect and cannot resolve it by choosing a copy.
+     Both copies have it.
+  2. It is the **D1 class inverted**: not a false claim an agent acts on, but a
+     true instruction whose unstated consequence is data loss. Its description
+     promises "persistent working memory"; it is persistent only until the next
+     session.
+  3. It is load-bearing for this project specifically. The integration plan's
+     phase 2a exists because session knowledge does not survive; this skill was
+     the mechanism that was supposed to help, and it has been quietly deleting
+     exactly that.
 
 ---
 
