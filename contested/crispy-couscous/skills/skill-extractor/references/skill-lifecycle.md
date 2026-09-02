@@ -85,7 +85,7 @@ Archive a skill when:
 
 1. **Move** to an `archived/` directory:
    ```
-   ~/.claude/skills/archived/old-skill-name/SKILL.md
+   ~/.vibe/skills/archived/old-skill-name/SKILL.md
    ```
 
 2. **Or delete** if archiving isn't worth the disk space

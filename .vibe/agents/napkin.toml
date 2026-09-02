@@ -1,0 +1,22 @@
+agent_type = "subagent"
+display_name = "napkin"
+description = "Maintain a per-repo napkin as a continuously curated runbook (not a session log). Activates EVERY session. Read and curate before work, keep only recurring high-value guidance, organize by priority-sorted categories, cap each category at top 10 items. The napkin lives at .vibe/napkin.md."
+active_model = "mistral-small"
+
+[python]
+enabled = true
+
+[bash]
+enabled = true
+
+[read_file]
+enabled = true
+
+[write_file]
+enabled = true
+
+[edit]
+enabled = true
+
+[grep]
+enabled = true

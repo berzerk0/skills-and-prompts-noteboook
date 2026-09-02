@@ -1,0 +1,9 @@
+name: vibe-reference
+description: Access verified Mistral Vibe Code reference documentation. Use when user
+  requests Vibe-specific information, tool name translations, skill loading behavior,
+  or subagent capabilities.
+license: MIT
+compatibility:
+- claude
+- pi
+- vibe

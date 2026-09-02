@@ -1,0 +1,9 @@
+name: challenge-my-thinking
+description: Actively challenge assumptions, push back on ideas, and play devil's
+  advocate. Use when user requests critical feedback, wants alternative perspectives,
+  or needs their thinking stress-tested.
+license: MIT
+compatibility:
+- claude
+- pi
+- vibe

@@ -1,0 +1,149 @@
+name: Symlink Safety Guard
+
+on:
+  push:
+    branches: [ main, fix/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-symlink-integrity:
+    name: Check Symlink Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for proper symlink handling
+          # Windows runners need core.symlinks=true
+          # This workflow runs on ubuntu-latest which supports symlinks natively
+      
+      - name: Verify symlinks in skill farms are not real directories
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Checking symlink integrity in skill farms..."
+          
+          # Check each symlink farm
+          for farm in .claude/skills .pi/skills .vibe/skills; do
+            if [ ! -d "$farm" ]; then
+              echo "::warning:: $farm does not exist"
+              continue
+            fi
+            
+            echo "Checking $farm..."
+            
+            # Find any real directories (not symlinks) in the symlink farm
+            real_dirs=$(find "$farm" -maxdepth 1 -mindepth 1 -type d ! -xtype l 2>/dev/null || true)
+            
+            if [ -n "$real_dirs" ]; then
+              echo "::error:: Found real directories in symlink farm $farm:"
+              echo "$real_dirs" | while read -r dir; do
+                echo "  - $dir"
+              done
+              echo "::error:: Symlink farms should only contain symlinks to ../skills/"
+              exit 1
+            fi
+            
+            # Verify all entries are symlinks pointing to ../skills/
+            for entry in "$farm"/*; do
+              if [ -e "$entry" ]; then
+                if [ ! -L "$entry" ]; then
+                  echo "::error:: $entry is not a symlink"
+                  exit 1
+                fi
+                
+                # Check where the symlink points
+                target=$(readlink "$entry")
+                if [[ "$target" != ../../skills/* ]]; then
+                  echo "::error:: $entry points to $target, expected ../../skills/<name>"
+                  exit 1
+                fi
+              fi
+            done
+            
+            echo "  ✓ All entries in $farm are valid symlinks"
+          done
+      
+      - name: Verify canonical skills are not symlinks
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Checking canonical skills directory..."
+          
+          # Verify skills/<name>/ are real directories, not symlinks
+          for skill_dir in skills/*; do
+            if [ -L "$skill_dir" ]; then
+              echo "::error:: $skill_dir is a symlink - should be a real directory"
+              exit 1
+            fi
+            
+            # Verify SKILL.md files are real files, not symlinks
+            if [ -L "$skill_dir/SKILL.md" ]; then
+              echo "::error:: $skill_dir/SKILL.md is a symlink - should be a real file"
+              exit 1
+            fi
+          done
+          
+          echo "  ✓ All canonical skills are real files"
+      
+      - name: Verify no writes to skills/ in generators
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Checking generator scripts for safety..."
+          
+          # Check that generators don't write to skills/ directories
+          # This is a static check - the guardrails should prevent this at runtime
+          for gen in meta/generate_claude.py meta/generate_pi.py meta/generate_vibe.py; do
+            if [ -f "$gen" ]; then
+              # Check for direct writes to skills/ directories
+              if grep -q "skills.*\.mkdir\|SKILLS_DIR.*mkdir" "$gen"; then
+                echo "::error:: $gen contains mkdir calls for skills directories"
+                exit 1
+              fi
+              
+              # Check for write_file calls with skills in path
+              if grep -q 'write_file.*skills' "$gen"; then
+                echo "::error:: $gen contains write_file calls targeting skills/"
+                exit 1
+              fi
+              
+              # Check that guardrails exist
+              if ! grep -q "Refusing to write.*symlink\|canonical_skills" "$gen"; then
+                echo "::error:: $gen does not contain symlink guardrails"
+                exit 1
+              fi
+              
+              echo "  ✓ $gen has safety guardrails"
+            fi
+          done
+      
+      - name: Run generators to verify no modifications to skills/
+        run: |
+          #!/bin/bash
+          set -euo pipefail
+          
+          echo "Running generators to verify safety..."
+          
+          # Create a checksum of all skills before
+          find skills -name "SKILL.md" -type f | sort | xargs md5sum > /tmp/skills_before.md5
+          
+          # Run all generators
+          python meta/generate_all.py --all
+          
+          # Create a checksum of all skills after
+          find skills -name "SKILL.md" -type f | sort | xargs md5sum > /tmp/skills_after.md5
+          
+          # Compare
+          if ! diff /tmp/skills_before.md5 /tmp/skills_after.md5; then
+            echo "::error:: Generators modified canonical SKILL.md files!"
+            echo "Differences:"
+            diff /tmp/skills_before.md5 /tmp/skills_after.md5 || true
+            exit 1
+          fi
+          
+          echo "  ✓ Generators did not modify canonical skills/"
