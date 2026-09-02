@@ -64,6 +64,13 @@ jobs:
             if [ ! -d "$skill_dir" ]; then
               continue
             fi
+            # Directories prefixed with "_" are support directories, not skills
+            # (e.g. skills/_third-party-licenses/, which holds license texts and
+            # is indexed by skills/README.md and NOTICE.md). They have no
+            # SKILL.md by design.
+            case "$(basename "$skill_dir")" in
+              _*) continue ;;
+            esac
             if [ -L "$skill_dir" ]; then
               echo "::error:: Skill directory is a symlink: $skill_dir"
               exit 1
