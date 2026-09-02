@@ -16,6 +16,84 @@ Merge base `2fdbcae` (noteboook) + `4d2c23d` (crispy-couscous). Plan:
 
 ---
 
+## SORTED AGAINST THE STATED PURPOSE — 2026-09-02
+
+**The purpose, in the owner's words:** *"A repo where I put skills that will work
+for the 3 different agents. It needs to know enough about those 3 agents, as well
+as their prompts and agents.md and subagents files, to do so accurately. May one
+day expand into subagent definitions as well."*
+
+That is a **cross-agent library**, not a personal toolkit. It changes what counts
+as a blocker: an entry matters here if it makes a skill fail on one of the three
+agents, or makes the repo's knowledge of those agents wrong. Entries about
+session history, one-off drafts, or this project's own past do not.
+
+### Two measurements that reframe the whole pile
+
+**1. There are no per-agent copies.** `.claude/skills/`, `.vibe/skills/` and
+`.pi/skills/` are 33 symlinks each, 4 KB each, all pointing at one canonical
+`skills/`. All three cover an identical set. Measured, not assumed. So the repo
+is **32 distinct skills**, not 11 duplicated three ways. Only one pair is a real
+near-duplicate (`outside-perspective` / `outside-perspective-session`, 0.67
+body overlap); everything else is distinct.
+
+**2. The purpose's own test fails 19 times.** The repo delivers skills *visible*
+to three agents, but not skills *defined* for three agents:
+
+| | count |
+|---|---|
+| skills with a `SKILL.md` | 32 |
+| skills with a canonical `agents/*.yaml` | **13** |
+| `.claude/agents/`, `.pi/agents/` | 13 each |
+| `.vibe/agents/` | **20** — asymmetric |
+
+**19 skills have no canonical cross-agent definition**, and Vibe has 7 agents the
+other two harnesses do not. That gap *is* the distance between what this repo is
+and what it is for, and nothing else on this pile is as close to the purpose.
+
+### Tier 1 — blocks the purpose. Sort these first.
+
+| Entry | Why it blocks |
+|---|---|
+| **E2** | The 19-skill gap above. The single highest-value entry against this purpose. |
+| **D3** | Six `.vibe/` agents exist outside the single source of truth and are not generated — including `router`. Same defect as E2 from the other end. |
+| **A6** | The purpose names "their agents.md files" explicitly. Four of them, barely overlapping, each safety-critical section in exactly one file, and `.vibe/AGENTS.md` missing the invariant. |
+| **D16p** | Vibe's `.vibe/skills/` discovery was **never verified from Vibe**. Every cross-agent claim rests on it. Claude Code's side is confirmed; Vibe's is not, and Pi's has never been tested at all. |
+| **D4p** | The symlink farms are the delivery mechanism for all three agents, and have no cross-platform guard. On a Windows checkout they become text files and every agent loses every skill. |
+| **D1 / D2** | `router.md` states false capabilities and counts. It is an agent prompt — exactly the "prompts" the purpose names — and an agent acts on it immediately. |
+| **E8** | `planning-with-files` silently destroys the previous session's records. A shipped skill with a data-loss defect, on all three agents. |
+
+### Tier 2 — supports the purpose. Sort after Tier 1.
+
+**A4** and **A5** (`clarify` vs `ask-questions-if-underspecified`;
+`vibe-internals` vs `vibe-reference`) — duplicate triggers cost description
+tokens on every turn and make selection unpredictable. A5 is also *agent
+knowledge*, the thing the purpose says must be accurate. Add the measured third
+case: `cross-agent-compat` overlaps both at 0.28–0.31, so this is a
+three-way cluster, not a pair. **A1/A2** (`challenge-my-thinking`,
+`skill-extractor`) — two live contradictions to settle, cheaply, once anything
+has been invoked. **D4** — `skill-validator` and `repo-auditor` are stubs
+marked `✅ Claude, Pi, Vibe` in the compatibility table: a false cross-agent
+claim, which is this purpose's core failure mode. **B1** — the roadmap branch's
+tool-profile standardization across 18 agents is exactly this repo's subject
+matter, and regeneration currently discards it. **D2p / D18p** — whether agent
+instruction files are loaded and obeyed at all.
+
+### Tier 3 — does not serve this purpose. Archive, don't work.
+
+**A3, A7, A8, B2, B3, C:D5–D8, D6p, D8p, D9p, D10p, D11p, D13p, D14p, D15p,
+D17p, D19p, E1, E3, E4, E5, E6, E7.**
+
+These are session archaeology, closed items, one-off drafts, and this project's
+own history. Real, recorded, evidence-bearing — and none of them makes a skill
+fail on any agent. **D5p** is already closed (obsolete). **D6p** is already
+parked. Keep the section as a grep-able record; do not treat it as a queue.
+
+**Net: 7 blockers, ~8 supporting, ~23 reference.** The pile is not a 46-item
+backlog. It is a 7-item one with a research appendix.
+
+---
+
 ## A. Contradictions between the two repos
 
 ### A1. `challenge-my-thinking` exists in both, with different content
