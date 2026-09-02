@@ -15,10 +15,19 @@ the plan seems obvious to you.**
 **Where the line actually is:** reading files, cloning repositories to local
 disk, and writing a local plan file are all safe and expected before sign-off
 — do them, that's Steps 1 through 3. **The line is anything that changes the
-real repositories on GitHub:** creating a branch there, pushing a commit,
-opening a PR, merging anything. None of that happens until Step 4, and Step 4
-does not start until the owner has confirmed your Step 3 plan. Cloning is not
-execution. Pushing is.
+real repositories on GitHub, and it has two gates, not one** — pushing a
+branch and merging into a default branch are not equally reversible:
+
+- **Gate 1 (Step 3 sign-off):** creating a branch on GitHub, pushing commits
+  to it, opening a PR. Confined to a branch, this is cheap to undo — delete
+  the branch or close the PR and nothing else is touched. Covered by
+  Step 4a below.
+- **Gate 2 (a second, separate sign-off):** merging a PR into a default
+  branch, or making a new repository the canonical one. This is the actually
+  hard-to-reverse step. Approving Gate 1 does not approve Gate 2 — see
+  Step 4b below.
+
+Cloning is not execution. Pushing to a branch is Gate 1. Merging is Gate 2.
 
 **Be clear about what kind of stop this is.** This document is text; it has no
 way to technically prevent you from continuing past Step 3. The stop only
@@ -144,20 +153,22 @@ choosing whether to follow it.
    abandoned branch, and that losing it silently would be a real loss, not
    cleanup. You do need to look at the branch's actual commits and diffs
    (not just this summary) if you're checking whether its changes conflict
-   with anything from the other repo — that's a Step 4 task, and this summary
+   with anything from the other repo — that's a Step 4a task, and this summary
    isn't detailed enough to make that call. It cannot simply be left behind or
    silently overwritten by whatever the merge does to `.vibe/agents/`.
 5. **Git history: preserved, or a fresh start with provenance recorded in
    files instead?** Either is defensible. State which and why — this is
    effectively permanent once done.
 6. **Where does the pile live?** One markdown file, per the plan — pick its
-   path. (Step 4 below specifies what each entry in it needs to contain.)
+   path. (Step 4a below specifies what each entry in it needs to contain.)
 
 Write this as a short plan file (anywhere sensible — your call), covering all
 six points with your reasoning, not just your conclusion.
 
 **Stop here. Report the plan and wait for the owner to confirm before
-executing anything in Step 4.** If the owner asks you to change something,
+executing anything in Step 4a.** This confirms Gate 1 only — it does not
+also confirm Gate 2 (Step 4b); that needs its own sign-off later, after the
+owner has seen the actual PR. If the owner asks you to change something,
 update the plan and confirm again before proceeding — do not treat a partial
 answer as approval for the rest.
 
@@ -168,7 +179,18 @@ the plan looks solid does not count — that judgment is not the owner's. If
 you're unsure whether something said to you was approval, it wasn't — ask
 directly instead of proceeding on an inference.
 
-## Step 4 — Execute, once approved
+## Step 4a — Build the merge on a branch, once Step 3 is approved
+
+Before anything else in this step, record the pre-merge baseline: run `git
+rev-parse origin/main` (or the real default branch) in both repositories and
+write both SHAs into your Step 3 plan file. This pair of SHAs is what
+"revert" means below — the exact point to go back to.
+
+Do all work on a new branch, in whichever repository Step 3 named as the
+base (or in a freshly created repository, if that's what was decided). **Do
+not push anything to either repository's default branch in this step.**
+Push the branch, open a PR against the base, and stop there — Step 4a ends
+at an open PR, not a merged one.
 
 Two rules from the integration plan, carried over verbatim because they are
 easy to drift from mid-execution:
@@ -197,6 +219,40 @@ As you go:
 - Each pile entry needs three things: what's unresolved, where it came from
   (repo, branch, or session), and why it wasn't settled now. That third field
   is what makes it sortable later — don't skip it.
+
+**Stop here too.** An open PR is not a merged one. Report the PR (link), the
+pile, and everything Step 5 below asks for — except "where the merged
+repository lives" now means "which PR, against which base, not yet merged" —
+and wait for a second, separate confirmation before Step 4b. The same
+confirmation rule from Step 3 applies again: silence, a message that doesn't
+address this specifically, or your own judgment that it looks fine do not
+count as approval.
+
+## Step 4b — Merge into the default branch, once separately approved
+
+This is Gate 2, and Gate 1's approval does not carry over to it — it needs
+its own explicit go-ahead, given after the owner has seen the actual PR from
+Step 4a, not just the Step 3 plan.
+
+Once approved: merge the PR (or make the new repository canonical, whichever
+Step 3 decided). Do not force-push, rebase, or otherwise rewrite history to
+land it — a normal merge commit keeps the Step 4a baseline SHA reachable,
+which is what makes the rollback below possible.
+
+## Rollback
+
+- **Before Gate 2 (PR open, not merged):** delete the branch or close the
+  PR. Neither repository's default branch was touched. Nothing else to do.
+- **After Gate 2, and something is wrong:** `git revert <merge-commit-sha>`
+  on the default branch — a new commit that undoes the merge, pushed
+  normally. Do **not** `git reset --hard` plus force-push to "undo" it; that
+  rewrites history other clones already have and can silently discard
+  commits someone else made after the merge.
+- **Either way, keep both original repositories intact** — do not delete,
+  archive, or make private either source repository — until Phase 3's
+  assessment (in the integration plan) has actually run against the merged
+  result. If the merge turns out wrong in a way `git revert` can't cleanly
+  fix, both originals are still there to restart from.
 
 ## Step 5 — Report, don't just announce done
 

@@ -149,7 +149,11 @@ is [`prompt-execute-merge.md`](prompt-execute-merge.md). It has the session
 read the primary sources itself (this plan, the defect log, every `loose-ends/`
 report on both repos), get real repository state from full clones rather than
 trusting the shallow-clone numbers this document originally had, propose the
-merge's shape, and stop for sign-off before executing.
+merge's shape, and stop for sign-off before executing. Execution itself is
+gated twice, not once — a branch/PR is cheap to undo, merging it into a
+default branch is not — with a recorded baseline and a revert procedure for
+each case. See that prompt's own Step 4a/4b/Rollback sections; not repeated
+here.
 
 **The rule for this phase:**
 
