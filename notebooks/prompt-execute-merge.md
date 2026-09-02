@@ -59,9 +59,17 @@ In `skills-and-prompts-noteboook`, on branch `notebook/foundation-harness-exerci
     crispy-couscous's `fix/readme-remove-codeberg-and-stale-refs` branch
   - `loose-ends/local-archaeology-2026-08-25.md` on crispy-couscous's
     `local-archaeology-2026-08-25` branch
-  - Whatever landed on `skills-and-prompts-noteboook`'s own branches — check
-    `claude/validate-mistral-patches-ipuxh1` and `vibe/errors-2026-08-24`
-    specifically, and any `report/…` branches
+  - On `skills-and-prompts-noteboook`, seven reports as of 2026-09-02, and
+    **every one of them sits on a branch not merged into `main`**, reachable
+    only from that branch: `claude/agent-external-comms-guardrails-gjrjl4`,
+    `claude/github-repo-access-5p6zbx`, `claude/log-attribution-todo`,
+    `claude/repo-vision-clarify-u3pays`,
+    `claude/skills-notebook-evaluation-6gkh2f`,
+    `claude/validate-mistral-patches-ipuxh1`,
+    `claude/vibe-symlink-skill-test-ubed41`. Note `vibe/errors-2026-08-24`
+    has unmerged content but **no** `loose-ends/` report — an earlier version
+    of this prompt said to check it for one; that was wrong. There are no
+    `report/…` branches
   - **This list may be incomplete by the time you run. Search for `loose-ends/`
     across every branch of both repositories yourself; do not rely on this
     enumeration.** For each repository: `git branch -a` to list every branch,
@@ -241,18 +249,60 @@ which is what makes the rollback below possible.
 
 ## Rollback
 
-- **Before Gate 2 (PR open, not merged):** delete the branch or close the
-  PR. Neither repository's default branch was touched. Nothing else to do.
-- **After Gate 2, and something is wrong:** `git revert <merge-commit-sha>`
-  on the default branch — a new commit that undoes the merge, pushed
-  normally. Do **not** `git reset --hard` plus force-push to "undo" it; that
-  rewrites history other clones already have and can silently discard
-  commits someone else made after the merge.
-- **Either way, keep both original repositories intact** — do not delete,
-  archive, or make private either source repository — until Phase 3's
-  assessment (in the integration plan) has actually run against the merged
-  result. If the merge turns out wrong in a way `git revert` can't cleanly
-  fix, both originals are still there to restart from.
+**Before Gate 2 — PR open, not merged.** Delete the branch or close the PR.
+Neither repository's default branch was touched; there is nothing to revert.
+This is why Step 4a stops where it does.
+
+**After Gate 2 — the merge landed and it's wrong.** Revert the merge commit
+with `-m 1`:
+
+```bash
+git revert -m 1 <merge-commit-sha>
+git push
+```
+
+The `-m 1` is not optional and not a style preference. Plain `git revert
+<merge-commit-sha>` on a merge commit fails outright with `error: commit
+<sha> is a merge but no -m option was given` — verified, not assumed. `-m 1`
+means "keep the first parent's side," i.e. the default branch as it was
+before the merge; that is the baseline SHA you recorded in Step 4a, which is
+how you check you reverted to the right place.
+
+**The trap after reverting, and it is silent.** Once you have reverted the
+merge, git considers that branch merged already. Re-running `git merge` for
+it reports `Already up to date.` and brings back **nothing** — the content
+stays missing, with no error and no conflict to alert you. Verified
+directly. To genuinely re-land the work after a revert, revert the revert
+(`git revert <the-revert-commit-sha>`), then continue from there. Do not
+re-run the merge and trust its exit code.
+
+**Never `git reset --hard` plus force-push to undo it.** That rewrites
+history other clones already have, and silently discards anything committed
+after the merge by anyone else. `git revert` is additive and safe to push
+normally; use it even though it leaves the mistake visible in history.
+
+**If Step 3 chose "a new repository" rather than a base repo.** Rollback is
+just abandoning it — stop using it, and leave both sources as the truth.
+Prefer archiving it, or renaming it out of the way, over deleting it:
+deleting a GitHub repository takes its issues, PRs and history with it, and
+is the one step here with no undo at all.
+
+**If Step 4a pushed branches to both repositories** (for example to carry
+`vibe/implementation-roadmap-4105aff` across), roll back both. Rolling back
+only the base repo and forgetting the other leaves a half-merged state
+that's harder to diagnose later than either the merged or unmerged one.
+
+**Keep everything the rollback depends on.** Until Phase 3's assessment (in
+the integration plan) has actually run against the merged result:
+
+- Do not delete, archive, or make private either source repository.
+- Do not delete any source branch the merge drew from — including the
+  `loose-ends/` branches, which exist on branches that are otherwise
+  unmerged and would be genuinely lost.
+- Keep the Step 3 plan file and the pile somewhere a revert doesn't erase.
+  If they live only in the merge commit, reverting deletes the record of
+  what was merged and why — write them outside it, or accept that a revert
+  costs you both and re-derive them.
 
 ## Step 5 — Report, don't just announce done
 

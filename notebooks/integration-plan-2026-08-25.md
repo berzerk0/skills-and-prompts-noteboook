@@ -275,33 +275,57 @@ that cost, adding more makes the measurement harder rather than easier.
 
 ## Appendix — git inventory, gathered 2026-08-25
 
-### `skills-and-prompts-noteboook`
+### `skills-and-prompts-noteboook` — re-verified 2026-09-02
 
-Working tree clean. Four branches unmerged:
+**The 2026-08-25 version of this table is superseded and was wrong by the
+time it was read.** It listed four branches as unmerged and four as "fully
+merged into `main`, so nothing would be lost by deleting them." Since then
+two of the unmerged four have merged, and **three of the four "safe to
+delete" branches each picked up a `loose-ends/` report that is not on
+`main`** — deleting them on the old table's word would have destroyed
+exactly the reports phase 2a exists to collect. Treat this table the same
+way: re-derive it yourself rather than trusting it (the merge prompt's Step
+2 tells you to).
 
-| Branch | Size | Contents |
+Unmerged, carrying content that is not on `main`:
+
+| Branch | Ahead | What it adds |
 |---|---|---|
-| `notebook/foundation-harness-exercise` | 20 commits | The design exercise and this plan |
-| `claude/repo-vision-debate-r1-ya1c00` | 16 commits | An earlier version of the branch above, in a layout since abandoned. Its `docs/behaviors/QUICKSTART.md` gives copy-paste `cp` and `chmod` commands that would successfully install a git pre-commit hook. The hook itself was never installed or run, so what it does when it fires is unknown |
-| `claude/validate-mistral-patches-ipuxh1` | 3 commits, 1 file | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` |
-| `vibe/errors-2026-08-24` | 3 commits, 3 files | A tool-version inconsistency audit and two version-reconciliation self-checks |
+| `claude/validate-mistral-patches-ipuxh1` | 4 | `scratchpad/VIBE_FOLLOWUP_ACTION_ITEMS.md` **and** a `loose-ends/` report |
+| `vibe/errors-2026-08-24` | 3 | A tool-version inconsistency audit and two version-reconciliation self-checks. No `loose-ends/` report |
+| `claude/pi-agent-creation-skill-kts9a8` | 2 | An entire unmerged skill — `skills/agents-md-init/` plus a `skills/README.md` change. **Not listed anywhere in the 2026-08-25 inventory.** No `loose-ends/` report |
+| `claude/agent-external-comms-guardrails-gjrjl4` | 1 | A `loose-ends/` report only — and a substantive one (chat-only decisions about reconciling an AGENTS.md guardrail with a parallel Vibe change) |
+| `claude/log-attribution-todo` | 1 | A `loose-ends/` report only |
+| `claude/repo-vision-clarify-u3pays` | 1 | A `loose-ends/` report only |
+| `claude/github-repo-access-5p6zbx` | 1 | A `loose-ends/` report only |
+| `claude/skills-notebook-evaluation-6gkh2f` | 1 | A `loose-ends/` report only |
+| `claude/vibe-symlink-skill-test-ubed41` | 1 | A `loose-ends/` report only |
 
-Four branches fully merged into `main`, so nothing would be lost by deleting
-them. **Listed as inventory, not as an instruction — do not delete anything
-without asking the owner:**
-`claude/agent-external-comms-guardrails-gjrjl4`, `claude/log-attribution-todo`,
-`claude/repo-vision-clarify-u3pays`,
-`claude/version-reconciliation-review-jvzxfw`.
+**Seven `loose-ends/` reports exist, and every one is on an unmerged
+branch** — none is on `main`, so each is reachable only from its own branch
+and any branch cleanup before the merge destroys it outright. Do not delete
+a branch in this repository until the merge has read every one.
 
-**[OWNER] decision. Do not delete this branch. Do not delete any branch.**
-Recorded here as a question for the owner, with a case either way.
+Merged into `main`, nothing unique left on them:
+
+| Branch | Note |
+|---|---|
+| `claude/repo-vision-debate-r1-ya1c00` | Merged via PR #6 |
+| `notebook/foundation-harness-exercise` | Merged via PR #7. Still shows 4 commits "ahead" — duplicates of skill edits that landed separately via PR #8. No unique content |
+| `claude/outside-perspective-skills-9f2k1` | Merged via PR #8 |
+| `claude/version-reconciliation-review-jvzxfw` | The only one of the old "safe to delete" four that genuinely is |
+
+**[OWNER] decision. Do not delete any branch.** Recorded as a question for
+the owner, with a case either way.
 `claude/repo-vision-debate-r1-ya1c00` holds the same material as
 `notebook/foundation-harness-exercise` in an earlier layout: the later branch
 was created by moving that content and correcting it, so the two overlap almost
 entirely. *For deleting:* its `docs/` directory presents unverified material as
-checked reference and includes hook-install commands. *For keeping:* it is
-history, and deleting it is not reversible from a clone. Do not act on this
-without asking.
+checked reference, and its `docs/behaviors/QUICKSTART.md` gives copy-paste `cp`
+and `chmod` commands that would successfully install a git pre-commit hook —
+the hook was never installed or run, so what it does when it fires is unknown.
+*For keeping:* it is history, and deleting it is not reversible from a clone.
+Do not act on this without asking.
 
 ### `crispy-couscous` — assessed 2026-08-26, from a full (non-shallow) clone
 
