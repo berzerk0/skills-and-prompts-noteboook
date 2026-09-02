@@ -439,6 +439,21 @@ are listed here; items already handled by a merge decision are not repeated.
   carried forward, and as a reminder that the reports are dated snapshots.
   **Drop.**
 
+### E7. Adopting crispy's `.gitattributes` renormalized three noteboook files
+- **What:** crispy's `.gitattributes` contains `*.md text`, which now applies to
+  every markdown file in the merged repo. Three noteboook files were committed
+  with CRLF line endings and git renormalized them to LF:
+  `docs/general/prompt-guidelines.md`, `docs/notebooklm/notebooklm-audit.md`,
+  `docs/notebooklm/notebooklm-report.md`. Verified content-identical apart from
+  line endings (`tr -d '\r' | md5sum` matches on all three).
+- **From:** this merge, as a side effect of decision 3 (bring crispy's tooling
+  across whole).
+- **Why not settled:** the normalization itself is committed and harmless. What
+  is unresolved is whether `*.md text` is wanted repo-wide now that the repo is
+  mostly noteboook content -- it was written for crispy's symlink-farm problem,
+  and nobody chose it for this. Low stakes; noted so the diff noise is
+  explained rather than mysterious. Likely a **drop**.
+
 ---
 
 ## F. Verified during this merge — evidence, not tasks
